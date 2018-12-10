@@ -66,7 +66,7 @@
     <view wx:if="{{orderList.isShowIndex}}">
       <scroll-view scroll-x="true" class="scroll-view">
         <view class="navbar">
-          <button wx:for="{{navbar}}" style=' margin-left: 40rpx;' data-idx="{{index}}" class="item {{orderList.currentTab == index ? 'active' : ''}}" wx:key="unique"                bindtap="navbarTap">{{item}}</button>
+          <button wx:for="{{navbar}}" style=' margin-left: 40rpx;' data-idx="{{index}}" class="item {{orderList.currentTab == index ? 'active' : ''}}" wx:key="unique" bindtap="navbarTap">{{item}}</button>
          <text>　</text>
         </view>
       </scroll-view>

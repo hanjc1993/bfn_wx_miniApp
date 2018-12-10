@@ -13,7 +13,7 @@ App({
     session_key: '',
     openid: '',
     vipNo: '',
-    path: 'https://admin.bufannao.cn/',
+    path: 'https://v4-bfn.hw.icgear.net/',//测试
     storeCode: '',
     storeName: '',
     cityCode: '',

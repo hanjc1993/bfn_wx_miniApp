@@ -64,10 +64,14 @@ page{
   font-size: 36rpx;
   color:#333;
 }
+.top_bottom_left_top image{
+  height: 25rpx;
+  width: 20rpx
+}
 .top_bottom_left_bottom{
   height: 50rpx;
   width: 600rpx;
-  font-size: 24rpx;
+  font-size: 28rpx;
   color:#999;
   margin-left: 3%;
   margin-top: 15rpx;

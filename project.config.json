@@ -12,7 +12,7 @@
 	},
 	"compileType": "miniprogram",
 	"libVersion": "2.2.3",
-	"appid": "wxe3293d99821b7a27",
+	"appid": "wx9050e00c72033650",
 	"projectname": "bufannaoTest",
 	"isGameTourist": false,
 	"condition": {
@@ -24,13 +24,24 @@
 			"current": -1,
 			"list": []
 		},
+		"plugin": {
+			"current": -1,
+			"list": []
+		},
 		"game": {
 			"currentL": -1,
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
-			"list": []
+			"current": 0,
+			"list": [
+				{
+					"id": 0,
+					"name": "在线预约",
+					"pathName": "pages/order/order",
+					"query": "storeCode=UM0001&storeName=大连旗舰店&v=2"
+				}
+			]
 		}
 	}
 }

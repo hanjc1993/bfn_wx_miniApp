@@ -1,71 +1,70 @@
 /* pages/yoyakuPage/yoyakuPage.wxss */
 @import "../../lib/weui.wxss";
-page{
-   background-color: #efeff4;
-   height: 100%;
-   
+
+page {
+  background-color: #efeff4;
+  height: 100%;
 }
-#order{
-   margin-top: 20rpx; 
-   margin-bottom:100rpx;
+
+#order {
+  margin-top: 20rpx;
+  margin-bottom: 100rpx;
 }
+
 .friendsOrder {
   height: 80rpx;
   width: 100%;
 }
-.title_text{
+
+.title_text {
   padding-top: 1%;
   background-color: white;
   height: 60rpx;
-  border-bottom: 2rpx solid  #e5e5e5;
-  font-size: 32rpx;
+  border-bottom: 5rpx solid #e5e5e5;
+  font-size: 35rpx;
   padding-left: 5%;
-  color: #666666;
+  color: #666;
 }
-.the_rows{
-   background-color: white;
-   height: 80rpx;
-   width: 95%;
-   margin-left: 5%;
-   border-bottom: 2rpx solid #e5e5e5;
+
+.the_rows {
+  background-color: white;
+  height: 80rpx;
+  width: 95%;
+  margin-left: 5%;
+  border-bottom: 4rpx solid #e5e5e5;
 }
-.content_text{
+
+.content_text {
   float: left;
   height: 100%;
   width: 40%;
 }
-.content_text image{
+
+.content_text image {
   float: left;
-  height: 38rpx;
-  width: 38rpx;
-  padding-top: 18rpx;
+  height: 50rpx;
+  width: 50rpx;
+  padding-top: 14rpx;
   margin-left: 10rpx;
-  overflow: hidden
+  overflow: hidden;
 }
-.name_text{
+
+.name_text {
   float: left;
   height: 82%;
   width: 40%;
-  padding-top: 5%;
+  padding-top: 4%;
   margin-left: 5%;
-  font-size: 30rpx;
-}
-.context_text_right{
-  float: right;
-  height: 82%;
-  width: 50%;
-  padding-top: 2%;
   font-size: 35rpx;
-  color: #b5b6b6;
-  margin-right: 5%;
-  text-align: right
 }
-#notnull{
+
+#notnull {
   padding-top: 10%;
   height: 20rpx;
   width: 20rpx;
 }
-.show_project{
+
+.show_project {
   position: fixed;
   bottom: 90rpx;
   width: 100%;
@@ -73,106 +72,120 @@ page{
   text-align: center;
   height: 700rpx;
 }
-.show_project_title{
+
+.show_project_title {
   background-color: #f8f6f3;
   height: 90rpx;
   width: 100%;
   line-height: 90rpx;
 }
-.show_project_title_left{
+
+.show_project_title_left {
   float: left;
   width: 20%;
-  font-size: 35rpx;
+  font-size: 40rpx;
 }
-.show_project_title_mid{
+
+.show_project_title_mid {
   float: left;
   width: 60%;
 }
-.show_project_title_right{
+
+.show_project_title_right {
   float: right;
   width: 20%;
   color: #fac281;
-  font-size: 35rpx;
+  font-size: 40rpx;
 }
-.show_project_title_right1{
+
+.show_project_title_right1 {
   float: right;
   width: 20%;
   color: gray;
-  font-size: 35rpx;
+  font-size: 40rpx;
 }
-.show_project_list{
+
+.show_project_list {
   height: 200rpx;
   width: 95%;
   margin-left: 5%;
 }
-.show_project_row{
-  border-bottom: 2rpx solid #e5e5e5;
+
+.show_project_row {
+  border-bottom: 4rpx solid #e5e5e5;
   height: 200rpx;
   width: 100%;
 }
-.show_project_list_image{
+
+.show_project_list_image {
   height: 200rpx;
   width: 30%;
   float: left;
 }
-.show_project_list_image image{
+
+.show_project_list_image image {
   padding-top: 25rpx;
   height: 150rpx;
   width: 220rpx;
 }
-.show_project_list_image_nurse{
+
+.show_project_list_image_nurse {
   height: 200rpx;
   width: 30%;
   float: left;
 }
-.show_project_list_image_nurse image{
+
+.show_project_list_image_nurse image {
   padding-top: 25rpx;
   height: 150rpx;
   width: 150rpx;
 }
-.show_project_list_text{
+
+.show_project_list_text {
   float: left;
   margin-left: 3%;
   height: 200rpx;
   text-align: left;
 }
-.show_project_list_text_top{
-  font-size: 27rpx;
+
+.show_project_list_text_top {
+  font-size: 30rpx;
   margin-top: 60rpx;
 }
-.show_project_list_text_bottom{
+
+.show_project_list_text_bottom {
   text-align: left;
-  margin-top: 5%;
-  
-  height: 50rpx;
-  line-height: 50rpx;
-  font-size: 25rpx;
-  
-  
+  height: 60rpx;
+  line-height: 60rpx;
+  font-size: 30rpx;
 }
-.show_project_list_text_bottom text{
+
+.show_project_list_text_bottom text {
   background-color: #c9bc9c;
-  color:white;
+  color: white;
   border-radius: 8rpx;
 }
-.choose_Project{
+
+.choose_Project {
   float: left;
   width: 10%;
   text-align: center;
   height: 200rpx;
   line-height: 200rpx;
 }
-.bottom_btn{
+
+.bottom_btn {
   position: fixed;
   bottom: 0;
   width: 100%;
-  background-color: #cccccc;
+  background-color: #ccc;
   color: #fff;
   text-align: center;
   height: 88rpx;
   line-height: 88rpx;
 }
-.bottom_btn1{
+
+.bottom_btn1 {
   position: fixed;
   bottom: 0;
   width: 100%;
@@ -182,36 +195,43 @@ page{
   height: 88rpx;
   line-height: 88rpx;
 }
+
 /* 单选钮样式 */
+
 radio {
-  transform:scale(0.6);
+  transform: scale(0.6);
 }
-.addFriends{
+
+.addFriends {
   margin-top: 3%;
-  font-size: 45rpx;
+  font-size: 50rpx;
   height: 180rpx;
-  color:#666666;
+  color: #666;
 }
-.hideAddFriends{
+
+.hideAddFriends {
   display: none;
 }
+
 .scroll-view {
   width: 750rpx;
   white-space: nowrap;
   display: flex;
 }
-.navbar{
+
+.navbar {
   flex: none;
   display: flex;
   background: #fff;
   width: 100%;
 }
-.navbar .item{
+
+.navbar .item {
   position: relative;
-  margin-top: 10rpx;
-  height:50rpx;
-  line-height: 50rpx;
-  font-size: 28rpx;
+  margin-top: 20rpx;
+  height: 64rpx;
+  line-height: 60rpx;
+  font-size: 32rpx;
   color: #a48b77;
   border: 2rpx #a48b77 solid;
   background-color: #fcf5ee;
@@ -219,31 +239,35 @@ radio {
   border-radius: 13rpx;
   /* position: relative;
   margin-top: 10rpx;
-  height: 40rpx;
+  height: 64rpx;
   padding-left: 15rpx;
   padding-right: 15rpx;
   text-align: center;
-  line-height: 40rpx;
-  font-size: 28rpx;
+  line-height: 60rpx;
+  font-size: 32rpx;
   margin-left: 50rpx;
   color: #a48b77;
   border: 2rpx #a48b77 solid;
   border-radius: 5rpx;
   background-color: #fcf5ee; */
 }
-.navbar .item.active{
+
+.navbar .item.active {
   background-color: #906337;
   color: #fff;
 }
+
 .timeLineView {
   width: 100%;
   text-align: center;
 }
+
 .timeLine {
   overflow: hidden;
   width: 90%;
   margin-left: 60rpx;
 }
+
 .time {
   width: 120rpx;
   height: 60rpx;
@@ -251,28 +275,34 @@ radio {
   float: left;
   margin-right: 35rpx;
   margin-bottom: 10rpx;
-  font-size: 25rpx;
+  font-size: 30rpx;
 }
+
 .fulltime {
   background-color: #ccc;
 }
+
 .mornimage {
-  height: 30rpx;
-  width: 30rpx;
+  height: 40rpx;
+  width: 40rpx;
   position: absolute;
-  top: 15rpx;
+  top: 12rpx;
   left: 60rpx;
 }
-.title{
-  font-size: 12px;
+
+.title {
+  font-size: 15px;
   height: 60rpx;
+  width: 60rpx;
   line-height: 60rpx;
-  color: #cccccc;
+  margin-bottom: 5rpx;
+  color: #ccc;
   position: relative;
-  padding-left: 100rpx;
+  padding-left: 110rpx;
 }
 
 /** dialog */
+
 .modal-mask {
   width: 100%;
   height: 100%;
@@ -285,6 +315,7 @@ radio {
   z-index: 9000;
   color: #fff;
 }
+
 .modal-mask1 {
   width: 100%;
   height: 100%;
@@ -297,6 +328,7 @@ radio {
   z-index: 9900;
   color: #fff;
 }
+
 .modal-dialog {
   width: 100%;
   height: 800rpx;
@@ -308,11 +340,13 @@ radio {
   z-index: 9999;
   background: #fff;
 }
-#stars{
+
+#stars {
   margin-top: 5%;
   width: 70%;
   height: 40rpx;
 }
+
 /** end */
 
 .arrow {
@@ -320,37 +354,36 @@ radio {
   margin-right: 30rpx;
   margin-top: 40rpx;
 }
+
 .arrowRotate {
   float: right;
   margin-right: 30rpx;
   margin-top: 40rpx;
   transform: rotate(90deg);
 }
-.content_text_right1{
+
+.content_text_right1 {
   float: left;
   height: 100%;
   width: 370rpx;
 }
-.content_text_right2{
+
+.content_text_right2 {
   height: 100%;
-  margin-top: 15rpx;
-  text-align: right;
-  font-size: 30rpx;
-  color: #b5b6b6;
-}
-.content_text_right5{
-  height: 100%;
-  margin-top: 15rpx;
+  margin-top: 13rpx;
   text-align: right;
   font-size: 35rpx;
-  color: red;
+  color: #b5b6b6;
 }
-.other-button-hover{
+
+.other-button-hover {
   background-color: #906337;
 }
+
 /** 合并后加的 */
-.chooseArea{
-  height:436rpx;
+
+.chooseArea {
+  height: 436rpx;
   width: 60%;
   overflow: hidden;
   position: fixed;
@@ -362,8 +395,9 @@ radio {
   background: #faf8f7;
   border-radius: 10rpx;
 }
-.bind_phone{
-  height:570rpx;
+
+.bind_phone {
+  height: 570rpx;
   width: 70%;
   overflow: hidden;
   position: fixed;
@@ -375,15 +409,19 @@ radio {
   background: #faf8f7;
   border-radius: 10rpx;
 }
-.bind_phone_top{
+
+.bind_phone_top {
   width: 100%;
-  height:60rpx
+  height: 60rpx;
 }
-.bind_phone_top_btn{
-  height:60rpx;width:20%;
-  float:right;
+
+.bind_phone_top_btn {
+  height: 60rpx;
+  width: 20%;
+  float: right;
 }
-.bindbtn{
+
+.bindbtn {
   margin-top: 30rpx;
   width: 100%;
   background-color: #fbb059;
@@ -397,14 +435,16 @@ radio {
   border-bottom-left-radius: 10rpx;
   border-bottom-right-radius: 10rpx;
 }
-.bindbtn::after{
+
+.bindbtn::after {
   border: none;
   border-top-left-radius: 0rpx;
   border-top-right-radius: 0rpx;
   border-bottom-left-radius: 10rpx;
   border-bottom-right-radius: 10rpx;
 }
-.bindbtnGray{
+
+.bindbtnGray {
   margin-top: 30rpx;
   width: 100%;
   background-color: #ccc;
@@ -417,15 +457,17 @@ radio {
   border-top-right-radius: 0rpx;
   border-bottom-left-radius: 10rpx;
   border-bottom-right-radius: 10rpx;
-} 
-.bindbtnGray::after{
+}
+
+.bindbtnGray::after {
   border: none;
   border-top-left-radius: 0rpx;
   border-top-right-radius: 0rpx;
   border-bottom-left-radius: 10rpx;
   border-bottom-right-radius: 10rpx;
 }
-.saveArea{
+
+.saveArea {
   width: 100%;
   background-color: #fbb059;
   color: #fff;
@@ -433,88 +475,113 @@ radio {
   height: 80rpx;
   line-height: 80rpx;
 }
-.tb{
-  margin-top:20rpx;
-  width:96%;
-  margin-left:2%
+
+.tb {
+  margin-top: 20rpx;
+  width: 96%;
+  margin-left: 2%;
 }
-.tb_text{
-  width:57%;height:70rpx;line-height:70rpx;
+
+.tb_text {
+  width: 57%;
+  height: 70rpx;
+  line-height: 70rpx;
   text-align: left;
-  border-bottom: 2rpx solid #e5e5e5;
+  border-bottom: 4rpx solid #e5e5e5;
   float: left;
-  font-size: 28rpx;
-  color: #333
+  font-size: 32rpx;
+  color: #333;
 }
-.rowName{
-  width:30%;height:70rpx;line-height:70rpx;
+
+.rowName {
+  width: 30%;
+  height: 70rpx;
+  line-height: 70rpx;
   float: left;
-  font-size:30rpx;
-  color:#666;
+  font-size: 35rpx;
+  color: #666;
 }
-.tb_text1{
-  width:30%;height:70rpx;line-height:70rpx;
+
+.tb_text1 {
+  width: 30%;
+  height: 70rpx;
+  line-height: 70rpx;
   text-align: left;
-  border-bottom: 2rpx solid #e5e5e5;
+  border-bottom: 4rpx solid #e5e5e5;
   float: left;
-  font-size: 28rpx;
-  color:#333
+  font-size: 32rpx;
+  color: #333;
 }
-.ad_popError{
+
+.ad_popError {
   position: fixed;
-  top:0;
+  top: 0;
   background-color: #c9bc9c;
   font-size: 32rpx;
   text-align: center;
   width: 100%;
-  height: 60rpx;
-  color:white;
-  z-index: 9999
+  height: 64rpx;
+  color: white;
+  z-index: 9999;
 }
+
 /** 星星 */
+
 .starsView {
   margin-top: 20rpx;
 }
+
 .starsImage {
   height: 40rpx;
   width: 40rpx;
 }
+
 .starsImageMargin {
   margin-left: 15rpx;
 }
+
 /* .yzm{
-  width:25%;height:70rpx;float:left;font-size:28rpx;
+  width:25%;height:70rpx;float:left;font-size:32rpx;
   line-height: 70rpx;
   background-color: #c9bc9c;
   color: white;
   border-radius: 30rpx;
 }
 .yzmGray{
-  width:25%;height:70rpx;float:left;font-size:28rpx;
+  width:25%;height:70rpx;float:left;font-size:32rpx;
   line-height: 70rpx;
   background-color:#ccc;
   color: white;
   border-radius: 30rpx;
 } */
-.yzm{
-width:120rpx;height:60rpx;float:left;font-size:28rpx;
-line-height: 60rpx;
-background-color: #c9bc9c;
-color: white;
-border-radius: 30rpx;
-text-align: center;
-margin-top: 10rpx;
+
+.yzm {
+  width: 120rpx;
+  height: 64rpx;
+  float: left;
+  font-size: 32rpx;
+  line-height: 64rpx;
+  background-color: #c9bc9c;
+  color: white;
+  border-radius: 30rpx;
+  text-align: center;
+  margin-top: 10rpx;
 }
-.yzmGray{
-width:120rpx;height:60rpx;float:left;font-size:28rpx;
-line-height: 60rpx;
-background-color: #ccc;
-color: white;
-border-radius: 30rpx;
-text-align: center;
-margin-top: 10rpx;
+
+.yzmGray {
+  width: 120rpx;
+  height: 64rpx;
+  float: left;
+  font-size: 32rpx;
+  line-height: 64rpx;
+  background-color: #ccc;
+  color: white;
+  border-radius: 30rpx;
+  text-align: center;
+  margin-top: 10rpx;
 }
- /**.arrow{
+
+/**.arrow{
   float: left;
   width: 10px;
   height: 10px;
@@ -525,16 +592,18 @@ margin-top: 10rpx;
   transform: rotate(45deg);
   top:255rpx;
 }*/
-.addBtn{
-  height: 28rpx;
+
+/* .addBtn {
+  height: 32rpx;
   width: 28rpx;
   border-radius: 50%;
-  font-size: 26rpx;
-  background-color: white;
+  font-size: 32rpx;
+  background-color: red;
   border: 1rpx solid #e5e5e5;
-  margin-left:100rpx;
-}
-.checkedYou{
+  margin-left: 100rpx;
+} */
+
+.checkedYou {
   background-color: #906337;
-  color:white;
+  color: white;
 }
