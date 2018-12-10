@@ -1,0 +1,170 @@
+<!--pages/preferentialDetail/preferentialDetail.wxml-->
+<view id="preferentialDetail" class="page" wx:if="{{showPage}}">
+  <view class="ad_popError" wx:if="{{popErrorMsg}}">{{popErrorMsg}}</view>
+  <scroll-view scroll-y style="height: 1118rpx;">
+    <view class='top1'>
+      <text id="text1">{{actDetail.themeName}}</text>
+      <!-- <text id="text2">
+        <span>{{actDetail.actName}}</span><span>{{actDetail.actStart}}</span>
+      </text> -->
+    </view>
+    <view class="text2">
+      <text space='nbsp' style="margin-left:25rpx;">不凡脑      </text>
+      <span style="color:gray;font-size:32rpx">{{actDetail.actStart}}</span>
+      <!-- <span>{{actDetail.actName}}</span><span>{{actDetail.actStart}}</span> -->
+    </view>
+    <view class='top2'>
+      <view bindtap='showDialogBtnName'>
+        <view class='item1'>
+          <text class='text1'>规则</text>
+        </view>
+        <view class='item2'></view>
+      </view>
+    </view>
+    <view class='conment1'>
+     <!-- mode='aspectFill' -->
+      <image mode='widthFix' class='image1'  wx:for="{{actDetail.themeImgs}}" wx:for-item="themeImgs" src="{{themeImgs}}"></image>
+    </view>
+  </scroll-view>
+  <view class="modal1-mask" catchtouchmove="preventTouchMove" wx:if="{{showModalName}}"></view>
+  <view class="modal1-dialog" wx:if="{{showModalName}}">
+    <view class="modal1-content">
+
+      <view class='modal1-top1'>
+        <text>规则</text>
+        <image class="image" src="../../images/dele.png" bindtap='onCancelName'></image>
+      </view>
+      <view class='modal1-top2'>
+        <view class='left'>
+          <view class='ra'></view>
+        </view>
+        <view class='right'>
+          <view class='txt'>领取方法</view>
+        </view>
+      </view>
+      <view class='modal1-top3'>
+        <view class='left'></view>
+        <view class='right'>
+          <view class='txt'>
+            <text>你可以点击"免费领取"，即可获得{{actDetail.leng}}张（<text wx:for="{{couponList}}" wx:for-item="item1">{{item1.couponName}}</text>）优惠券</text>
+          </view>
+        </view>
+      </view>
+      <view class='modal1-top4'>
+        <view class='left'>
+          <view class='ra'></view>
+        </view>
+        <view class='right'>
+          <view class='txt'>活动时间</view>
+        </view>
+      </view>
+      <view class='modal1-top5'>
+        <view class='left'></view>
+        <view class='right'>
+          <view class='txt'>{{actDetail.actStart}}至{{actDetail.actEnd}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class='bot1'  bindtap='showProjectBtn'>免费领取</view>
+  <!-- <view class='bot1' wx:if="{{!isGotAll}}" bindtap='showHaveGotAllMsg'>免费领取</view> -->
+  <!-- 选择优惠券 -->
+  <view class="modal-mask" bindtap="hideProject" catchtouchmove="preventTouchMove" wx:if="{{showProject}}"></view>
+  <view class="modal-dialog" wx:if="{{showProject}}" catchtouchmove="preventTouchMove">
+    <view class='modal-top'>
+      <text>活动优惠券</text>
+    </view>
+    <scroll-view scroll-y="true" style='height:570rpx'>
+      <view class='lab' wx:for="{{couponListStyle}}" wx:for-item="item">
+
+        <view class='modal-center'>
+          <view class='rad1'></view>
+          <view class='rad2'></view>
+          <image class="{{item.couponResidue?'mcimg1':'mcimg2'}}" src='{{item.couponImg}}'></image>
+          <!-- <image class="{{item.couponResidue?item.recive?'mcimg1':'mcimg2':'mcimg2'}}" src='{{item.couponImg}}'></image> -->
+       
+          <view class='rad4'></view>
+          <view class='rad5'></view>
+        </view>
+        <view class="{{item.couponResidue?'let1':'let2'}}" bindtap="{{item.couponResidue?'getCoupon':''}}"data-couponid='{{item.couponId}}'>
+          <view class='rad3'></view>
+          <view class='imgResidue' wx:if='{{item.couponResidue}}'>
+            <image src='../../images/redfire.png'></image>
+          </view>
+          <view class='labNone' wx:if='{{!item.couponResidue}}'>
+            <!-- <image src="{{item.couponNone?'../../images/noResidue.png':'../../images/recived.png'}}"></image> -->
+            <image src="{{item.recive?'../../images/noResidue.png':'../../images/recived.png'}}"></image>
+          </view>
+          <view class='lab2' wx:if='{{item.couponResidue}}'>
+            <view class='radleft'></view>
+            <view class='v' > 
+              <text>立即领取</text>
+            </view>
+            <view class='radright' ></view>
+            <!-- bindtap='getCoupon' data-couponid='{{item.couponId}}' -->
+          </view>
+        </view>
+        <view class='rad6'></view>
+      </view>
+    </scroll-view>
+    <view class='modal-bot' bindtap='submitCoupon'>免费领取</view>
+
+  </view>
+
+
+  <!-- 浮窗第一层 -->
+  <view class="phone-cover" wx:if="{{chargeDetailVisible}}">
+    <view class="phone-box">
+      <view class="header_top">
+      <view class='close'  bindtap="hideChargeDetail" >
+      <image class="close-btn" src="../../images/icon_cross.png" />
+      </view>
+        
+      </view>
+      <view class="header_bottom">
+        <view class="title">邀请您注册成为尊贵会员</view>
+        <view class="title1">登陆即可免费预约</view>
+      </view>
+      <view class="phone-box_mid">
+        <view class="phone-box_mid_adr">
+          <view class="phone-box_mid_adr_left">地　区：</view>
+          <!-- <input class ="phone-box_mid_adr_right" placeholder="请输入地区" name = "a"></input> -->
+          <view class="phone-box_mid_adr_right" bindtap='chooseArea'>{{area?area:'请选择'}}</view>
+          <view class='arrow' />
+
+        </view>
+        <view class="phone-box_mid_adr">
+          <view class="phone-box_mid_adr_left">手　机：</view>
+          <!-- <input class ="phone-box_mid_adr_right" placeholder="+86 请输入手机号码" name = "b"></input> -->
+          <view class="phone-box_mid_adr_right">+{{areaCode}}
+            <input placeholder='请输入电话号' placeholder-style="font-size:24rpx;color:#cccccc" style="width:70%;height:70rpx;float:right;" type="number" maxlength="{{areaCode=='86'?'11':'8'}}" name="phoneNum" bindinput='getPhone' value="{{phonecash}}"></input>
+          </view>
+        </view>
+        <view class="phone-box_mid_adr">
+          <view class="phone-box_mid_adr_left">验证码：</view>
+          <view class="phone-box_mid_adr_right_last">
+            <input style="margin-top:10rpx" maxlength='6' type="number" placeholder=' 请输入' placeholder-style="font-size:24rpx;color:#cccccc" name="yanzhengma" bindinput='getYanZheng' value="{{yzmcash}}"></input>
+          </view>
+          <view class="{{jihuo?'yzm':'yzmGray'}}" bindtap="{{disabled&&jihuo?'obtain':''}}">{{time}}</view>
+        </view>
+      </view>
+
+      <button class="{{!(yzmRight&&jihuo&&areadyGetYzm)?'phone-box_bottom1':'phone-box_bottom'}}" bindgetuserinfo="{{!(yzmRight&&jihuo&&areadyGetYzm)?'':'onGotUserInfo'}}" open-type="getUserInfo" lang="zh_CN">绑定</button>
+    </view>
+  </view>
+
+  <!-- 浮窗第二层 -->
+  <view class="modal-mask1" bindtap="hideModal1" catchtouchmove="preventTouchMove" wx:if="{{hiddenmodalchoosearea}}"></view>
+  <view class="chooseArea" wx:if="{{hiddenmodalchoosearea}}">
+    <radio-group style="height:310rpx;margin-top:50rpx" bindchange="areaChange">
+      <view style='font-size:45rpx;color:#b5b4b3;height:80rpx;line-height:80rpx' wx:for="{{areaList}}" wx:for-item="item">
+        <radio value="{{item.id}}" color="#906337" checked="{{item.checked}}">{{item.name}}</radio>
+      </view>
+    </radio-group>
+    <view class="saveArea" bindtap='saveArea'>
+      确定
+    </view>
+  </view>
+</view>
+<!--默认隐藏-->
+<loading hidden="{{hiddenLoading}}">正在加载</loading>

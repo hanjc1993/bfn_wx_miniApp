@@ -1,0 +1,20 @@
+<!--pages/preferentialitem/preferentialitem.wxml-->
+<view id="preferentialitem" class="page">
+
+  <view class='item1' wx:for="{{ActList}}" wx:for-item="item" data-actid='{{item.actId}}' bindtap='goPreferentialDetailPage'>
+    <view class='data1'>
+      <view class='dat'>{{item.updateTime}}</view>
+    </view>
+    <view class='ima1'>
+    <!-- mode='aspectFill' -->
+      <image mode='aspectFill' src="{{item.smallThemeImg}}"></image>
+      <!-- mode=widthFix -->
+    </view>
+  </view>
+  <view class="noData" hidden='{{sho}}'>
+   <view style="width:100%;height:250rpx;">
+    <image style="height:250rpx;width:250rpx;" src="../../images/wujilu.png"></image>
+  </view>
+暂无优惠活动
+</view>
+</view>

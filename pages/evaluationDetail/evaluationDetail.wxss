@@ -1,0 +1,214 @@
+/* pages/evaluationDetail/evaluationDetail.wxss */
+@import "../../lib/weui.wxss";
+#evaluationDetail {
+  display: flex;
+  flex-direction: column;
+}
+
+.page {
+  background-color: #e6e6e6;
+  height: 100%;
+  width: 100%;
+}
+#evaluationDetail .txt3 {
+  font-size:32rpx;
+  color: #333;
+ 
+}
+.weui-cell {
+  height: 60rpx !important;
+  position: relative;
+  display: -webkit-box !important;
+  -webkit-box-align: center !important;
+  -webkit-align-items: center !important;
+  align-items: center !important;
+}
+
+.weui-cell__bd {
+  -webkit-flex: 1 !important;
+  flex: 1 !important;
+  color: black !important;
+  font-size: 30rpx !important;
+}
+
+.borderTop {
+  height: 1px;
+  border-bottom: 1rpx solid #d9d9d9;
+  color: #d9d9d9;
+}
+
+.weui-cells:before {
+  content: " " !important;
+  position: absolute !important;
+  left: 0 !important;
+  top: 0 !important;
+  right: 0 !important;
+  height: 0px !important;
+  border-top: 0rpx solid #d9d9d9 !important;
+  color: #d9d9d9;
+}
+
+.weui-cells:after {
+  content: " " !important;
+  position: absolute !important;
+  left: 0 !important;
+  bottom: 0 !important;
+  right: 0 !important;
+  height: 0px !important;
+  border-bottom: 0rpx solid #d9d9d9 !important;
+  color: #d9d9d9 !important;
+}
+#evaluationDetail .scoment {
+border-top: 1rpx solid #d9d9d9;
+
+background-color: #ffffff;
+
+}
+#evaluationDetail .line {
+border-top: 1rpx solid #d9d9d9;
+}
+
+#evaluationDetail .botlable{
+margin-top: 20rpx;
+height: 300rpx;
+width: 720rpx;
+padding-left: 20rpx;
+}
+#evaluationDetail .botlable .sleft{
+float: left;
+height:220rpx;
+width: 150rpx;
+}
+#evaluationDetail .botlable .sleft .ra{
+  position: absolute; 
+  border-radius: 50%;
+  width: 110rpx;
+  height: 110rpx;
+  margin-left: 12rpx;
+  overflow: hidden;
+  display: block;
+}
+#evaluationDetail .botlable .sleft .ra .limage{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+#evaluationDetail .botlable .sright{
+
+  float: left;
+
+width: 500rpx;
+
+}
+#evaluationDetail .botlable .sright .rtop{
+
+height: 50rpx;
+width: 550rpx;
+
+}
+#evaluationDetail .botlable .sright .rtop .rtxt1{
+  float: left;
+  /* width: 180rpx; */
+  font-size: 30rpx;
+  color: #666;
+  height: 50rpx;
+}
+#evaluationDetail .botlable .sright .rtop .rimage{
+  float: left;
+  margin-top: 8rpx;
+  width: 30rpx;
+  height:30rpx;
+  margin-left: 10rpx;
+}
+#evaluationDetail .botlable .sright .rtxt2{
+  float: right;
+  margin-top: 5rpx;
+  font-size: 28rpx;
+  color: #999;
+  right: 0;
+}
+#evaluationDetail .botlable .sright .rcenter{
+  height: 100rpx;
+width: 550rpx;
+  /* 超出一行文字自动隐藏*/
+  overflow:hidden; 
+/* 文字隐藏后添加省略号 */
+text-overflow:ellipsis;
+/* 强制不换行 */
+white-space:nowrap;  
+}
+#evaluationDetail .botlable .sright .rcenter .left{
+  float: left;
+  height: 40rpx;
+  background: #c9bc9c;
+  line-height: 40rpx;
+  font-size: 24rpx;
+  color: #fff;
+  border-radius: 5rpx;
+  margin-right: 10rpx;
+  margin-top: 5rpx;
+  padding-left: 5rpx;
+  padding-right: 5rpx;
+}
+
+#evaluationDetail .botlable .sright .rbottom{
+ padding-left: 0rpx;
+  display: -webkit-box;/*关键属性*/
+  font-size:28rpx;
+  color:#8f8f91;
+  line-height: 40rpx;
+  word-break: break-all;
+  -webkit-box-orient: vertical;/* 关键属性 */
+  -webkit-line-clamp:2;/* 关键属性 */
+  overflow: hidden;/* 关键属性 */
+  text-overflow:ellipsis;/* 超出内容显示省略号*/
+  height:74rpx;
+    
+}
+.show{
+ padding-left: 0rpx;
+  display: -webkit-box;/*关键属性*/
+  font-size:28rpx;
+  color:#8f8f91;
+  line-height: 40rpx;
+  word-break: break-all;
+  -webkit-box-orient: vertical;/* 关键属性 */
+  -webkit-line-clamp:10000;/* 关键属性 */
+  overflow: hidden;/* 关键属性 */
+  text-overflow:ellipsis;/* 超出内容显示省略号*/
+}
+/*切换  */  
+ .state{
+  color: rgb(109, 150, 150);
+  float: right;
+  font-size: 30rpx;
+  margin: 10rpx;
+  
+ }
+  .state1{
+  color: white;
+  float: right;
+  font-size: 30rpx;
+  margin: 10rpx;
+  
+ }
+ .coment{
+      display: -webkit-box;
+   -webkit-box-orient: vertical;
+   text-overflow: ellipsis;
+   overflow: hidden;
+ }
+ .hengxian{
+  border-bottom: 2rpx solid #d9d9d9;
+
+   float: right;
+   width: 749rpx;
+   margin-right: -78rpx;
+   margin-bottom: 20rpx;
+ }
+#evaluationDetail .noData {
+margin-top: 30%;
+text-align: center;
+font-size: 28rpx;
+color: #ccc;
+}

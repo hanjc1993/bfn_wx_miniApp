@@ -1,0 +1,181 @@
+<!--pages/consumptionRecordsDetail/consumptionRecordsDetail.wxml-->
+<view wx:if='{{backButton}}' class='backview' bindtap="gotoMinePage">
+  <image src='../../images/infoback_image.png'></image>
+</view>
+<view id="consumptionRecords" wx:if="{{showPage}}">
+  <view class="content">
+    <view class="consumptionRecords showline">
+      <view class="consumptionRecordsLeft">
+        <image mode='aspectFill' class="imageInfo" src="{{consumptionRecords.imgUrl1}}"/>
+      </view>
+      <view class="consumptionRecordsRight">
+        <view class="nameinfo">
+          {{consumptionRecords.storeName}}
+        </view>
+        <view class="phone">
+          电　　话:　{{consumptionRecords.phone}}
+        </view>
+        <view class="order">
+          订<text class="orderNo">单</text><text class="orderNo">号:　{{consumptionRecords.code}}</text>
+        </view>
+        <view class="orderTime">
+          收银时间:　{{consumptionRecords.insertTime}}
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="content1">
+    <view class="title">
+      <view>
+        <image mode='aspectFill' class="imageDetail" src="../../images/icon_card.png"/>
+      </view>
+      <view class="titleDetail">
+        划卡明细
+      </view>
+    </view>
+    <!-- <scroll-view id="" scroll-y="true" class="cardsDetail"> -->
+      <view wx:for="{{cardDetial}}" data-index="{{index}}" wx:for-item="item">
+        <view class="consumptionRecords1">
+          <view class="consumptionRecordsLeft1">
+            <image class="imageInfo1" src="{{item.projectImgUrl}}"/>
+          </view>
+          <view class="consumptionRecordsRight">
+            <view class="title1">
+              <view class="nameinfo1">
+                {{item.comName}}
+              </view>
+              <view class="nameinfo2">
+                {{item.drawNum == null?'元':'次'}}
+              </view>
+              <view class="nameinfo3">
+                -{{item.drawNum == null?item.drawPrice:item.drawNum}}
+              </view>
+            </view>
+            <view>
+              <view class="nameinfo4">
+                <text style="background-color:#c9bc9c;color:white;border-radius:5rpx;" space="nbsp"> {{item.categorySubCategory}} </text>
+                <!-- 1000元项目储值卡 -->
+              </view>
+              <view class="nameinfo5">
+                卡余: {{item.cardSurplusNum == null?item.cardSurplusBalance + '元':item.cardSurplusNum + '次'}}
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    <!-- </scroll-view> -->
+  </view>
+  <view class="content1">
+    <view class="title">
+      <view>
+        <image mode='aspectFill' class="imageDetail" src="../../images/icon_shoppingCart.png"/>
+      </view>
+      <view class="titleDetail">
+        购买明细
+      </view>
+    </view>
+    <!-- <scroll-view id="" scroll-y="true" class="buyDetail"> -->
+      <view wx:for="{{buyDetial}}" data-index="{{index}}" wx:for-item="item">
+        <view class="consumptionRecords1">
+          <view class="consumptionRecordsLeft1">
+            <image class="imageInfo1" src="{{item.projectImgUrl}}"/>
+          </view>
+          <view class="consumptionRecordsRight">
+            <view class="title1">
+              <view class="nameinfo1">
+                {{item.comName}}
+              </view>
+              <view class="nameinfo7">
+                {{item.nursingTime == null?item.cardSurplusNum == null?'元':'次':'分钟'}}
+              </view>
+              <view class="nameinfo3">
+                {{item.nursingTime == null?item.cardSurplusNum == null?item.retailPrice:item.cardSurplusNum:item.nursingTime}}
+              </view>
+            </view>
+            <view>
+              <view class="nameinfo6">
+                <text wx:if="{{item.categorySubCategory != ''}}" style="background-color:#c9bc9c;color:white;border-radius:5rpx;" space="nbsp"> {{item.categorySubCategory}} </text>
+                <!-- <text style="background-color:#c9bc9c;color:white;border-radius:5%;" space="nbsp"> 减压 按摩 </text> -->
+              </view>
+            </view>
+            <view>
+              <view class="price">
+                <!-- ¥{{item.retailPrice}}<text class="originalPrice">(<text class="originalPrice1">¥{{item.memberShowActPrice}}</text>)</text> -->
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    <!-- </scroll-view> -->
+    <view class="bottom">
+      <view class="bottomDetail">
+        共{{buyDetialSum}}件商品　合计:　<text class="price1">¥{{payAmount}}</text><text class="originalPrice">(<text class="originalPrice1">¥{{retailPrice}}</text>)</text>
+      </view>
+    </view>
+    <view class="bottom2">
+    </view>
+  </view>
+</view>
+
+<view class="modal-mask" bindtap="hideModal" catchtouchmove="preventTouchMove" wx:if="{{isShowEvaluation}}"></view>
+<view class="modal-dialog" catchtouchmove="preventTouchMove" wx:if="{{isShowEvaluation}}">
+  <view>
+    <view class="evaluationTitle">
+    <!-- 大山 -->
+      <image src="../../images/pingjia_mountain.png" class="bigMountain"></image>
+    <!-- 小山 -->  
+      <image src="../../images/pingjia_mountain.png" class="smallMountain"></image>
+      <image class="evaluationTitleCloseImage" src="../../images/icon_closeEvaluation.png" bindtap='closeEvaluation' ></image>
+      <view class="evaluationTitleInfo">
+        <image class="evaluationTitleImage" src="{{(nurseImgUrl==null|nurseImgUrl=='')?'../../images/pingjiaHasNoImg.png':nurseImgUrl}}"/>
+        <view class="evaluationTitleContent">{{nurseName}}</view>
+      </view>
+    </view>
+    <view class="serviceEvaluationTitle">
+      <view class="serviceEvaluationContent">
+        <view class="serviceEvaluationText">请您对本次服务进行评价</view>
+      </view>
+    </view>
+    <view class="starsView">
+      <image class="starsImage" data-item="1" bindtap='stars' src="{{stars1 ? '../../images/icon_yellow_stars.png' : '../../images/icon_white_stars.png'}}"/>
+      <text class="starsImageMargin"></text>
+      <image class="starsImage" data-item="2" bindtap='stars' src="{{stars2 ? '../../images/icon_yellow_stars.png' : '../../images/icon_white_stars.png'}}"/>
+      <text class="starsImageMargin"></text>
+      <image class="starsImage" data-item="3" bindtap='stars' src="{{stars3 ? '../../images/icon_yellow_stars.png' : '../../images/icon_white_stars.png'}}"/>
+      <text class="starsImageMargin"></text>
+      <image class="starsImage" data-item="4" bindtap='stars' src="{{stars4 ? '../../images/icon_yellow_stars.png' : '../../images/icon_white_stars.png'}}"/>
+      <text class="starsImageMargin"></text>
+      <image class="starsImage" data-item="5" bindtap='stars' src="{{stars5 ? '../../images/icon_yellow_stars.png' : '../../images/icon_white_stars.png'}}"/>
+    </view>
+    <view class="performanceTitle line" wx:if="{{isShowEvaluationContent}}">
+
+      <text class="performanceTitleContent">{{evaluateDis}}</text>
+     
+    </view>
+    <view class="performanceView" wx:if="{{isShowEvaluationContent}}">
+      <view class="performanceContent">
+        <view wx:for="{{showEvaluationContent}}" data-index="{{index}}" wx:for-item="item">
+          <text bindtap="chooseComments" data-index="{{index}}" data-item="{{item.id}}" 
+          class="commentsText {{item.ContentStatus==true ? 'commentsColor' : ''}}">{{item.signName}}</text>
+        </view>
+        <textarea hidden='{{!suggestionStatus}}' class="commentsTextarea" bindblur="bindTextAreaBlur" fixed style="text-align:left" placeholder="请输入其他评价文字，不凡脑门店感谢您的认真评价，您的需求就是我们努力的方向" placeholder-style='color:#e5e5e5;font-size:30rpx;' value=""/>
+      </view>
+    </view>
+    <view class="anonymous_submissions_btn_view">
+      <view class="{{anonymousSubmissionsBtn? 'anonymous_submissions_btn' : 'anonymous_submissions_disable_btn'}}" bindtap='anonymousSubmissions'>
+        匿名提交
+      </view>
+    </view>
+  </view>
+</view>
+<view wx:if="{{evaluateComplete1}}" class="bottom_btn" bindtap="openEvaluation" hidden='{{!evaluateStatus}}'>
+  评价
+</view>
+<view wx:if="{{evaluateComplete2}}" class="bottom_btn_complete">
+  已评价
+</view>
+<!-- 评价完成 -->
+<!-- <modal hidden="{{hiddenModal}}" title="评价成功，感谢您的支持！" no-cancel="true" confirm-text="知道了" bindconfirm="modalConfirm">  
+</modal> -->
+<!--默认隐藏-->
+<loading hidden="{{hiddenLoading}}">正在加载</loading>

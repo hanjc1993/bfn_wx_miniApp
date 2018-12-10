@@ -1,0 +1,117 @@
+<!--pages/orderList/orderList.wxml-->
+<view wx:if='{{backButton}}' class='backview' bindtap="gotoMinePage">
+  <image src='../../images/infoback_image.png'></image>
+</view>
+<view id="thisPage">
+  <view>
+    <scroll-view id="" scroll-y="true">
+    <view wx:for="{{items}}" wx:for-item="item">
+      <view class="touch-item {{item.isTouchMove ? 'touch-move-active' : ''}}" bindtouchstart="touchstart" bindtouchmove="touchmove"  bindtap='go2Detail' id="{{index}}" data-index="{{index}}">
+        <view class="delcontent list {{item.status=='结束'?'list_row_for_over':''}} {{item.status=='取消'?'list_row_for_cancel':''}}">
+        <!-- 这是给一起下单的一个分割线 关闭状态 -->
+        <!-- <view  class="fengexian" wx:if="{{item.together==false&&index!=0}}">
+              O
+        </view> -->
+          <view class="list_row">
+            <view class="list_row_left">
+              <image src="{{item.incloudProject[0].img}}" mode='aspectFill'></image>
+            </view>
+            <view class="list_row_text">
+              <view  class="list_row_text_top">
+
+                <!-- 原来在这 -->
+
+                <!-- <view class="serviceType"  wx:if="{{item.status=='取消'}}">
+                  <text id="textGray"></text>
+                </view> -->
+               
+                <view class="serviceType_text"  wx:if="{{item.together==false}}">
+                  <view wx:if="{{item.incloudProject.length==1}}" >
+                    {{item.totalName}}
+                  </view>
+                  <view wx:if="{{item.incloudProject.length==2}}">
+                    {{item.totalName}}
+                  </view>
+                  <view wx:if="{{item.incloudProject.length>2}}">
+                    {{item.totalName}}
+                  </view>
+                </view>
+                <view class="serviceType_text" wx:if="{{item.together==true}}">
+                  <view wx:if="{{item.incloudProject.length==1}}" >
+                    {{item.totalName}}(同行)
+                  </view>
+                  <view wx:if="{{item.incloudProject.length==2}}">
+                    {{item.totalName}}(同行)
+                  </view>
+                  <view wx:if="{{item.incloudProject.length>=3}}">
+                    {{item.totalName}}(同行)<!-- (共{{item.incloudProject.length}}项) -->
+                  </view>
+                </view>
+                <!-- 后移至这里 -->
+                <view>
+                  <view class="serviceType1"  wx:if="{{item.status=='未服务'}}">
+                    <text  space="nbsp"> 未服务 </text>
+                    <view class="triangle_border_up1"></view>
+                  </view>
+                </view>
+                <view>
+                  <view class="serviceType2"  wx:if="{{item.status=='已到店'}}">
+                    <text  space="nbsp"> 已到店 </text>
+                    <view class="triangle_border_up2"></view>
+                  </view>
+                </view>
+                <view class="serviceType"  wx:if="{{item.status=='已过期'}}">
+                  <text  space="nbsp"> {{item.status}} </text>
+                </view>
+                <view>
+                  <view class="serviceType"  wx:if="{{item.status=='取消'}}">
+                    <text  space="nbsp"> 已取消 </text>
+                    <view class="triangle_border_up"></view>
+                  </view>
+                </view>
+                <view class="serviceType3"  wx:if="{{item.status=='服务中'}}">
+                  <text  space="nbsp"> 服务中 </text>
+                </view>
+              </view>
+              <view class="list_row_text_mid">
+                <!-- <view class="list_row_text_mid_img"> -->
+                  <image mode="aspectFill" class="list_row_text_mid_img_image" src="../../images/orderListDingwei.png"></image>
+                <!-- </view> -->
+                <view class="list_row_text_mid_text">
+                    {{item.storeName}}
+                </view>
+                <view class="list_row_text_mid_technician">
+                    <!-- <view class="list_row_text_mid_technician_left"> -->
+                      <image mode="aspectFill" class="list_row_text_mid_technician_img_image" src="../../images/orderListPeople.png"></image>
+                    <!-- </view> -->
+                    <view class="list_row_text_mid_technician_name">{{item.nurseName}}</view>
+                </view>
+              </view>
+              <view class="list_row_text_bottom">
+                <!-- <view class="list_row_text_bottom_img"> -->
+                  <image mode="aspectFill" class="list_row_text_bottom_img_image" src="../../images/orderListDate.png"></image>
+                <!-- </view> -->
+                <view class="list_row_text_bottom_text">
+                    {{item.startTime}}
+                </view>
+              </view>
+            </view>
+
+          </view>
+
+        </view>
+        <view class="del" catchtap="del" data-index="{{index}}">删除</view>
+      </view>
+      <view class="touch-item-line"></view>
+      </view>
+    </scroll-view>
+  </view>
+</view>
+<!--默认隐藏-->
+<loading hidden="{{hiddenLoading}}">正在加载</loading>
+<view wx:if='{{hasNoData}}' class="hasNoData">
+  <view class='hasNoDateImg'>
+    <image src="../../images/wujilu.png"></image>
+  </view>
+  暂无预约信息
+</view>

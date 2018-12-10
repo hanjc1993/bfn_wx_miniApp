@@ -1,0 +1,47 @@
+<!--pages/projectDetail/projectDetail.wxml-->
+<!-- <web-view src="{{jumpToOtherWeb}}"></web-view> -->
+<import src="../../wxParse/wxParse.wxml" />
+<view class="baseShow" wx:if="{{showPage}}">
+  <view class="baseShow_image">
+    <image mode="aspectFill" src="{{projectPic}}"></image>
+  </view>
+  <view class="baseShow_text">
+    <view class="baseShow_text_top">
+      <view class="baseShow_text_top_left" style="font-weight:500;font-size:38rpx">
+        {{projectName}}
+      </view>
+      <text class="icon-box_mid_mid_text" space="nbsp" wx:if="{{categorySubCategory!=''}}">  {{categorySubCategory}}  </text>     
+      <view class="baseShow_text_top_right">
+        {{nursingTime}}分钟
+      </view>
+    </view>
+    <view class="baseShow_text_bottom_left">
+      简介：
+    </view>
+    <view class="baseShow_text_bottom_right">
+      {{simpleDes}}
+    </view>
+  </view>
+  <view style="float:left;height:10rpx;width:100%;background-color:#e5e5e5;margin-top: 40rpx;">
+  </view>
+  <view class="imageShow" style="margin-top: 40rpx;" >
+    <view class="imageShow_top">
+      图文详情
+    </view>
+    <view style="float:left;height:2rpx;width:100%;background-color:#e5e5e5;margin-top: 20rpx;margin-bottom: 10rpx;">
+    </view>
+    <view class="imageShow_bottom">
+      <template is="wxParse" data="{{wxParseData:insertData.nodes}}" />
+      <view style="height: 100rpx;">
+      </view>
+    </view>
+  </view>
+</view>
+
+<view class="subbmit" wx:if="{{showPage}}">
+  <view class="subbmit_yoyaku" bindtap='yoyakuNow'>
+    免费预约
+  </view>
+</view>
+<!--默认隐藏-->
+<loading hidden="{{hiddenLoading}}">正在加载</loading>

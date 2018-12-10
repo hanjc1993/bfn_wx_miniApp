@@ -1,0 +1,46 @@
+<!--pages/evaluationDetail/evaluationDetail.wxml-->
+<view id="evaluationDetail" class="page">
+  <view class="weui-cells weui-cells_after-title">
+    <view class="weui-cell weui-cell_switch">
+      <view class='txt3'>评价</view>
+    </view>
+  </view>
+  <view class='scoment'>
+    <view class='botlable' wx:for="{{evaluateList}}" wx:for-item="item">
+      <view class='sleft'>
+        <view class='ra'>
+          <image class='limage' src="{{item.imgWxUrl}}" />
+        </view>
+      </view>
+      <view class='sright'>
+        <view class='rtop'>
+          <view class='rtxt1'>{{item.userName}}　评分</view>
+          <image class="rimage" wx:for="{{item.evaluateStarList}}" wx:for-item="it" src="{{it ? '../../images/icon_yellow_stars.png' : '../../images/icon_white_stars.png'}}" />
+          <text class='rtxt2'><text>{{item.evaluateTime}}</text></text>
+        </view>
+        <view class='rcenter'>
+          <view class='left' space="nbsp" wx:for="{{item.essDtoLst}}" wx:for-item="it1">
+            <text style="background-color:#c9bc9c;color:white;border-radius:5rpx;">   {{it1.signName}}  </text>
+          </view>
+         
+        </view>
+        <!-- <view></view> -->
+        <view class="{{item.isFolded?'rbottom ':'show'}}">
+          {{item.evaluateContent}}
+        </view>
+        <view hidden='{{!item.isShowBtn}}' bindtap="change" class="state" data-index="{{index}}">{{item.isFolded?'全文':'收起'}}</view>
+  <view hidden='{{item.isShowBtn}}' bindtap="" class="state1" data-index="{{index}}"><text space='nbsp'>啊\t</text></view>
+        <view class="hengxian"></view>
+      </view>
+         
+    </view>
+ <view class="noData" hidden='{{sho}}'>
+  <view style="width:100%;height:250rpx;">
+    <image style="height:250rpx;width:250rpx;" src="../../images/wujilu.png"></image>
+  </view>
+暂无评论记录
+</view>
+  </view>
+</view>
+<!--默认隐藏-->
+<loading hidden="{{hiddenLoading}}">正在加载</loading>

@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "我的资产",
+  "usingComponents": {
+    "modal-window": "/component/modal/modal"
+  }
+}

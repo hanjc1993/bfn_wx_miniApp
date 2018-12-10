@@ -1,0 +1,185 @@
+<!--pages/mine/mine.wxml-->
+<!-- <view wx:if="{{showAll == true}}"> -->
+<view wx:if="{{showAll == true}}">
+<view id="setUp" class="page">
+<view class="ad_popError" wx:if="{{popErrorMsg}}">{{popErrorMsg}}</view>
+  <view class = "top">
+    <view class = "top_top">
+      <view class = "top_top_left">
+        <view class="userinfo-avatar">
+            <open-data type="userAvatarUrl"></open-data>
+        </view>
+      </view>
+      <view class ="top_top_right" >
+        <view class ="top_top_right_top">
+          <form bindsubmit="retrunData">
+          <open-data type="userNickName" class = "top-left-text hide{{showNikeNameOne?'show':''}}"></open-data>
+          <view class = "top-left-text hide{{showNikeNameThree?'show':''}}">{{nikename}}</view>
+          </form>
+        </view>
+        <view class ="top_top_right_bottom">会员卡号：{{cardNumber}}</view>
+      </view> 
+    </view>
+    <view class="forShowMountain">
+        <image src = '../../images/big_mountain.png'></image>
+      </view>
+    <!-- <view class = "top_bottom">
+      <view class = "top_bottom_left" bindtap="goMineAssets">
+        <view class = "top_bottom_left_top">
+         <view class = "top_bottom_left_top_left">{{assets}}</view>
+         <view class = "top_bottom_left_top_right">项</view>
+        </view>
+        <view class = "top_bottom_left_bottom">
+           我的资产
+        </view>
+      </view>
+      <view class = "top_bottom_right" bindtap="goCouponsList">
+        <view class = "top_bottom_right_top">
+           <view class = "top_bottom_left_top_left">{{coupons}}</view>
+           <view class = "top_bottom_left_top_right">张</view>
+        </view>
+        <view class = "top_bottom_right_bottom">
+           我的优惠券
+        </view>
+      </view>
+    </view> -->
+  </view>
+  <view class='line'></view>
+  <view class="bottom">
+    <view class="bottom_index">
+      <view class="weui-cell__bd">
+        <image class = "title_image" mode='aspectFill' src="../../images/setUp_sex.png" ></image>
+        <view class = "bottom_mid">性别</view>
+      </view>
+      <radio-group class="radio-group" bindchange="radioChange">
+        <label class="radio" wx:for="{{items}}" wx:key="radio">
+          <view class="tui-menu-list"><radio color="#a48b77" value="{{item.name}}" checked="{{item.checked}}"/>{{item.value}}              </view>
+        </label>
+      </radio-group>        
+    </view>            
+  </view>
+   <view class='border'>  <view class='borderleft'></view><view class='borderright'></view> </view>
+
+  <!-- <picker mode="date" value="{{date}}" start="1900-01-01" end="{{endtime}}" bindchange="changeDate"> -->
+  <view class="bottom" bindtap='toggleDialog'>
+    <view class="bottom_index">
+      <view class="weui-cell__bd">
+       <image class = "title_image" mode='aspectFill' src="../../images/setUp_birthday.png" ></image>
+       <view class = "bottom_mid">出生日期</view>
+       <!-- <view class= "bottom_index_show">{{date}}</view> -->
+       <view class= "bottom_index_show" wx:if="{{year!=''}}">{{year}}-{{month}}-{{day}}</view>
+       <view class= "bottom_index_show" wx:if="{{year==''}}"></view>
+      </view>
+      <view class="weui-cell__ft weui-cell__ft_in-access"  wx:if="{{isModifiedBirthday !='true'}}"></view>         
+    </view>            
+  </view>
+  <view class='border'>  <view class='borderleft'></view><view class='borderright'></view> </view>
+
+  <view class='mypicker' hidden="{{!isShow}}">
+    <view class='content'>
+      <view class='picker-head'>
+        <text class='cancle' bindtap='hidePicker'>取消</text>
+           <view class='birDay' ><text>选择出生日期</text></view>
+        <text class='sure' bindtap='successEvent'>确认</text>
+      </view>
+      <view style="line-height: 68rpx;text-align:center;height:68rpx;width:100%;background-color:#c9bc9c;color:white;font-size:28rpx">
+        出生日期只能修改一次，提交后不可更改
+      </view>
+    </view>
+
+    <picker-view indicator-style="height: 50px;" class='picker-view' value="{{value}}" bindchange="bindChange">
+      <picker-view-column>
+        <view wx:for="{{years}}"  style="line-height: 50x">{{item}}年</view>
+      </picker-view-column>
+      <picker-view-column>
+        <view wx:for="{{months}}" style="line-height: 50px">{{item}}月</view>
+      </picker-view-column>
+      <picker-view-column>
+        <view wx:for="{{days}}" style="line-height: 50px">{{item}}日</view>
+      </picker-view-column>
+    </picker-view>
+  </view>
+
+
+  <!-- </picker> -->
+  <view class="bottom" bindtap="showChargeDetail">
+    <view class="bottom_index">
+      <view class="weui-cell__bd">
+        <image class = "title_image" mode='aspectFill' src="../../images/setUp_phone.png" ></image>
+        <view class = "bottom_mid">绑定手机</view>
+        <view class= "bottom_index_show">{{showPhoneNum}}</view>
+      </view>
+      <view class="weui-cell__ft weui-cell__ft_in-access"></view>         
+    </view>            
+  </view>
+  <button class="save" form-type="submit" bindtap="goSave">保存</button>
+  <!-- 浮窗第一层 -->
+  <form bindsubmit="retrunData">
+  <view class="phone-cover" wx:if="{{chargeDetailVisible}}">
+    <view class="phone-box">
+       <view class="header_top">
+      <view class='close' bindtap="hideChargeDetail">
+        <image class="close-btn" src="../../images/icon_cross.png" />
+      </view>
+           </view>
+      <view class="header_bottom">
+        <view class="title {{showtitle1?'show':'hide'}}">邀请您注册成为尊贵的会员</view>
+        <view class="title {{showtitle2?'show':'hide'}}">修改会员手机</view>
+        <view class="title1 {{showtitle1?'show':'hide'}}">登陆即可免费预约</view>
+      </view>
+      <view class ="phone-box_mid">
+        <view class ="phone-box_mid_adr">
+           <view class ="phone-box_mid_adr_left">地　区：</view>
+           <!-- <input class ="phone-box_mid_adr_right" placeholder="请输入地区" name = "a"></input> -->
+           <view class="phone-box_mid_adr_right" bindtap='chooseArea'>{{area?area:'请选择'}}</view><view class='arrow'/>
+           
+        </view>
+        <view class ="phone-box_mid_adr">
+           <view class ="phone-box_mid_adr_left">手　机：</view>
+           <!-- <input class ="phone-box_mid_adr_right" placeholder="+86 请输入手机号码" name = "b"></input> -->
+           <view class="phone-box_mid_adr_right">+{{areaCode}}<input placeholder='请输入电话号' placeholder-style="font-size:24rpx;color:#cccccc" style="width:70%;height:70rpx;float:right;" type="number" maxlength="{{areaCode=='86'?'11':'8'}}" name = "phoneNum"  bindinput="getPhone" value="{{phonecash}}"></input></view>
+        </view>
+        <view class ="phone-box_mid_adr">
+           <view class ="phone-box_mid_adr_left">验证码：</view>
+           <!-- <input class ="phone-box_mid_adr_right_last" placeholder="请输入" name = "c"></input> -->
+           <view class="phone-box_mid_adr_right_last"><input style="margin-top:10rpx" maxlength='6' type="number" placeholder=' 请输入' placeholder-style="font-size:24rpx;color:#cccccc" name = "yanzhengma" bindinput="getYzm" value="{{yzmcash}}"></input></view>
+           <!-- <view class ="vCode" bindtap ="obtain">获取</view>   -->
+           <view class="{{jihuo?'yzm':'yzmGray'}}"  bindtap="{{disabled&&jihuo?'obtain':''}}">{{time}}</view>
+           <!-- <view class="{{jihuo?'yzm':'yzmGray'}}" disabled="{{disabled?'obtain':''}}">{{time}}</view> -->
+        </view>
+      </view>
+      <!-- <view class="phone-box_bottom" form-type="submit" bindtap="binding">绑定</view> -->
+       
+      <view class="phone-box_bottom_outside">
+          <!-- <button class ="phone-box_bottom" form-type="submit">绑定</button> -->
+          <button class="{{!(yzmRight&&jihuo&&areadyGetYzm)?'phone-box_bottom_bak':'phone-box_bottom'}}"  open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="{{!(yzmRight&&jihuo&&areadyGetYzm)?'':'onGotUserInfo'}}">绑定</button>
+      </view>
+    </view>
+  </view>
+  </form>
+<!-- 浮窗第二层 -->
+  <view class="modal-mask1" bindtap="hideModal1" catchtouchmove="preventTouchMove" wx:if="{{hiddenmodalchoosearea}}"></view>
+   <!-- <view class="chooseArea"  wx:if="{{hiddenmodalchoosearea}}">
+    <radio-group style="height:180rpx;margin-top:60rpx" bindchange="areaChange">
+      <view  style='font-size:25rpx;color:#b5b4b3;height:50rpx;line-height:10rpx' wx:for="{{areaList}}" wx:for-item="item">
+        <radio value="{{item.id}}">{{item.name}}</radio>
+      </view>   
+    </radio-group>
+   <view  class="saveArea" bindtap='saveArea'>确定</view> -->
+
+   <view class="chooseArea" wx:if="{{hiddenmodalchoosearea}}">
+<radio-group style="height:310rpx;margin-top:50rpx" bindchange="areaChange">
+<view style='font-size:45rpx;color:#b5b4b3;height:80rpx;line-height:80rpx' wx:for="{{areaList}}" wx:for-item="item">
+<radio value="{{item.id}}" color="#906337" checked="{{item.checked}}">{{item.name}}</radio>
+</view> 
+</radio-group>
+<view class="saveArea" bindtap='saveArea'>
+确定
+</view>
+  </view>
+</view>
+
+<!--默认隐藏-->
+<loading hidden="{{hiddenLoading}}">正在加载</loading>
+
+</view>

@@ -1,0 +1,59 @@
+/* pages/preferentialitem/preferentialitem.wxss */
+
+#preferentialitem {
+  display: flex;
+  flex-direction: column;
+}
+
+page {
+  background-color: #f5f7fa;
+  height: 100%;
+  width: 100%;
+}
+
+#preferentialitem .item1 {
+  width: 700rpx;
+  margin-left: 25rpx;
+  margin-top: 30rpx;
+}
+
+#preferentialitem .item1 .data1 {
+  width: 100%;
+  height: 40rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#preferentialitem .item1 .data1 .dat {
+  width: 200rpx;
+  height: 40rpx;
+  background-color: #ccc;
+  font-size: 24rpx;
+  text-align: center;
+  color: #fff;
+  line-height: 40rpx;
+  border-radius: 10rpx;
+  overflow: hidden;
+}
+
+#preferentialitem .item1 .ima1 {
+  margin-left: 5rpx;
+  margin-top: 20rpx;
+  width: 690rpx;
+  height: 180rpx;
+}
+
+#preferentialitem .item1 .ima1 image {
+  border-radius: 10rpx;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+#preferentialitem .noData {
+  margin-top: 40%;
+  text-align: center;
+  font-size: 28rpx;
+  color: #ccc;
+}

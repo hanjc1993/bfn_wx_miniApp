@@ -1,0 +1,160 @@
+<!--pages/yoyakuCheckPage/yoyakuCheckPage.wxml-->
+<!--pages/yoyakuPage/yoyakuPage.wxml-->
+<view id="yoyaku">
+<view style='height:28%;background-color:white;margin-bottom:3%' >
+  <view class="title_text" >
+      预约详情
+  </view>
+  <!-- <view class="title_text" wx:if="{{index!=0}}">
+      <view style="float:left">
+        预约详情(同行人{{index}})
+      </view> 
+  </view> -->
+  <view class="the_rows">
+      <view class="content_text_storeName">
+          
+          <image src="../../images/icon_order.png" mode='aspectFill'></image>
+          <view class="name_text1">
+            门店
+          </view>
+      </view>
+      <view class="context_text_right_storeName" bindtap=''>
+         <text space='nbsp'>{{orderList.orderStore}} </text>  
+          <view style="float:right;height:80rpx;width:50rpx" bindtap='go2Store'>
+           <image style="height:50rpx;width:50rpx;margin-top:15rpx" src='../../images/IconForDingwei.png'></image>
+          </view>
+          
+      </view>
+  </view>
+
+  <view class="the_rows">
+      <view class="content_text">
+          
+          <image src="../../images/icon_project.png" mode='aspectFill'></image>
+          <view class="name_text">
+            项目
+          </view>
+      </view>
+      <view class="context_text_right" bindtap=''>
+        {{orderList.incloudProjectName}} <span style="color:#b5b6b6"> </span>
+      </view>
+  </view>
+  <view class="the_rows">
+      <view class="content_text">
+          
+          <image src="../../images/icon_time.png" mode='aspectFill'></image>
+          <view class="name_text">
+            时间
+          </view>
+      </view>
+      <view class="context_text_right" bindtap='' data-index="{{index}}">
+          {{orderList.orderTime}} <span style="color:#b5b6b6"> </span>
+      </view>
+  </view>
+  <view class="the_rows">
+      <view class="content_text">
+          
+          <image src="../../images/icon_technician.png" mode='aspectFill'></image>
+          <view class="name_text">
+            养脑师
+          </view>
+      </view>
+      <view class="context_text_right" bindtap='' data-index="{{index}}">
+          {{orderList.nurseCodeName==''?'默认轮牌':orderList.nurseCodeName}} <span style="color:#b5b6b6"> </span>
+      </view>
+  </view>
+  <view class="the_rows">
+        <view class="content_text">
+            <image src="../../images/status.png" mode='aspectFill'></image>
+            <view class="name_text">
+              状态
+            </view>
+        </view>
+        <view class="context_text_right"   >
+            待提交 <span style="color:#b5b6b6"> </span>
+        </view>
+  </view>
+</view>
+<!-- 同行人 -->
+<view style='height:28%;background-color:white;margin-bottom:3%' wx:if="{{orderList.togethers.length!=0}}" wx:for="{{orderList.togethers}}" index="index" wx:for-item="item">
+  <view class="title_text" >
+      预约详情(同行人{{index+1}})
+  </view>
+  <!-- <view class="title_text" wx:if="{{index!=0}}">
+      <view style="float:left">
+        预约详情(同行人{{index}})
+      </view> 
+  </view> -->
+  <!-- <view class="the_rows">
+      <view class="content_text">
+          
+          <image src="../../images/finalStore.png"></image>
+          <view class="name_text">
+            门店
+          </view>
+      </view>
+      <view class="context_text_right" bindtap='yokakuStore'>
+          {{orderList.orderStore}}  
+          <view style="float:right;height80rpx;width:50rpx">
+           <image style="height:50rpx;width:50rpx;margin-top:15rpx" src='../../images/IconForDingwei.png'></image>
+          </view>
+          
+      </view>
+  </view> -->
+
+  <view class="the_rows">
+      <view class="content_text">
+          
+          <image src="../../images/icon_project.png"></image>
+          <view class="name_text">
+            项目
+          </view>
+      </view>
+      <view class="context_text_right" bindtap=''>
+        {{item.incloudProjectName}} <span style="color:#b5b6b6"> </span>
+      </view>
+  </view>
+  <view class="the_rows">
+      <view class="content_text">
+          
+          <image src="../../images/icon_time.png"></image>
+          <view class="name_text">
+            时间
+          </view>
+      </view>
+      <view class="context_text_right" bindtap='' data-index="{{index}}">
+          {{item.orderTime}} <span style="color:#b5b6b6"> </span>
+      </view>
+  </view>
+  <!-- <view class="the_rows">
+      <view class="content_text">
+          
+          <image src="../../images/icon_technician.png"></image>
+          <view class="name_text">
+            养脑师
+          </view>
+      </view>
+      <view class="context_text_right" bindtap='chooseTechnician' data-index="{{index}}">
+          {{orderList.nurseCodeName}} <span style="color:#b5b6b6"> </span>
+      </view>
+  </view> -->
+  <view class="the_rows">
+        <view class="content_text">
+            <image src="../../images/status.png"></image>
+            <view class="name_text">
+              状态
+            </view>
+        </view>
+        <view class="context_text_right"   >
+            待提交 <span style="color:#b5b6b6"> </span>
+        </view>
+  </view>
+</view>
+<!-- 以上同行人 -->
+<view class="bottom_btn1" bindtap="{{disabledSubmitBtn?'':'subbmitOrderList'}}">
+    提  交
+</view>
+<view class='showMsg' wx:if='{{successMsg}}'>预约成功，{{orderList.orderStore}}欢迎您的莅临</view>
+</view>
+<!--默认隐藏-->
+<loading hidden="{{hiddenLoading}}">正在加载</loading>

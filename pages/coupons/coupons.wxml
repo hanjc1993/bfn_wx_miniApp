@@ -1,0 +1,61 @@
+<!--pages/coupons/coupons.wxml-->
+<scroll-view scroll-y="true">
+<view class = "page" wx:if="{{showPage}}">
+   <!-- 1 -->
+  <view class="header">
+    {{couponName}}可用门店列表
+  </view>
+  <!-- <view class="header_after">
+    <view class="header_after_left">
+    不凡脑
+    </view>
+    <view class="header_after_right">
+    3天前
+    </view>
+  </view> -->
+  <!-- 2 -->
+  <view class = "listAll" wx:for="{{initialDataAll}}" wx:for-index="index" wx:for-item="item">
+
+  <view class="header_last"> 
+    <image class = "header_image" src="../../images/coupons_gz.png"></image>
+       <view class = "header_image_text"> <view class='txt1'></view><view style=' float: left;margin-left: 10rpx;'>{{item.a}} </view> <view class='txt2'></view></view>
+  </view>
+  
+  <view class="list" wx:for="{{item.b}}" wx:for-index="index1" wx:for-item="item1">
+    <view class="list_title">
+      {{item1.storeName}}
+    </view>
+    <view class="list_mid">
+      <view class="list_mid_left">
+          <image class = "list_mid_left_image" src="../../images/coupons_adr.png" ></image>
+      </view>
+      <view class="list_mid_right">
+         {{item1.storeAddr}}
+      </view>
+    </view>
+    <view class="list_bottom">
+      <view class="list_bottom_left">
+          <image class = "list_bottom_left_image" src="../../images/coupons_phone.png" ></image>
+      </view>
+      <view class="list_bottom_right">
+         {{item1.storePhone}}
+      </view>
+    </view>
+  </view>
+  </view>
+  <!-- 3 -->
+  <view class = "bottom">
+    <view class = "bottom_top">
+        <view class = "bottom_top_line"></view>
+        <view class = "bottom_top_txt">End</view>
+        <view class = "bottom_top_line_right"></view>
+    </view>
+    <view style="height:180rpx">
+      <official-account></official-account>
+    </view>
+    <!-- <image class = "bottom_image" src="../../images/coupons_bottom.png" ></image> -->
+  </view>
+</view>
+</scroll-view>
+<!--默认隐藏-->
+<loading hidden="{{hiddenLoading}}">正在加载</loading>

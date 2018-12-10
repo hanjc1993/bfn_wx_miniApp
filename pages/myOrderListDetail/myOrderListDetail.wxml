@@ -1,0 +1,120 @@
+<!--pages/yoyakuCheckPage/yoyakuCheckPage.wxml-->
+<!--pages/yoyakuPage/yoyakuPage.wxml-->
+<view id="yoyaku">
+  <view style='height:28%;background-color:white;margin-bottom:3%' >
+    <view wx:if="{{status=='未服务'}}" class="{{welCome}}">
+      <view class="{{showWelcomeImgView}}">
+        <image src="../../images/welComeImg.png" mode='aspectFill' class="{{welComeImage}}"></image>
+      </view>
+      <view class="{{showWelcomeText}}">
+        {{storeNameForTitle}}
+      </view>
+      <!-- <view >{{longName}}</view> -->
+    </view>
+    <view class="title_text">
+        预约详情
+    </view>
+
+    <view class="the_rows">
+        <view class="content_text">
+            <image src="../../images/icon_order.png" mode='aspectFill'></image>
+            <view class="name_text">
+              门店
+            </view>
+        </view>
+        <view class="context_text_right" bindtap="{{status=='未服务'?'clickDaohang':''}}">  
+            <view style="float:right;height80rpx;width:50rpx;margin-left:3%" wx:if="{{status=='未服务'}}">
+            <image style="height:50rpx;width:50rpx;margin-top:15rpx" src='../../images/IconForDingwei.png'></image>
+            </view>
+            <view style="float:right;height80rpx;width:85%;font-size:30rpx">
+            {{storeName}} 
+            </view>    
+        </view>
+    </view>
+    <!-- 导航去 -->
+  <!-- <modal hidden="{{!hiddenmodalput}}" title="立即导航去预约门店?" confirm-text="导航" cancel-text="取消" bindcancel="cancel" bindconfirm="go2Store">  
+  </modal>   -->
+
+    <view class="the_rows">
+        <view class="content_text">
+            
+            <image src="../../images/icon_project.png" mode='aspectFill'></image>
+            <view class="name_text">
+              项目
+            </view>
+        </view>
+        <view class="context_text_right" bindtap='yoyakuProject'>
+          {{projectName}} <span style="color:#b5b6b6"> </span>
+        </view>
+    </view>
+    <view class="the_rows">
+        <view class="content_text">
+            
+            <image src="../../images/icon_time.png" mode='aspectFill'></image>
+            <view class="name_text">
+              时间
+            </view>
+        </view>
+        <view class="context_text_right" bindtap='yoyakuTime' data-index="{{index}}">
+            {{time}} <span style="color:#b5b6b6"> </span>
+        </view>
+    </view>
+
+  
+    <view class="the_rows">
+        <view class="content_text">
+            
+            <image src="../../images/icon_technician.png" mode='aspectFill'></image>
+            <view class="name_text">
+              养脑师
+            </view>
+        </view>
+        <view class="context_text_right" bindtap='chooseTechnician' data-index="{{index}}">
+            {{technician}} <span style="color:#b5b6b6"> </span>
+        </view>
+    </view>
+  <view class="the_rows">
+        <view class="content_text">
+            <image src="../../images/status.png" mode='aspectFill'></image>
+            <view class="name_text">
+              状态
+            </view>
+        </view>
+        <view class="context_text_right" bindtap='chooseTechnician' data-index="{{index}}" wx:if="{{status=='未服务'}}">
+            未服务 <span style="color:#b5b6b6"> </span>
+        </view>
+        <view class="context_text_right" bindtap='chooseTechnician' data-index="{{index}}" wx:if="{{status=='已到店'}}">
+            已到店 <span style="color:#b5b6b6"> </span>
+        </view>
+        <view class="context_text_right" bindtap='chooseTechnician' data-index="{{index}}" wx:if="{{status=='已过期'}}">
+            已过期 <span style="color:#b5b6b6"> </span>
+        </view>
+        <view class="context_text_right" bindtap='chooseTechnician' data-index="{{index}}" wx:if="{{status=='取消'}}">
+            已取消 <span style="color:#b5b6b6"> </span>
+        </view>
+        <view class="context_text_right" bindtap='chooseTechnician' data-index="{{index}}" wx:if="{{status=='服务中'}}">
+            服务中 <span style="color:#b5b6b6"> </span>
+        </view>
+  </view>
+
+  </view>
+
+  <view class="bottom_btn" wx:if="{{status=='未服务'}}" bindtap='cancelOrder'>
+      取消预约
+  </view>
+  <view class="bottom_btn1" wx:if="{{status=='已到店'&&isEvaluated==true&&evaluateStatus==true}}" bindtap="go2Evaluate">
+      去评价
+  </view>
+  <view class="bottom_btn2" wx:if="{{status=='已到店'&&isEvaluated==false}}">
+      已评价
+  </view>
+</view>
+
+<!--默认隐藏-->
+<loading hidden="{{hiddenLoading}}">正在加载</loading>
+<!-- <view class="justShowLogo" wx:if="{{status=='待到店'}}" >
+      <image src="../../images/haveNoDone.png"></image>
+</view>
+<view class="justShowLogo1" wx:if="{{status=='结束'}}" >
+      <image src="../../images/haveDone.png"></image>
+</view> -->

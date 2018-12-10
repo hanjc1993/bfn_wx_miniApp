@@ -1,0 +1,12 @@
+<!--pages/couponDisable/couponDisable.wxml-->
+<view class="coouponDisable">
+  <view class="warningImg">
+    <image src="../../images/warnImg.png"></image>
+  </view>
+  <view class="warningText">
+    该活动已下架！
+  </view>
+  <view class="moreCoupons">
+    <text space='nbsp' bindtap='findMoreCoupons'>     查看更多活动>>     </text>
+  </view>
+</view>

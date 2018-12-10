@@ -1,0 +1,204 @@
+<!--pages/homePage/homePage.wxml-->
+<view id="homePage" wx:if="{{allProjectHasBeenLoad}}">
+<view class="ad_popError" wx:if="{{popErrorMsg}}">{{popErrorMsg}}</view>
+  <view class="show_images">
+    <view class="top_top">
+      <swiper class="swiper-box" indicator-dots="true" autoplay="true" circular="true" interval="4000" duration="1000">  
+          <block wx:for="{{queryShuffling.rzIndexImgDtoList}}" wx:for-index="index" wx:if="{{allProjectHasBeenLoad}}">  
+            <swiper-item>  
+              <image src="{{item.imgUrl}}" class="slide-image" mode="aspectFill" data-item="{{item}}" bindtap='gotoWebUrlPath'/>  
+            </swiper-item>  
+          </block>  
+      </swiper>
+    </view> 
+    <view class='top_bottom' wx:if="{{allProjectHasBeenLoad}}">
+      <view class="top_bottom_left" bindtap='chooseStore'>
+        <view class="top_bottom_left_top">
+          【换门店】{{allProjectHasBeenLoad?storesInfo.name:''}}
+        </view>
+        <view class="top_bottom_left_bottom" wx:if="{{allProjectHasBeenLoad}}">
+          <image src='../../images/home_positionIcon.png'></image> {{storesInfo.detailAddr}}
+        </view>
+      </view>
+      <view class="top_bottom_right" bindtap='makeCall'>
+          <image src="../../images/home_phone.png"></image>
+      </view>
+    </view>
+  </view>
+  <!-- 店庆轮播优惠券 -->
+  <view wx:if="{{queryShuffling.couponStatus&&allProjectHasBeenLoad}}" style="margin-top: 10rpx;height: 210rpx; width: 100%; position: relative;">
+     <image src="../../images/actlunbo.png" style="height: 210rpx; width: 100%;">
+    </image>
+      <view style="width: 88%;position: absolute; top:20rpx;left:48rpx;z-index:3;">
+        <!-- <view style="margin-left: 38rpx;" class="box" bindtouchstart="touchstart" bindtouchmove="touchmove" bindtouchend="touchend">
+          <view animation="{{animation1}}">
+            <image src="{{rzIndexCouponDtoList[0].couponImg}}" class="img" style="width:{{img_width_one}}rpx" mode='aspectFill'/>
+          </view>
+          <view animation="{{animation2}}" data-item="{{rzIndexCouponDtoList[1].actId}}" bindtap="gotoCouponDetail">
+            <image src="{{rzIndexCouponDtoList[1].couponImg}}" class="img2"/>
+          </view>
+          <view animation="{{animation3}}">
+            <image src="{{rzIndexCouponDtoList[2].couponImg}}" class="img3" style="width:{{img_width_three}}rpx" mode='aspectFill'/>
+          </view>
+        </view> -->
+        <view class="banner-swiper1" >
+          <swiper indicator-dots="{{indicatorDots}}" circular="true" autoplay="{{autoplay}}" current='{{swiperCurrent}}' indicator-color="{{beforeColor}}" indicator-active-color="{{afterColor}}" circular='{{circular}}' previous-margin="{{previousmargin}}" next-margin="{{nextmargin}}" bindchange="swiperChange" >
+            <block wx:for="{{rzIndexCouponDtoList}}" wx:key="key">
+              <swiper-item>
+                <image src="{{item.couponImg}}" class="slide-image1 {{index == swiperCurrent ? ' active1' : ''}}" bindchange="chuangEvent" id="{{index}}" data-item="{{item}}" bindtap="yuyueBtn"></image>          
+              </swiper-item>
+            </block>
+          </swiper>
+        </view>
+      </view>
+  </view>
+
+<!-- 绑定电话 -->
+  <view class="modal-mask" bindtap="hideModal" catchtouchmove="preventTouchMove" wx:if="{{hiddenmodalbindphone}}"></view>
+  <view class='bind_phone'  wx:if="{{hiddenmodalbindphone}}" catchtouchmove="preventTouchMove">
+    <view class="bind_phone_top">
+      <view  class="bind_phone_top_btn" bindtap='closePage'>
+        <image style="height:30rpx;width:30rpx;margin-top:15rpx;margin-right:-35rpx" src="../../images/icon_cross.png"></image>
+      </view>
+    </view>
+    <view style="font-size:30rpx;color:#a6a6a6;height:100rpx;">
+      <view style="">邀请您注册成为尊贵的会员</view>
+      <view style="margin-top:-5rpx">登录即可免费预约</view>
+    </view>
+
+    <view class="tb">
+      <view style="width:100%;height:90rpx;line-height:90rpx">
+        <view class="rowName">地　区:</view>
+        <view class="tb_text" bindtap='chooseArea'>{{area?area:'请选择'}}</view><view class='arrow'/>
+      </view> 
+      <view style="width:100%;height:90rpx;line-height:90rpx">
+        <view class="rowName">手　机:</view>
+        <view class="tb_text">+{{areaCode}}<input placeholder='请输入电话号' placeholder-style="font-size:24rpx;color:#cccccc" style="width:75%;height:70rpx;float:right;text-align:center" type="number" maxlength="{{areaCode=='86'?'11':'8'}}" bindinput="getPhone" value="{{phonecash}}"></input></view>
+      </view> 
+      
+      <view style="width:100%;height:90rpx;line-height:90rpx;">
+        <view class="rowName">验证码:</view>
+        <view class="tb_text1"><input style="margin-top:10rpx;" maxlength='6' type="number" placeholder='请输入' placeholder-style="font-size:24rpx;color:#cccccc" bindinput="setYzmCode" value="{{yzmcash}}"></input></view>
+         <view class="{{jihuo?'yzm':'yzmGray'}}"  bindtap="{{disabled&&jihuo?'yzmGet':''}}">{{time}}<!--<image style="width:100%;height:70rpx" src="../../images/yzm.png"></image>--></view> 
+      </view> 
+    </view>
+
+    <button class="{{!(yzmRight&&jihuo&&areadyGetYzm)?'bindbtnGray':'bindbtn'}}"  open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="{{!(yzmRight&&jihuo&&areadyGetYzm)?'':'onGotUserInfo'}}">
+      绑定
+    </button> 
+  </view> 
+<!-- 选择地区 -->
+  <view class="modal-mask1" bindtap="hideModal1" catchtouchmove="preventTouchMove" wx:if="{{hiddenmodalchoosearea}}"></view>
+  <view class="chooseArea"  wx:if="{{hiddenmodalchoosearea}}">
+    <radio-group style="height:310rpx;margin-top:50rpx" bindchange="areaChange">
+      <view  style='font-size:45rpx;color:#b5b4b3;height:80rpx;line-height:80rpx' wx:for="{{areaList}}" wx:for-item="item">
+        <radio value="{{item.id}}" color="#906337" style="transform:scale(0.7)" checked="{{item.checked}}">{{item.name}}</radio>
+      </view>   
+    </radio-group>
+    <view  class="saveArea" bindtap='saveArea'>
+    确定
+  </view>
+  </view>
+
+
+  <!-- 中间部分 -->
+  <view class='showProject' >
+    <view class='mid_top'>
+      <view class='mid_top_left'>
+        <view style="background-color: #906337; width:5rpx;height:35rpx;float:left;margin-top:14rpx;"></view>
+        <view style="float:right;margin-left:20rpx;">招牌项目</view>
+      </view>
+      <view class='mid_top_right' bindtap='moreProject'>
+        更多>
+      </view>
+    </view>
+    <view class="mid_mid">
+  <!-- 正式需要循环 -->
+      <view class="mid_mid_content" wx:for="{{projectList}}" wx:for-index="index" wx:for-item="item" >
+        <view class="mid_mid_content_left" bindtap='projectDetail' data-item="{{item}}">
+          <image wx:if="{{allProjectHasBeenLoad}}" src="{{item.imgUrl}}" class='leftImg' mode='widthFix' style='height:160rpx; width:240rpx;'></image>
+          <!-- mode='widthFix' style='height:160rpx; width:240rpx;' -->
+        </view>
+        <view class="mid_mid_content_mid" bindtap='projectDetail' data-item="{{item}}">
+          <view class="mid_mid_content_mid_top" style='font-size:36rpx' wx:if="{{allProjectHasBeenLoad}}">
+            {{item.name}}
+          </view>
+          <view class="mid_mid_content_mid_mid">
+            <text wx:if="{{item.categorySubCategory != ''&&allProjectHasBeenLoad}}" style="background-color:#c9bc9c;color:white;border-radius:8rpx;" space="nbsp">  {{item.categorySubCategory}}  </text>
+          </view>
+          <view class="mid_mid_content_mid_bottom">
+            <view style="float:left;width:100rpx;margin-top:52rpx;">
+              <label style="color:#f56c6c;font-size:24rpx;" wx:if="{{allProjectHasBeenLoad}}">¥</label>
+              <span style="color:#f56c6c;font-size:32rpx;margin-left:-8rpx" wx:if="{{allProjectHasBeenLoad}}">
+                {{item.retailPrice}}
+              </span>
+            </view>
+            <view style="float:left;margin-left:12rpx">
+              <span style="font-size:20rpx;text-decoration:line-through;">
+                <!-- ¥58 -->
+              </span>
+            </view>
+            <view wx:if="{{item.hiddenTimeContent&&allProjectHasBeenLoad}}" style="float:right;margin-right:5rpx;margin-top:58rpx;font-size:25rpx;color:#999">最早可预定{{item.reservationAvailableTime[0].startTime}}</view>
+          </view>
+        </view>
+        <view class="mid_mid_content_right">
+          <view class="mid_mid_content_right_top" wx:if="{{allProjectHasBeenLoad}}">
+            {{item.nursingTime}}分钟
+          </view>
+          <view class="mid_mid_content_right_bottom" bindtap='yoyakuBtn' data-item="{{item.name}}" id="{{item.uuid}}">
+            <image wx:if="{{allProjectHasBeenLoad}}" src="../../images/home_yoyaku_image.png"></image>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <!-- bottom部分 -->
+  <view class="showTechnician" >
+    <view class="bottom_top">
+      <view class="bottom_top_left">
+        <view style="background-color: #906337; width:5rpx;height:35rpx;float:left;margin-top:16rpx;"></view>
+        <view style="float:right;margin-left:20rpx;">招牌养脑师</view>
+      </view>
+      <view class="bottom_top_right" bindtap='moreTechnician'>更多></view>
+    </view>
+    <view class="bottom_bottom">
+      <scroll-view scroll-x="true" style="height:320rpx;white-space:nowrap;background-color:#efeff4">
+        <view class="bottom_bottom_list" style="{{technicianList.length == index + 1?'margin-right: 4%;':''}}" wx:for="{{technicianList}}" wx:for-index="index" wx:for-item="item" wx:if="{{allProjectHasBeenLoad}}">
+          <view class="bottom_bottom_list_top" bindtap='technicianDetail' data-item="{{item}}">
+            <image src="{{item.srcImg==null?'../../images/headImg.png':item.srcImg}}"></image>
+          </view>
+          <view class="bottom_bottom_list_bottom">
+            <view style="height:50rpx;width:100%">
+              <view style='font-size:28rpx;color:#333; margin-left:15rpx;float:left; width:125rpx'>
+              <!-- <text space='nbsp' style="font-size:28rpx">{{item.name}}    {{item.level}}</text> -->
+                {{item.name}}
+              </view>
+              <view style='font-size:26rpx;color:#333;float:right;margin-top:2rpx;margin-right:15rpx'>
+              <!-- <text space='nbsp' style="font-size:28rpx">{{item.name}}    {{item.level}}</text> -->
+                {{item.level}}
+              </view>
+            </view>  
+              <!-- wx:if="{{item.showEvaluateGood}}" -->
+            <view style="font-size:25rpx;color:#999;text-align: right;margin-right: 15rpx;height:43rpx;">
+              {{item.evaluateGood}}好评
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+  <view wx:if="{{queryShuffling.alertStatus&&allProjectHasBeenLoad}}"><!-- jack叹号去掉 -->
+    <view class="modal-mask" bindtap="hideModal" catchtouchmove="preventTouchMove" wx:if="{{isShowDianQingImage&&allProjectHasBeenLoad}}"></view>                                                                                       <!-- jack叹号去掉 -->
+    <view class="dianqing"  wx:if="{{isShowDianQingImage&&allProjectHasBeenLoad}}" catchtouchmove="preventTouchMove">
+      <view style="float:left;width:100%;height:100%">
+        <view class="xBackground" bindtap='closeDianQing'>x</view>
+        <image src="{{queryShuffling.actImgUrl}}" data-item="{{queryShuffling.actId}}" bindtap='clickDianQing'></image>
+      </view>
+    </view>
+    <view class="xBack" wx:if="{{showView}}" bindtap='closeAll'>x</view>
+    <image class="dianqingSmall" src="{{queryShuffling.defaultImgUrl}}" wx:if="{{showView}}" bindtap="clickDianqingSmall"></image>
+  </view>
+</view>
+<view wx:if="!{{allProjectHasBeenLoad}}" style="width:100%;height:100%;background-color:white"></view>
+<!--默认隐藏-->
+<loading hidden="{{hiddenLoading}}">正在加载</loading>

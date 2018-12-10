@@ -1,0 +1,35 @@
+<!--pages/teacherList/teacherList.wxml-->
+<view id="teacherList" class="page" wx:if="{{showPage}}">
+  <view class='conment'>
+
+    <view class='it' wx:for="{{teacherList}}" wx:for-item="item" data-item='{{item}}' bindtap='goTeacherDetailPage'>
+      <image mode='aspectFill' src="{{item.srcImg==null?'../../images/headImage.png':item.srcImg}}"></image>
+      <view class='itcenter'>
+        <view class='txt1' >{{item.name}}</view>
+        <view class='txt2' >{{item.level}}</view>
+      </view>
+      <view class='itbottom'>
+        <view class='left'>
+          <image class="img1" wx:for="{{item.starList}}" wx:for-item="it" src="{{it ? '../../images/icon_yellow_stars.png' : '../../images/icon_white_stars.png'}}" />
+        </view>
+        <view class='right'>
+        <!-- wx:for="{{evaluateGoodList}}" wx:for-item="item" -->
+          <text class='txt2'  >{{item.evaluateGood}}好评 </text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+<view wx:if="{{teacherList.length==0}}" style="font-size:28rpx;color:gray;text-align:center;margin-top:40%">
+  <view style="width:100%;height:250rpx;">
+    <image style="height:250rpx;width:250rpx;" src="../../images/wujilu.png"></image>
+  </view>
+  该时间段暂无空闲的养脑师
+</view>
+<view wx:if="{{teacherNone}}" style="font-size:28rpx;color:gray;text-align:center;margin-top:40%">
+  <view style="width:100%;height:250rpx;">
+    <image style="height:250rpx;width:250rpx;" src="../../images/wujilu.png"></image>
+  </view>
+  该门店暂无养脑师
+</view>
+<loading hidden="{{hiddenLoading}}">正在加载</loading>

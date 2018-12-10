@@ -1,0 +1,59 @@
+{
+  "pages": [
+    "pages/homePage/homePage",
+    "pages/selectStores/selectStores",
+    "pages/order/order",
+    "pages/mine/mine",
+    "pages/mineAssets/mineAssets",
+    "pages/couponDisable/couponDisable",
+    "pages/consumptionRecords/consumptionRecords",
+    "pages/consumptionRecordsDetail/consumptionRecordsDetail",
+    "pages/project/project",
+    "pages/projectDetail/projectDetail",
+    "pages/couponsList/couponsList",
+    "pages/setUp/setUp",
+    "pages/coupons/coupons",
+    "pages/goods/goods",
+    "pages/myOrderList/myOrderList",
+    "pages/myOrderListDetail/myOrderListDetail",
+    "pages/chooseCity/chooseCity",
+    "pages/yoyakuCheckPage/yoyakuCheckPage",
+    "pages/teacherDetail/teacherDetail",
+    "pages/teacherList/teacherList",
+    "pages/evaluationDetail/evaluationDetail",
+    "pages/preferentialitem/preferentialitem",
+    "pages/preferentialDetail/preferentialDetail",
+    "pages/logs/logs",
+    "pages/assets/assets"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#906337",
+    "navigationBarTitleText": "WeChat",
+    "navigationBarTextStyle": "white"
+  },
+  "tabBar": {
+    "selectedColor": "#906337",
+    "color": "#999",
+    "list": [
+      {
+        "pagePath": "pages/homePage/homePage",
+        "text": "预约",
+        "iconPath": "images/order-2.png",
+        "selectedIconPath": "images/order-1.png"
+      },
+      {
+        "pagePath": "pages/selectStores/selectStores",
+        "text": "门店",
+        "iconPath": "images/map-2.png",
+        "selectedIconPath": "images/map-1.png"
+      },
+      {
+        "pagePath": "pages/mine/mine",
+        "text": "我的",
+        "iconPath": "images/mine-2.png",
+        "selectedIconPath": "images/mine-1.png"
+      }
+    ]
+  }
+}

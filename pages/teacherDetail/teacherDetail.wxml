@@ -1,0 +1,266 @@
+<!--pages/teacherDetail/teacherDetail.wxml-->
+<view wx:if="{{showAll == true}}">
+  <view id="teacherDetail" class="page">
+    <view class="ad_popError" wx:if="{{popErrorMsg}}">{{popErrorMsg}}</view>
+
+    <view class='top'>
+      <view class='rab'>
+        <image class='image1' src="{{srcImg}}" />
+      </view>
+      <view class='tbox1'></view>
+      <view class='tbox2'>
+        <view class='txt1'>{{name}}</view>
+        <image class="image2" wx:for="{{starList}}" wx:for-item="item" src="{{item ? '../../images/icon_yellow_stars.png' : '../../images/icon_white_stars.png'}}" />
+      </view>
+    </view>
+
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_switch">
+        <view class='txt3'>预约详情</view>
+      </view>
+    </view>
+
+    <view class="weui-cells weui-cells_after-title" bindtap='getScrol'>
+      <view class="weui-cell weui-cell_switch">
+        <view class='tel'>
+          <image class='image1' src="/images/icon_notnull.png" />
+        </view>
+        <view class='tel'>
+          <image class='image2' mode='aspectFill' src="/images/icon_project.png" />
+        </view>
+        <view class="weui-cell__bd">
+          <text>项目</text>
+        </view>
+        <view class="weui-cell__ft weui-cell__ft_in-access">
+          <view class='txtbd'> {{incloudProjectName == ''? '请选择' : incloudProjectName}} </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="scrol" wx:if="{{showScrol}}">
+      <scroll-view scroll-x="true" class="scroll_x_box">
+        <view wx:for="{{projectList}}" wx:for-item="item" data-index="{{index}}" data-incloudprojectname="{{item.name}}" data-uuid="{{item.uuid}}" class="view {{item.checked?'view1':'view2'}}" bindtap='select'>
+          <view class='left'>
+            <image mode='aspectFill' class='image1' src="{{item.imgUrl}}"></image>
+            <view class='rabm'></view>
+          </view>
+          <view class='txt1'>{{item.name}}</view>
+          <view class='right'>
+            <image class='image2' src="/images/fire.png"></image>
+            <view class='txt2'>热门</view>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+
+    <view class="weui-cells weui-cells_after-title" bindtap='orderTime'>
+      <view class="weui-cell weui-cell_switch">
+        <view class='tel'>
+          <image class='image1' src="/images/icon_notnull.png" />
+        </view>
+        <view class='tel'>
+          <image class='image2' mode='aspectFill' src="/images/icon_time.png" />
+        </view>
+        <view class="weui-cell__bd">
+          <text>时间</text>
+        </view>
+        <view class="weui-cell__ft weui-cell__ft_in-access">
+          <view class='txtbd'>{{orderList.orderTime == ''? '请选择' : orderList.orderTime}} </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- tab部分 -->
+    <view class='tcoment'>
+      <view wx:if="{{orderList.isShowIndex}}">
+        <scroll-view scroll-x="true" class="scroll-view">
+          <view class="navbar">
+            <button wx:for="{{navbar}}" style=' margin-left: 40rpx;' data-idx="{{index}}" class="item {{orderList.currentTab == index ? 'active' : ''}}" wx:key="unique" bindtap="navbarTap">{{item}}</button>
+            <text>　</text>
+          </view>
+        </scroll-view>
+        <!-- 以下隐藏的东西 -->
+        <!-- <view style='padding:20rpx 20rpx;' hidden="{{!readyToShowTime}}">
+    
+
+          <view style="margin-bottom: 30rpx;">
+          <view class="title">
+            <image class="mornimage" src="../../images/morn.png"></image>
+            <label>上午</label>
+          </view>
+          <view class="timeLineView">
+            <view class="timeLine">
+              <button disabled="{{times.time1000?'':'true'}}" bindtap="{{fulltimes.time1000?'yoyakuFullTime':'chooseTime'}}" data-item="10:00:00" class="time1" hover-class="other-button-hover"></button>
+              <button disabled="{{times.time1030?'':'true'}}" bindtap="{{fulltimes.time1030?'yoyakuFullTime':'chooseTime'}}" data-item="10:30:00" class="time1" hover-class="other-button-hover"></button>
+              <button disabled="{{times.time1100?'':'true'}}" bindtap="{{fulltimes.time1100?'yoyakuFullTime':'chooseTime'}}" data-item="11:00:00" class="time1" hover-class="other-button-hover"></button>
+              <button disabled="{{times.time1130?'':'true'}}" bindtap="{{fulltimes.time1130?'yoyakuFullTime':'chooseTime'}}" data-item="11:30:00" class="time1" hover-class="other-button-hover"></button>
+              <button disabled="{{times.time1200?'':'true'}}" bindtap="{{fulltimes.time1200?'yoyakuFullTime':'chooseTime'}}" data-item="12:00:00" class="time1" hover-class="other-button-hover"></button>
+              <button disabled="{{times.time1230?'':'true'}}" bindtap="{{fulltimes.time1230?'yoyakuFullTime':'chooseTime'}}" data-item="12:30:00" class="time1" hover-class="other-button-hover"></button>
+            </view>
+          </view>
+        </view>
+        <view style="margin-bottom: 30rpx;">
+          <view class="title">
+            <image class="mornimage" src="../../images/noon.png"></image>
+            <label>下午</label>
+          </view>
+          <view class="timeLineView">
+            <view class="timeLine">
+              <button disabled="{{times.time1300?'':'true'}}" bindtap="{{fulltimes.time1300?'yoyakuFullTime':'chooseTime'}}" data-item="13:00:00" class="time1" hover-class="other-button-hover"></button>
+              <button disabled="{{times.time1330?'':'true'}}" bindtap="{{fulltimes.time1330?'yoyakuFullTime':'chooseTime'}}" data-item="13:30:00" class="time1" hover-class="other-button-hover"></button>
+              <button disabled="{{times.time1400?'':'true'}}" bindtap="{{fulltimes.time1400?'yoyakuFullTime':'chooseTime'}}" data-item="14:00:00" class="time1" hover-class="other-button-hover"></button>
+              <button disabled="{{times.time1430?'':'true'}}" bindtap="{{fulltimes.time1430?'yoyakuFullTime':'chooseTime'}}" data-item="14:30:00" class="time1" hover-class="other-button-hover"></button>
+              <button disabled="{{times.time1500?'':'true'}}" bindtap="{{fulltimes.time1500?'yoyakuFullTime':'chooseTime'}}" data-item="15:00:00" class="time1" hover-class="other-button-hover"></button>
+              <button disabled="{{times.time1530?'':'true'}}" bindtap="{{fulltimes.time1530?'yoyakuFullTime':'chooseTime'}}" data-item="15:30:00" class="time1" hover-class="other-button-hover"></button>
+              <button disabled="{{times.time1600?'':'true'}}" bindtap="{{fulltimes.time1600?'yoyakuFullTime':'chooseTime'}}" data-item="16:00:00" class="time1" hover-class="other-button-hover"></button>
+              <button disabled="{{times.time1630?'':'true'}}" bindtap="{{fulltimes.time1630?'yoyakuFullTime':'chooseTime'}}" data-item="16:30:00" class="time1" hover-class="other-button-hover"></button>
+              <button disabled="{{times.time1700?'':'true'}}" bindtap="{{fulltimes.time1700?'yoyakuFullTime':'chooseTime'}}" data-item="17:00:00" class="time1" hover-class="other-button-hover"></button>
+              <button disabled="{{times.time1730?'':'true'}}" bindtap="{{fulltimes.time1730?'yoyakuFullTime':'chooseTime'}}" data-item="17:30:00" class="time1" hover-class="other-button-hover"></button>
+              <button disabled="{{times.time1800?'':'true'}}" bindtap="{{fulltimes.time1800?'yoyakuFullTime':'chooseTime'}}" data-item="18:00:00" class="time1" hover-class="other-button-hover"></button>
+              <button disabled="{{times.time1830?'':'true'}}" bindtap="{{fulltimes.time1830?'yoyakuFullTime':'chooseTime'}}" data-item="18:30:00" class="time1" hover-class="other-button-hover"></button>
+            </view>
+             </view>
+        </view>
+        <view style="margin-bottom: 30rpx;">
+          <view class="title">
+            <image class="mornimage" src="../../images/night.png"></image>
+            <label>晚上</label>
+          </view>
+          <view class="timeLineView">
+            <view class="timeLine">
+              <button disabled="{{times.time1900?'':'true'}}" bindtap="{{fulltimes.time1900?'yoyakuFullTime':'chooseTime'}}" data-item="19:00:00" class="time1" hover-class="other-button-hover"></button>
+              <button disabled="{{times.time1930?'':'true'}}" bindtap="{{fulltimes.time1930?'yoyakuFullTime':'chooseTime'}}" data-item="19:30:00" class="time1" hover-class="other-button-hover"></button>
+              <button disabled="{{times.time2000?'':'true'}}" bindtap="{{fulltimes.time2000?'yoyakuFullTime':'chooseTime'}}" data-item="20:00:00" class="time1" hover-class="other-button-hover"></button>
+              <button disabled="{{times.time2030?'':'true'}}" bindtap="{{fulltimes.time2030?'yoyakuFullTime':'chooseTime'}}" data-item="20:30:00" class="time1" hover-class="other-button-hover"></button>
+              <button disabled="{{times.time2100?'':'true'}}" bindtap="{{fulltimes.time2100?'yoyakuFullTime':'chooseTime'}}" data-item="21:00:00" class="time1" hover-class="other-button-hover"></button>
+              <button disabled="{{times.time2130?'':'true'}}" bindtap="{{fulltimes.time2130?'yoyakuFullTime':'chooseTime'}}" data-item="21:30:00" class="time1" hover-class="other-button-hover"></button>
+            </view>
+      </view> 
+     </view>
+     
+
+    </view> -->
+        <!-- 以上隐藏的东西 -->
+        <view style='padding:20rpx 20rpx;' hidden="{{readyToShowTime}}">
+          <view style="margin-bottom: 30rpx;">
+            <view class="title">
+              <image class="mornimage" src="../../images/morn.png"></image>
+              <label>上午</label>
+            </view>
+            <view class="timeLineView">
+              <view class="timeLine">
+                <button disabled="{{times.time1000?'':'true'}}" bindtap="{{fulltimes.time1000?'yoyakuFullTime':'chooseTime'}}" data-item="10:00:00" class="time {{fulltimes.time1000?'fulltime':''}} {{orderList.finalTab==orderList.currentTab&&orderList.hasCheckedTime=='10:00'?'checkedYou':''}}" hover-class="other-button-hover">10:00</button>
+                <button disabled="{{times.time1030?'':'true'}}" bindtap="{{fulltimes.time1030?'yoyakuFullTime':'chooseTime'}}" data-item="10:30:00" class="time {{fulltimes.time1030?'fulltime':''}} {{orderList.finalTab==orderList.currentTab&&orderList.hasCheckedTime=='10:30'?'checkedYou':''}}" hover-class="other-button-hover">10:30</button>
+                <button disabled="{{times.time1100?'':'true'}}" bindtap="{{fulltimes.time1100?'yoyakuFullTime':'chooseTime'}}" data-item="11:00:00" class="time {{fulltimes.time1100?'fulltime':''}} {{orderList.finalTab==orderList.currentTab&&orderList.hasCheckedTime=='11:00'?'checkedYou':''}}" hover-class="other-button-hover">11:00</button>
+                <button disabled="{{times.time1130?'':'true'}}" bindtap="{{fulltimes.time1130?'yoyakuFullTime':'chooseTime'}}" data-item="11:30:00" class="time {{fulltimes.time1130?'fulltime':''}} {{orderList.finalTab==orderList.currentTab&&orderList.hasCheckedTime=='11:30'?'checkedYou':''}}" hover-class="other-button-hover">11:30</button>
+                <button disabled="{{times.time1200?'':'true'}}" bindtap="{{fulltimes.time1200?'yoyakuFullTime':'chooseTime'}}" data-item="12:00:00" class="time {{fulltimes.time1200?'fulltime':''}} {{orderList.finalTab==orderList.currentTab&&orderList.hasCheckedTime=='12:00'?'checkedYou':''}}" hover-class="other-button-hover">12:00</button>
+                <button disabled="{{times.time1230?'':'true'}}" bindtap="{{fulltimes.time1230?'yoyakuFullTime':'chooseTime'}}" data-item="12:30:00" class="time {{fulltimes.time1230?'fulltime':''}} {{orderList.finalTab==orderList.currentTab&&orderList.hasCheckedTime=='12:30'?'checkedYou':''}}" hover-class="other-button-hover">12:30</button>
+              </view>
+            </view>
+          </view>
+          <view style="margin-bottom: 30rpx;">
+            <view class="title">
+              <image class="mornimage" src="../../images/noon.png"></image>
+              <label>下午</label>
+            </view>
+            <view class="timeLineView">
+              <view class="timeLine">
+                <button disabled="{{times.time1300?'':'true'}}" bindtap="{{fulltimes.time1300?'yoyakuFullTime':'chooseTime'}}" data-item="13:00:00" class="time {{fulltimes.time1300?'fulltime':''}} {{orderList.finalTab==orderList.currentTab&&orderList.hasCheckedTime=='13:00'?'checkedYou':''}}" hover-class="other-button-hover">13:00</button>
+                <button disabled="{{times.time1330?'':'true'}}" bindtap="{{fulltimes.time1330?'yoyakuFullTime':'chooseTime'}}" data-item="13:30:00" class="time {{fulltimes.time1330?'fulltime':''}} {{orderList.finalTab==orderList.currentTab&&orderList.hasCheckedTime=='13:30'?'checkedYou':''}}" hover-class="other-button-hover">13:30</button>
+                <button disabled="{{times.time1400?'':'true'}}" bindtap="{{fulltimes.time1400?'yoyakuFullTime':'chooseTime'}}" data-item="14:00:00" class="time {{fulltimes.time1400?'fulltime':''}} {{orderList.finalTab==orderList.currentTab&&orderList.hasCheckedTime=='14:00'?'checkedYou':''}}" hover-class="other-button-hover">14:00</button>
+                <button disabled="{{times.time1430?'':'true'}}" bindtap="{{fulltimes.time1430?'yoyakuFullTime':'chooseTime'}}" data-item="14:30:00" class="time {{fulltimes.time1430?'fulltime':''}} {{orderList.finalTab==orderList.currentTab&&orderList.hasCheckedTime=='14:30'?'checkedYou':''}}" hover-class="other-button-hover">14:30</button>
+                <button disabled="{{times.time1500?'':'true'}}" bindtap="{{fulltimes.time1500?'yoyakuFullTime':'chooseTime'}}" data-item="15:00:00" class="time {{fulltimes.time1500?'fulltime':''}} {{orderList.finalTab==orderList.currentTab&&orderList.hasCheckedTime=='15:00'?'checkedYou':''}}" hover-class="other-button-hover">15:00</button>
+                <button disabled="{{times.time1530?'':'true'}}" bindtap="{{fulltimes.time1530?'yoyakuFullTime':'chooseTime'}}" data-item="15:30:00" class="time {{fulltimes.time1530?'fulltime':''}} {{orderList.finalTab==orderList.currentTab&&orderList.hasCheckedTime=='15:30'?'checkedYou':''}}" hover-class="other-button-hover">15:30</button>
+                <button disabled="{{times.time1600?'':'true'}}" bindtap="{{fulltimes.time1600?'yoyakuFullTime':'chooseTime'}}" data-item="16:00:00" class="time {{fulltimes.time1600?'fulltime':''}} {{orderList.finalTab==orderList.currentTab&&orderList.hasCheckedTime=='16:00'?'checkedYou':''}}" hover-class="other-button-hover">16:00</button>
+                <button disabled="{{times.time1630?'':'true'}}" bindtap="{{fulltimes.time1630?'yoyakuFullTime':'chooseTime'}}" data-item="16:30:00" class="time {{fulltimes.time1630?'fulltime':''}} {{orderList.finalTab==orderList.currentTab&&orderList.hasCheckedTime=='16:30'?'checkedYou':''}}" hover-class="other-button-hover">16:30</button>
+                <button disabled="{{times.time1700?'':'true'}}" bindtap="{{fulltimes.time1700?'yoyakuFullTime':'chooseTime'}}" data-item="17:00:00" class="time {{fulltimes.time1700?'fulltime':''}} {{orderList.finalTab==orderList.currentTab&&orderList.hasCheckedTime=='17:00'?'checkedYou':''}}" hover-class="other-button-hover">17:00</button>
+                <button disabled="{{times.time1730?'':'true'}}" bindtap="{{fulltimes.time1730?'yoyakuFullTime':'chooseTime'}}" data-item="17:30:00" class="time {{fulltimes.time1730?'fulltime':''}} {{orderList.finalTab==orderList.currentTab&&orderList.hasCheckedTime=='17:30'?'checkedYou':''}}" hover-class="other-button-hover">17:30</button>
+                <button disabled="{{times.time1800?'':'true'}}" bindtap="{{fulltimes.time1800?'yoyakuFullTime':'chooseTime'}}" data-item="18:00:00" class="time {{fulltimes.time1800?'fulltime':''}} {{orderList.finalTab==orderList.currentTab&&orderList.hasCheckedTime=='18:00'?'checkedYou':''}}" hover-class="other-button-hover">18:00</button>
+                <button disabled="{{times.time1830?'':'true'}}" bindtap="{{fulltimes.time1830?'yoyakuFullTime':'chooseTime'}}" data-item="18:30:00" class="time {{fulltimes.time1830?'fulltime':''}} {{orderList.finalTab==orderList.currentTab&&orderList.hasCheckedTime=='18:30'?'checkedYou':''}}" hover-class="other-button-hover">18:30</button>
+              </view>
+            </view>
+          </view>
+          <view style="margin-bottom: 30rpx;">
+            <view class="title">
+              <image class="mornimage" src="../../images/night.png"></image>
+              <label>晚上</label>
+            </view>
+            <view class="timeLineView">
+              <view class="timeLine">
+                <button disabled="{{times.time1900?'':'true'}}" bindtap="{{fulltimes.time1900?'yoyakuFullTime':'chooseTime'}}" data-item="19:00:00" class="time {{fulltimes.time1900?'fulltime':''}} {{orderList.finalTab==orderList.currentTab&&orderList.hasCheckedTime=='19:00'?'checkedYou':''}}" hover-class="other-button-hover">19:00</button>
+                <button disabled="{{times.time1930?'':'true'}}" bindtap="{{fulltimes.time1930?'yoyakuFullTime':'chooseTime'}}" data-item="19:30:00" class="time {{fulltimes.time1930?'fulltime':''}} {{orderList.finalTab==orderList.currentTab&&orderList.hasCheckedTime=='19:30'?'checkedYou':''}}" hover-class="other-button-hover">19:30</button>
+                <button disabled="{{times.time2000?'':'true'}}" bindtap="{{fulltimes.time2000?'yoyakuFullTime':'chooseTime'}}" data-item="20:00:00" class="time {{fulltimes.time2000?'fulltime':''}} {{orderList.finalTab==orderList.currentTab&&orderList.hasCheckedTime=='20:00'?'checkedYou':''}}" hover-class="other-button-hover">20:00</button>
+                <button disabled="{{times.time2030?'':'true'}}" bindtap="{{fulltimes.time2030?'yoyakuFullTime':'chooseTime'}}" data-item="20:30:00" class="time {{fulltimes.time2030?'fulltime':''}} {{orderList.finalTab==orderList.currentTab&&orderList.hasCheckedTime=='20:30'?'checkedYou':''}}" hover-class="other-button-hover">20:30</button>
+                <button disabled="{{times.time2100?'':'true'}}" bindtap="{{fulltimes.time2100?'yoyakuFullTime':'chooseTime'}}" data-item="21:00:00" class="time {{fulltimes.time2100?'fulltime':''}} {{orderList.finalTab==orderList.currentTab&&orderList.hasCheckedTime=='21:00'?'checkedYou':''}}" hover-class="other-button-hover">21:00</button>
+                <button disabled="{{times.time2130?'':'true'}}" bindtap="{{fulltimes.time2130?'yoyakuFullTime':'chooseTime'}}" data-item="21:30:00" class="time {{fulltimes.time2130?'fulltime':''}} {{orderList.finalTab==orderList.currentTab&&orderList.hasCheckedTime=='21:30'?'checkedYou':''}}" hover-class="other-button-hover">21:30</button>
+                <button disabled="{{times.time2200?'':'true'}}" bindtap="{{fulltimes.time2200?'yoyakuFullTime':'chooseTime'}}" data-item="22:00:00" class="time {{fulltimes.time2200?'fulltime':''}} {{orderList.finalTab==orderList.currentTab&&orderList.hasCheckedTime=='22:00'?'checkedYou':''}}" hover-class="other-button-hover">22:00</button>
+                <button disabled="{{times.time2230?'':'true'}}" bindtap="{{fulltimes.time2230?'yoyakuFullTime':'chooseTime'}}" data-item="22:30:00" class="time {{fulltimes.time2230?'fulltime':''}} {{orderList.finalTab==orderList.currentTab&&orderList.hasCheckedTime=='22:30'?'checkedYou':''}}" hover-class="other-button-hover">22:30</button>
+                <button disabled="{{times.time2300?'':'true'}}" bindtap="{{fulltimes.time2300?'yoyakuFullTime':'chooseTime'}}" data-item="23:00:00" class="time {{fulltimes.time2300?'fulltime':''}} {{orderList.finalTab==orderList.currentTab&&orderList.hasCheckedTime=='23:00'?'checkedYou':''}}" hover-class="other-button-hover">23:00</button>
+                <button disabled="{{times.time2330?'':'true'}}" bindtap="{{fulltimes.time2330?'yoyakuFullTime':'chooseTime'}}" data-item="23:30:00" class="time {{fulltimes.time2330?'fulltime':''}} {{orderList.finalTab==orderList.currentTab&&orderList.hasCheckedTime=='23:30'?'checkedYou':''}}" hover-class="other-button-hover">23:30</button>                
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <!-- 预约满时 -->
+    <!-- <modal hidden="{{!hiddenmodalput}}" title="该养脑师的当前时间预约已排满，是否查看其他养脑师?" confirm-text="查看" cancel-text="取消" bindcancel="cancel" bindconfirm="go2otherStore">
+    </modal> -->
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_switch" bindtap='goEvaluationDetailPage'>
+        <view class="weui-cell__bd">
+          <text class='txt4'>评价</text>
+        </view>
+        <view class="weui-cell__ft weui-cell__ft_in-access">
+          <view class='txtbd_more'>更多</view>
+        </view>
+      </view>
+    </view>
+
+    <view class='scoment'>
+      <view class="noData" style="height:80rpx;" hidden='{{sho}}'>
+        暂无评论记录
+      </view>
+      <view class='botlable' wx:for="{{eList}}" wx:for-item="item">
+        <view class='sleft'>
+          <view class='ra'>
+            <!-- <image class='limage' src="{{item.imgWxUrl==null?'../../images/wujilu.png':'item.imgWxUrl'}}" /> -->
+            <image class='limage' src="{{item.imgWxUrl}}" />
+          </view>
+        </view>
+        <view class='sright'>
+
+          <view class='rtop'>
+            <view class='rtxt1'>{{item.userName}}<text>　评分</text></view>
+            <image class="rimage" wx:for="{{item.evaluateStarList}}" wx:for-index="index" wx:for-item="it" src="{{it ? '../../images/icon_yellow_stars.png' : '../../images/icon_white_stars.png'}}" />
+            <text class='rtxt2'><text>{{item.evaluateTime}}</text></text>
+          </view>
+          <view class='rcenter'>
+            <view class='left' wx:for="{{item.essDtoLst}}" wx:for-item="it1">
+              <text style="background-color:#c9bc9c;color:white;border-radius:5rpx;">{{it1.signName}}</text>
+            </view>
+          </view>
+          <view class="{{isFolded?'rbottom ':'show'}}">
+            {{item.evaluateContent}}
+          </view> 
+          <view class='bottom'>
+          <view hidden='{{!item.isShowBtn}}' bindtap="change" class="state">{{isFolded?'全文':'收起'}}</view> 
+          </view>       
+          <view class="hengxian" wx:if='{{eListLength-1 != index}}'></view>
+        </view>
+      </view>
+    </view>
+      <view class='moreleft' wx:if='{{evaluateListLength != 0}}' >
+      <!-- 查看{{evaluateListLength}}条评论 -->
+       <view class='more'  bindtap='goEvaluationDetailPage'>查看全部评价
+            <view class="weui-cell__ft weui-cell__ft_in-access1"></view>
+          </view>
+      
+      </view>
+         <view class='morebottom' ></view>
+
+    <view class=" btn1" wx:if="{{showBtn}}">免费预约</view>
+    <view class=" btn" bindtap='goOrderPage' wx:if="{{!showBtn}}">免费预约</view>
+  </view>
+</view>
+<loading hidden="{{hiddenLoading}}">正在加载</loading>

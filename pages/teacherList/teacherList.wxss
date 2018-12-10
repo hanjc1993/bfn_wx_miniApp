@@ -1,0 +1,80 @@
+/* pages/teacherList/teacherList.wxss */
+#teacherList {
+  display: flex;
+  flex-direction: column;
+}
+
+page {
+  background-color: #f5f7fa;
+  height: 100%;
+  width: 100%;
+}
+#teacherList .conment{
+   background-color: #f5f7fa;
+   flex: 1;
+}
+#teacherList .it{
+  float: left;
+  margin-left: 20rpx;
+  margin-top: 20rpx;
+  width: 345rpx;
+  height: 450rpx;
+  background-color: #ffffff; 
+}
+#teacherList .it image{
+  width: 100%;
+  height:300rpx;
+}
+#teacherList .it .itcenter{
+  margin-top: 10rpx;
+  width: 100%;
+  height: 60rpx;
+}
+#teacherList .it .itcenter .txt1{
+  float: left;
+  margin-left: 20rpx;
+  font-size: 28rpx;
+  color: black;
+width: 200rpx;
+}
+#teacherList .it .itcenter .txt2{
+  float: right;
+  width: 100rpx;
+  font-size: 26rpx;
+  color: black;
+  text-align: right;
+  padding-right: 20rpx;
+}
+#teacherList .it .itbottom{
+  width: 100%;
+  height: 80rpx;
+}
+#teacherList .it .itbottom .left{
+  float: left;
+  margin-left: 20rpx;
+  width: 200rpx;
+  height: 80rpx;
+}
+#teacherList .it .itbottom .left .img1{
+  margin-top: 20rpx; 
+ 
+  width:36rpx;
+  height: 36rpx;
+   
+
+}
+#teacherList .it .itbottom .right{
+  float: right;
+  width:100rpx;
+  height: 80rpx;
+}
+#teacherList .it .itbottom .right .txt2{
+  height: 80rpx;
+  line-height: 80rpx;
+text-align: right;
+  font-size: 24rpx;
+  color: gray;
+    float: right;
+  width: 100rpx;
+    padding-right: 20rpx;
+}

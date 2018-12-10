@@ -1,0 +1,657 @@
+/* pages/teacherDetail/teacherDetail.wxss */
+@import "../../lib/weui.wxss";
+
+#teacherDetail {
+  display: flex;
+  flex-direction: column;
+}
+
+.page {
+  background-color: #e6e6e6;
+  height: 100%;
+  width: 100%;
+}
+
+#teacherDetail .top {
+  width: 100%;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /*垂直居中*/
+}
+
+#teacherDetail .top .tbox1 {
+  width: 100%;
+  height: 200rpx;
+  top: 0rpx;
+  background-color: #906337;
+}
+
+#teacherDetail .top .tbox2 {
+  width: 100%;
+  height: 220rpx;
+  top: 0rpx;
+  background-color: #fff;
+  text-align: center;
+  border-bottom: 10rpx solid #e5e5e5;
+}
+
+#teacherDetail .top .tbox2 .txt1 {
+  margin-top: 60rpx;
+  font-size: 32rpx;
+  color: #333333;
+}
+
+#teacherDetail .top .tbox2 .image2 {
+  width: 50rpx;
+  height: 50rpx;
+  margin-top: 18rpx;
+  margin-right: 19rpx;
+  margin-left: 19rpx;
+}
+
+#teacherDetail .top .tbox2 .txt2 {
+  margin-top: 10rpx;
+  font-size: 28rpx;
+  color: #999;
+}
+
+#teacherDetail .top .rab {
+  position: absolute;
+  border-radius: 50%;
+  width: 200rpx;
+  height: 200rpx;
+  overflow: hidden;
+  display: block;
+  margin-top: 55rpx;
+  align-items: center;
+}
+
+#teacherDetail .rab .image1 {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+ 
+}
+
+.weui-cell {
+  height: 60rpx !important;
+  position: relative;
+  display: -webkit-box !important;
+  -webkit-box-align: center !important;
+  -webkit-align-items: center !important;
+  align-items: center !important;
+}
+
+.weui-cell__bd {
+  -webkit-flex: 1 !important;
+  flex: 1 !important;
+  color: #333 !important;
+  font-size: 30rpx !important;
+}
+
+.borderTop {
+  height: 1px;
+  border-bottom: 2rpx solid #e5e5e5;
+  color: #d9d9d9;
+}
+
+.weui-cells:before {
+  content: " " !important;
+  position: absolute !important;
+  left: 0rpx !important;
+  top: 0 !important;
+  right: 0rpx !important;
+  height: 0px !important;
+  border-top: 2rpx solid #e5e5e5 !important;
+  color: #d9d9d9;
+}
+
+.weui-cells:after {
+  content: " " !important;
+  position: absolute !important;
+  left: 0 !important;
+  bottom: 0 !important;
+  right: 0 !important;
+  height: 0px !important;
+  border-bottom: 0rpx solid #e5e5e5 !important;
+  color: #d9d9d9 !important;
+}
+
+/* 预约详情 */
+
+#teacherDetail .txt3 {
+  font-size: 32rpx;
+  color: #666666;
+}
+
+#teacherDetail .txtbd {
+  font-size: 30rpx;
+  color: #999;
+}
+.txtbd_more{
+  font-size: 26rpx;
+  color: #999;
+}
+#teacherDetail .tel {
+  flex: 1;
+}
+
+#teacherDetail .tel .image1 {
+  float: left;
+  width: 20rpx;
+  height: 20rpx;
+  margin-left: 15rpx;
+}
+
+#teacherDetail .tel .image2 {
+  float: left;
+  margin-left: 10rpx;
+  width: 38rpx;
+  height: 38rpx;
+  overflow: hidden;
+  margin-right: 10rpx;
+}
+
+#teacherDetail .line {
+  border: 2rpx solid #e5e5e5;
+}
+
+/* 横向滚动 */
+
+#teacherDetail .scrol {
+  background-color: #fff;
+  flex: 1;
+}
+
+.scroll_x_box {
+  border-top: 2rpx solid #e5e5e5;
+  height: 185rpx;
+  white-space: nowrap;
+  display: flex;
+}
+
+.scroll_x_box .view {
+  display: inline-block;
+  position: relative;
+  margin-top: 15rpx;
+  margin-bottom: 15rpx;
+  height: 150rpx;
+  width: 350rpx;
+  margin-left: 15rpx;
+  margin-right: 10rpx;
+  background-color: #f6f6f6;
+}
+
+.scroll_x_box .view1 {
+  border: 2rpx solid #e5e5e5;
+}
+
+.scroll_x_box .view1 .left {
+  width: 150rpx;
+  height: 120rpx;
+  margin-bottom: 15rpx;
+  margin-top: 15rpx;
+  margin-left: 15rpx;
+  float: left;
+}
+
+.scroll_x_box .view1 .left .image1 {
+  width: 100%;
+  height: 100%;
+}
+
+.scroll_x_box .view1 .txt1 {
+  display: flex;
+  margin-bottom: 15rpx;
+  margin-top: 15rpx;
+  padding-left: 15rpx;
+  font-size: 28rpx;
+}
+
+.scroll_x_box .view1 .right {
+  width: 150rpx;
+  height: 50rpx;
+  margin-top: 10rpx;
+  float: right;
+  margin-right: 5rpx;
+}
+
+.scroll_x_box .view1 .right .image2 {
+  float: left;
+  width: 30rpx;
+  height: 30rpx;
+  margin-left: 20rpx;
+  margin-top: 20rpx;
+}
+
+.scroll_x_box .view1 .right .txt2 {
+  float: left;
+  font-size: 28rpx;
+  margin-left: 15rpx;
+  margin-top: 10rpx;
+}
+
+/* showchecke */
+
+/* .scroll_x_box {
+  border-top:3rpx solid #906337;
+  height: 185rpx;
+  white-space: nowrap;
+  display: flex;
+} */
+
+.scroll_x_box .view2 {
+  border: 2rpx solid #906337;
+}
+
+.scroll_x_box .view2 .left {
+  position: relative;
+  width: 150rpx;
+  height: 120rpx;
+  margin-bottom: 15rpx;
+  margin-top: 15rpx;
+  margin-left: 15rpx;
+  float: left;
+}
+
+.scroll_x_box .view2 .left .rabm {
+  position: absolute;
+  border-radius: 50%;
+  width: 20rpx;
+  height: 20rpx;
+  background-color: #906337;
+  margin-top: -120rpx;
+  margin-left: 20rpx;
+}
+
+.scroll_x_box .view2 .left .image1 {
+  width: 100%;
+  height: 100%;
+}
+
+.scroll_x_box .view2 .txt1 {
+  display: flex;
+  margin-bottom: 15rpx;
+  margin-top: 15rpx;
+  padding-left: 15rpx;
+  font-size: 28rpx;
+}
+
+.scroll_x_box .view2 .right {
+  width: 150rpx;
+  height: 50rpx;
+  margin-top: 10rpx;
+  float: right;
+  margin-right: 5rpx;
+}
+
+.scroll_x_box .view2 .right .image2 {
+  float: left;
+  width: 30rpx;
+  height: 30rpx;
+  margin-left: 20rpx;
+  margin-top: 20rpx;
+}
+
+.scroll_x_box .view2 .right .txt2 {
+  float: left;
+  font-size: 28rpx;
+  margin-left: 15rpx;
+  margin-top: 10rpx;
+}
+
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  color: transparent;
+}
+
+/* 时间 */
+
+#teacherDetail .tcoment {
+  flex: 1;
+  background-color: #fff;
+}
+
+.scroll-view {
+  border-top: 2rpx solid #e5e5e5;
+  width: 100%;
+  white-space: nowrap;
+  display: flex;
+}
+
+.navbar {
+  flex: none;
+  display: flex;
+  background: #fff;
+  width: 100%;
+
+}
+
+.navbar .item {
+  position: relative;
+  margin-top: 10rpx;
+  height:50rpx;
+  line-height: 50rpx;
+  font-size: 28rpx;
+  color: #a48b77;
+  border: 2rpx #a48b77 solid;
+  background-color: #fcf5ee;
+  padding-right: 100rpx;
+  border-radius: 13rpx;
+}
+
+.navbar .item.active {
+  background-color: #906337;
+  color: #fff;
+}
+
+.timeLineView {
+  width: 100%;
+  text-align: center;
+}
+
+.timeLine {
+  overflow: hidden;
+  width: 90%;
+  margin-left: 60rpx;
+}
+
+.time {
+  width: 120rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  float: left;
+  margin-right: 35rpx;
+  margin-bottom: 10rpx;
+  font-size: 24rpx;
+}
+
+.time1 {
+  width: 120rpx;
+  height: 60rpx;
+  float: left;
+  margin-right: 35rpx;
+  margin-bottom: 10rpx;
+  font-size: 24rpx;
+  border: none;
+  background-color: white;
+}
+
+.time1::after {
+  border: none;
+  background-color: white;
+}
+
+.fulltime {
+  background-color: #ccc;
+}
+
+.mornimage {
+  height: 30rpx;
+  width: 30rpx;
+  position: absolute;
+  top: 15rpx;
+  left: 60rpx;
+}
+
+.title {
+  font-size: 20rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  color: #ccc;
+  position: relative;
+  padding-left: 100rpx;
+}
+
+.other-button-hover {
+  background-color: #906337;
+}
+
+/* 评价 */
+
+#teacherDetail .txt4 {
+  font-size: 30rpx;
+  color: #333;
+}
+
+#teacherDetail .scoment {
+  border-top: 2rpx solid #e5e5e5;
+ 
+  background-color: #fff;
+}
+
+#teacherDetail .botlable {
+  width: 95%;
+  padding-left: 20rpx;
+  padding-top: 20rpx;
+   
+}
+
+#teacherDetail .scoment .noData {
+  margin-top: 140rpx;
+  text-align: center;
+  font-size: 28rpx;
+  color: #ccc;
+}
+
+#teacherDetail .botlable .sleft {
+  
+  float: left;
+  height: 200rpx;
+  width: 140rpx;
+  margin-left:20rpx
+}
+
+#teacherDetail .botlable .sleft .ra {
+  position: absolute;
+  border-radius: 50%;
+  width: 110rpx;
+  height: 110rpx;
+  overflow: hidden;
+  display: block;
+}
+
+#teacherDetail .botlable .sleft .ra .limage {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+#teacherDetail .botlable .sright {
+  float: left;
+  height: auto;
+  margin-bottom:20rpx;
+  width: 500rpx;
+}
+
+#teacherDetail .botlable .sright .rtop {
+  height: 50rpx;
+  width: 535rpx;
+}
+
+#teacherDetail .botlable .sright .rtop .rtxt1 {
+  float: left;
+  font-size: 28rpx;
+  color: #666;
+  width: auto;
+}
+
+#teacherDetail .botlable .sright .rtop .rimage {
+  float: left;
+  margin-top: 8rpx;
+  width: 30rpx;
+  height: 30rpx;
+  margin-left: 10rpx;
+}
+
+#teacherDetail .botlable .sright .rtxt2 {
+  float: right;
+  margin-top: 5rpx;
+  font-size: 24rpx;
+  color: #999;
+  right: 0;
+}
+
+#teacherDetail .botlable .sright .rcenter {
+  height: 90rpx;
+  width: 500rpx;
+  /* 超出一行文字自动隐藏*/
+  overflow: hidden;
+  /* 文字隐藏后添加省略号 */
+  text-overflow: ellipsis;
+  /* 强制不换行 */
+  white-space: nowrap;
+}
+
+#teacherDetail .botlable .sright .rcenter .left {
+  float: left;
+  height: 40rpx;
+  background: #c9bc9c;
+  line-height: 40rpx;
+  font-size: 24rpx;
+  color: #fff;
+  border-radius: 5rpx;
+  margin-right: 10rpx;
+  margin-top: 5rpx;
+  padding-left: 5rpx;
+  padding-right: 5rpx;
+}
+
+#teacherDetail .botlable .sright .rbottom {
+   padding-left: 0rpx;
+  display: -webkit-box;/*关键属性*/
+  font-size:28rpx;
+  color:#8f8f91;
+  line-height: 40rpx;
+  word-break: break-all;
+  -webkit-box-orient: vertical;/* 关键属性 */
+  -webkit-line-clamp:2;/* 关键属性 */
+  overflow: hidden;/* 关键属性 */
+  text-overflow:ellipsis;/* 超出内容显示省略号*/
+}
+
+.show{
+ padding-left: 0rpx;
+  display: -webkit-box;/*关键属性*/
+  font-size:28rpx;
+  color:#8f8f91;
+  line-height: 40rpx;
+  word-break: break-all;
+  -webkit-box-orient: vertical;/* 关键属性 */
+  -webkit-line-clamp:10000;/* 关键属性 */
+  overflow: hidden;/* 关键属性 */
+  text-overflow:ellipsis;/* 超出内容显示省略号*/
+}
+#teacherDetail .botlable .sright .bottom {
+  height: 60rpx;
+  width: 500rpx;
+}
+/*切换  */  
+ .state{
+  color: rgb(109, 150, 150);
+  /* float: right; */
+  font-size: 28rpx;
+  /* margin: 10rpx 10rpx 10rpx 0rpx; */
+  /* margin-bottom: 100rpx; */
+  position: relative;
+  float: right;
+  height: 60rpx;
+  width: 80rpx;
+  margin-left: 400rpx;
+  line-height: 60rpx;
+
+ }
+ 
+ /* 显示更多 */
+ .moreleft{
+width: 100%;
+height: 60rpx;
+background-color: #fff;
+ }
+  .morebottom{
+width: 100%;
+height: 100rpx;
+background-color: #fff;
+ }
+ .more{
+   float: left;
+   margin-left: 180rpx;
+   width: 570rpx;
+   height:55rpx;
+   line-height: 55rpx;
+   align-content: center;
+   font-size: 28rpx;
+  color: #999;
+  background-color: #fff;
+   border-top: 2rpx solid #e5e5e5;
+   border-bottom: 2rpx solid #e5e5e5;
+
+ }
+  .hengxian{
+    z-index: 99;
+  border-bottom: 2rpx solid #d9d9d9;
+   width: 749rpx;
+   margin-left: -180rpx;
+  margin-bottom: 5rpx;
+ }
+ .weui-cell__ft_in-access1 {
+   padding-right: 13px;
+  position: relative;
+  float: right;
+}
+.weui-cell__ft_in-access1:after {
+  content: " ";
+  display: inline-block;
+  height: 6px;
+  width: 6px;
+  border-width: 2px 2px 0 0;
+  border-color: #C8C8CD;
+  border-style: solid;
+  -webkit-transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0);
+          transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0);
+  position: relative;
+  top: -2px;
+  top: 50%;
+  margin-top: -4px;
+  right: 2px;
+}
+#teacherDetail .btn {
+  position: fixed;
+  bottom: 0;
+  height: 88rpx;
+  width: 100%;
+  background-color: #906337;
+  line-height: 88rpx;
+
+  color: #fff;
+  text-align: center;
+}
+
+#teacherDetail .btn1 {
+  position: fixed;
+  bottom: 0;
+  height: 88rpx;
+  width: 100%;
+  background-color: #ccc;
+  line-height: 88rpx;
+
+  color: #fff;
+  text-align: center;
+}
+
+.ad_popError {
+  position: absolute;
+  top: 0;
+  background-color: #c9bc9c;
+  text-align: center;
+  font-size: 32rpx;
+  width: 100%;
+  color: white;
+  z-index: 9999;
+}
+.checkedYou{
+  background-color: #906337;
+  color:white;
+}

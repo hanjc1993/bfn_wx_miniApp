@@ -1,0 +1,154 @@
+<!--pages/selectStores/selectStores.wxml-->
+<view id="selectStores">
+  <view class="content">
+    <view class="topView" hidden="{{!showOneStoresInfo}}">
+      <view class="location" style="background-color:#FFFFFF">
+        <view class="locationView" style="background-color:#f6f4f4">
+          <view class="locationViewFont" style="background-color:#f6f4f4" bindtap="gotoselectArea">
+            {{cityName}}
+          </view>
+        </view>
+        <image class="locationdDownArrow" src="../../images/downArrow.png" />
+      </view>
+      <view class="searchbar">
+        <view class="weui-search-bar" style="background-color:#FFFFFF;border: 0px;">
+          <view class="weui-search-bar__form" style="border:0px;outline:none;">
+            <view class="weui-search-bar__box" style="height:60rpx;background-color:#f6f4f4;border: 0px;outline:none;">
+              <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
+              <input type="text" class="weui-search-bar__input" placeholder="请输入门店名称/地址" value="{{inputVal}}" bindconfirm="inputTyping" />
+              <view class="weui-icon-clear" wx:if="{{inputVal.length > 0}}" bindtap="clearInput">
+                <icon type="clear" size="14"></icon>
+              </view>
+            </view>
+            <label class="weui-search-bar__label" hidden="{{inputShowed}}" bindtap="showInput">
+              <icon class="weui-icon-search" type="search" size="14"></icon>
+              <view class="weui-search-bar__text">请输入门店名称/地址</view>
+            </label>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <map id="myMap" hidden="{{!showOneStoresInfo}}" bindtap="tapMap" style="width:{{map_width}}%; height:{{map_height}}px;" longitude="{{longitude}}" latitude="{{latitude}}" markers="{{markers}}" show-location="false" bindmarkertap="getStoreBybindmarkertap" bindtap="packUpAllStoresInfoList">
+    </map>
+    <view class="navigationInfo" hidden="{{!showOneStoresInfo}}" bindtouchstart="handletouchtart" bindtouchmove="handletouchmove" bindtouchend="handletouchend">
+      <view class="navigation" data-item="{{storesInfo}}" bindtap="gotoPage">
+        <view class="navigationLeft">
+          <image class="imageInfo" mode="aspectFill" src="{{storesInfo.imgUrl==null?'../../images/storeImgNull.png':storesInfo.imgUrl}}" />
+        </view>
+        <view class="navigationRight">
+          <view class="nameinfo">
+            {{storesInfo.name}}
+          </view>
+          <view class="phoneinfo">
+            <image class="phoneimage" mode="aspectFill" src="../../images/phoneIcon.png" />
+            <view>
+              <view class="phoneRight">
+                {{storesInfo.phone}}
+              </view>
+              <view class="distance">
+                {{storesInfo.distance}}km
+              </view>
+            </view>
+          </view>
+          <view class="addressinfo">
+            <image class="addressimage" mode="aspectFill" src="../../images/addressIcon.png" />
+            <view>
+
+              <view class="addressinfoRight">
+                {{storesInfo.detailAddr}}
+              </view>
+            </view>
+          </view>
+          <view>
+            <view class="views">
+              浏览量:{{storesInfo.pageViewCnt}}
+            </view>
+            <view class="applauseRate">
+              好评率:{{storesInfo.evaluateGood}}%
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="showline">
+      </view>
+      <view class="viewAllStores" bindtap="getAllStoresInfoList">
+        <view class="viewAllStoresFont">
+          查看所有门店
+        </view>
+        <image class="upArrow" src="../../images/upArrow.png" />
+      </view>
+    </view>
+    <view class="navigationInfo2" hidden="{{!showOneStoresInfo}}">
+      <image class="hereimage" data-item="{{storesInfo.storeCode}}" bindtap="getNavigation" src="../../images/here.png" />
+    </view>
+
+    <view class="navigationInfo5" bindtap="packUpAllStoresInfoList">
+      <view class="navigationInfo3" style="margin-bottom:{{scrollHeight}}rpx;" hidden="{{!showAllStoresInfo}}">
+        <view class="viewAllStoresDown">
+          <view class="viewAllStoresFontDown">
+            收起所有门店
+          </view>
+          <image class="downArrow" src="../../images/downArrow.png" />
+        </view>
+        <view class="showline">
+        </view>
+      </view>
+    </view>
+    <view class="navigationInfo5" style="height:{{scrollHeight}}rpx;overflow-y:scroll">
+      <view wx:for="{{allStoresInfo}}" hidden="{{!showAllStoresInfo}}" wx:for-index="index" wx:for-item="item">
+        <view class="navigation">
+          <view class="navigationLeft" bindtap="gotoPage" data-item="{{item}}">
+            <image class="imageInfo" mode="aspectFill" src="{{item.imgUrl==null?'../../images/storeImgNull.png':item.imgUrl}}" />
+          </view>
+          <view class="navigationRight">
+            <view bindtap="gotoPage" data-item="{{item}}">
+              <view class="nameinfo">
+                {{item.name}}
+              </view>
+              <view class="phoneinfo">
+                <image class="phoneimage" mode="aspectFill" src="../../images/phoneIcon.png" />
+                <view class="phoneLeft">
+
+                  <view class="phoneRight">
+                    {{item.phone}}
+                  </view>
+                  <view class="distance">
+                    {{item.distance}}km
+                  </view>
+                </view>
+              </view>
+              <view class="addressinfo">
+                <image class="addressimage" mode="aspectFill" src="../../images/addressIcon.png" />
+                <view class="addressLeft">
+
+                  <view class="addressinfoRight">
+                    {{item.detailAddr}}
+                  </view>
+                </view>
+              </view>
+            </view>
+            <view>
+              <view class="applauseRate2">
+                好评率:{{item.evaluateGood}}%
+              </view>
+              <view class="views2">
+                浏览量:{{item.pageViewCnt}}
+              </view>
+              <view class="">
+                <image class="hereimag2" data-item="{{item.storeCode}}" bindtap="getNavigation" src="../../images/here2.png" />
+              </view>
+            </view>
+          </view>
+        </view>
+        <view class="showline">
+        </view>
+      </view>
+      <view class="viewOtherStores" hidden="{{!showAllStoresInfo}}">
+        <view class="viewOtherStoresFont" >
+          店铺更新中，敬请期待
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

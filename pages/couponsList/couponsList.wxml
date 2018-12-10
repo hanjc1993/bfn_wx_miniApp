@@ -1,0 +1,155 @@
+<!--pages/couponsList/couponsList.wxml-->
+<!-- <scroll-view id="couponsList"  scroll-y="true"> -->
+<view wx:if='{{backButton}}' class='backview' bindtap="gotoMinePage">
+  <image src='../../images/infoback_image.png'></image>
+</view>
+<view  class="page" id="couponsList">
+
+  <scroll-view style='height: 100%;' scroll-y="true">
+  <view class="navbar">
+    <text wx:for="{{navbar}}" data-idx="{{index}}" class="item {{currentTab==index ? 'active' : ''}}" wx:key="unique"     bindtap="navbarTap">{{item}}</text>
+  </view>
+    <!--未使用-->
+  <view hidden="{{currentTab!==0}}">
+  <view class = "list" wx:for="{{initialData}}" wx:for-index="index" wx:for-item="item">
+   <view class = "list_top">
+     <!-- <image class = "top_image" src="../../images/mineAssets_coupons.png"></image> -->
+     <image class = "{{item.imageBg}}" src="{{item.couponImg}}" ></image>
+     <!-- <text class = "top_image_text">{{item.couponName}}</text> -->
+   </view>
+   <view class='leftrad'></view>
+   <view class = "list_mid" bindtap="packageCardDetails" data-id="{{index}}" data-index="{{item.showOrhide}}" data-couponId="{{item.couponId}}">
+   
+     <view class = "list_mid_text">优惠券详情</view>
+     <view class="{{item.weui}}  weui-cell__ft_in-access"></view>
+           <view class='rightrad'></view>
+   </view>
+   <view class = "list_bottom {{item.showOrhide?'show':'hide'}}">
+     <view class = "list_bottom_top">
+        <view class = "list_bottom_top_left" style="color:#666">
+           有<text style='margin-left:12rpx;margin-right:6rpx;'>效</text> 期：
+        </view>
+        <view class = "list_bottom_top_right" style="color:#666">
+           {{item.periodValidity1}}-{{item.periodValidity}}
+        </view>
+     </view>
+     <view class = "list_bottom_top">
+        <view class = "list_bottom_top_left" style="color:#666">
+           适用商品：
+        </view>
+        <view class = "list_bottom_top_right" style="color:#666">
+           {{item.shangpin}}
+        </view>
+     </view>
+     <view class = "list_bottom_top_three">
+        <view class = "list_bottom_top_three_left" style="color:#666">
+           适用门店：
+        </view>
+        <view class = "list_bottom_top_three_right">
+           <view class = "list_bottom_top_three_right_left" style="color:#666">此优惠券适用于{{item.mendian}}等地区的全部不凡脑门店
+             <text style='color:#fbb15c' bindtap='goCoupons' data-item="{{item.couponId}}" data-name="{{item.couponName}}">【详情】</text>
+           </view>
+        </view>
+     </view>
+   </view>
+  </view>
+  </view>
+    <!--已使用-->
+  <view hidden="{{currentTab!==1}}">
+  <view class = "list" wx:for="{{initialData}}" wx:for-index="index" wx:for-item="item">
+   <view class = "list_top">
+     <image class = "{{item.imageBg}}" src="{{item.couponImg}}"></image>
+     <!-- <text class = "top_image_text">{{item.couponName}}</text> -->
+   </view>
+     <view class='leftrad'></view>
+   <view class = "list_mid" bindtap="packageCardDetails" data-id="{{index}}" data-index="{{item.showOrhide}}">
+     <view class = "list_mid_text" style="color:#999">优惠券详情</view>
+     <view class="{{item.weui}} weui-cell__ft_in-access"></view>
+         <view class='rightrad'></view>
+   </view>
+   <view class = "list_bottom {{item.showOrhide?'show':'hide'}}">
+     <view class = "list_bottom_top">
+        <view class = "list_bottom_top_left" style="color:#999">
+           有<text style='margin-left:12rpx;margin-right:6rpx;'>效</text> 期：
+        </view>
+        <view class = "list_bottom_top_right" style="color:#999">
+           {{item.periodValidity1}}-{{item.periodValidity}}
+        </view>
+     </view>
+     <view class = "list_bottom_top">
+        <view class = "list_bottom_top_left" style="color:#999">
+           适用商品：
+        </view>
+        <view class = "list_bottom_top_right" style="color:#999">
+           {{item.shangpin}}
+        </view>
+     </view>
+     <view class = "list_bottom_top_three">
+        <view class = "list_bottom_top_three_left" style="color:#999">
+           适用门店：
+        </view>
+        <view class = "list_bottom_top_three_right">
+           <view class = "list_bottom_top_three_right_left" style="color:#999">此优惠券适用于{{item.mendian}}等地区的全部不凡脑门店
+             <text style='color:#999' bindtap='' data-item="{{item.couponId}}" data-name="{{item.couponName}}">【详情】</text>
+           </view>
+        </view>
+     </view>
+   </view>
+  </view>
+  </view>
+
+  <!-- <view class="phone-cover" wx:if="{{chargeDetailVisible}}">
+
+  </view> -->
+<!--已过期-->
+<view hidden="{{currentTab!==2}}">
+  <view class = "list" wx:for="{{initialData}}" wx:for-index="index" wx:for-item="item">
+   <view class = "list_top" >
+     <image class = "{{item.imageBg}}" src="{{item.couponImg}}"></image>
+     <!-- <text class = "top_image_text">{{item.couponName}}</text> -->
+   </view>
+        <view class='leftrad'></view>
+   <view class = "list_mid" bindtap="packageCardDetails" data-id="{{index}}" data-index="{{item.showOrhide}}">
+     <view class = "list_mid_text" style="color:#999">优惠券详情</view>
+     <view class="{{item.weui}} weui-cell__ft_in-access"></view>
+         <view class='rightrad'></view>
+   </view>
+   <view class = "list_bottom {{item.showOrhide?'show':'hide'}}">
+     <view class = "list_bottom_top">
+        <view class = "list_bottom_top_left" style="color:#999">
+           有<text style='margin-left:12rpx;margin-right:6rpx;'>效</text> 期：
+        </view>
+        <view class = "list_bottom_top_right" style="color:#999">
+           {{item.periodValidity1}}-{{item.periodValidity}}
+        </view>
+     </view>
+     <view class = "list_bottom_top">
+        <view class = "list_bottom_top_left" style="color:#999">
+           适用商品：
+        </view>
+        <view class = "list_bottom_top_right" style="color:#999">
+           {{item.shangpin}}
+        </view>
+     </view>
+     <view class = "list_bottom_top_three">
+        <view class = "list_bottom_top_three_left" style="color:#999">
+           适用门店：
+        </view>
+        <view class = "list_bottom_top_three_right">
+           <view class = "list_bottom_top_three_right_left" style="color:#999">此优惠券适用于{{item.mendian}}等地区的全部不凡脑门店
+             <text style='color:#999' bindtap='' data-item="{{item.couponId}}" data-name="{{item.couponName}}">【详情】</text>
+           </view>
+        </view>
+     </view>
+   </view>
+  </view>
+  </view>
+  <view class="noData {{showNoData?'show':'hide'}}">
+    <image class = "noDataImage" src="../../images/wujilu.png"></image>
+    <view>暂无优惠券记录</view>
+  </view>
+</scroll-view>
+</view>
+<!-- </scroll-view> -->
+<!--默认隐藏-->
+<loading hidden="{{hiddenLoading}}">正在加载</loading>

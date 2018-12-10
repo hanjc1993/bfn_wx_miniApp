@@ -1,0 +1,219 @@
+/* pages/couponsList/couponsList.wxss */
+@import "../../lib/weui.wxss";
+.hide{
+  display: none;
+}
+.show{
+  display: block;
+}
+.page {
+background-color:#f5f7fa;
+height: 100%;
+  width: 100%;
+}
+#couponsList {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  background-color:#f5f7fa;
+}
+#couponsList .navbar{
+  flex: none;
+  display: flex;
+  background: #fff;
+  width: 100%;
+  height: 100rpx;
+}
+/* title Bar */
+.navbar .item{
+  height: 100rpx;
+  position: relative;
+  flex: auto;
+  text-align: center;
+  line-height: 100rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #999999;
+}
+.navbar .item.active{
+  color: #a48b77;
+}
+.navbar .item.active:after{
+  content: "";
+  display: block;
+  position: absolute;
+  bottom: 0;
+  height: 8rpx;
+  width: 50rpx;
+  margin-left: 100rpx;
+  background: #a48b77;
+}
+/* 套餐卡部分 */
+.list {
+  width: 660rpx;
+  margin-left:45rpx;
+  margin-bottom: 30rpx;
+  background-color: #ffffff;
+  margin-top: 20rpx;
+     border-radius: 12rpx;
+}
+.list_top {
+  height: 200rpx;
+  width: 660rpx;
+  position: relative;
+border-radius: 12rpx;
+overflow: hidden;
+}
+.list_top .top_image {
+  height: 200rpx;
+  width: 660rpx;
+border-radius: 12rpx;
+
+}
+.list_top .top_image_text{
+ position: absolute;
+ width: 100%;
+ text-align: center;
+ font-size: 35rpx;
+ color: #000000;
+ font-weight: 600;
+ top:70rpx;
+ left:0;
+}
+.list_top .top_image_bak1 {
+  height: 200rpx;
+  width: 660rpx;
+  filter:grayscale(100%);
+}
+.list_top .top_image_bak2 {
+  height: 200rpx;
+  width: 660rpx;
+  filter:grayscale(50%);
+}
+.list_mid {
+  width: 660rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+}
+.leftrad{
+float: left;
+margin-top: -16rpx;
+margin-left: -16rpx;
+width: 32rpx;
+height: 32rpx;
+background-color: #f5f7fa;
+z-index: 999;
+ border-radius: 50%;
+   position: relative;
+}
+.rightrad{
+   position: relative;
+  float: right;
+margin-top: -31rpx;
+margin-right: -16rpx;
+width: 32rpx;
+height: 32rpx;
+background-color: #f5f7fa;
+z-index: 10;
+ border-radius: 50%;
+}
+
+.weui-cell__ft_in-access {
+  /* padding-right: 13px; */
+  position: relative;
+}
+.list_mid .list_mid_text{
+ margin-left: 30rpx;
+ font-size: 30rpx;
+ font-weight: 600;
+ width: 500rpx;
+margin-bottom: 20rpx;
+
+}
+.list_mid .weui-cell__ft {
+  margin-right: -50rpx;
+  margin-bottom: 20rpx;
+}
+
+.list_mid .weui-cell__ft_bak {
+  width: 50rpx;
+  margin-top: -60rpx;
+  transform: rotate(90deg);
+  margin-right: -50rpx;
+  margin-bottom: 20rpx;
+}
+.list_bottom {
+  width: 600rpx;
+  margin-left: 30rpx;
+  margin-right: 30rpx;
+  border-top: 2rpx solid #e5e5e5;
+  margin-bottom: 20rpx;
+}
+.list_bottom .list_bottom_top{
+  margin-top: 10rpx;
+  height: 30rpx;
+  width: 600rpx;
+  font-size: 25rpx;
+}
+.list_bottom .list_bottom_top .list_bottom_top_left{
+   width: 150rpx;
+   float: left;
+}
+.list_bottom .list_bottom_top .list_bottom_top_right{
+   width: 400rpx;
+   float: left;
+}
+/* 第三行 */
+.list_bottom .list_bottom_top_three{
+  margin-top: 10rpx;
+  width: 600rpx;
+  font-size: 25rpx;
+  height: 120rpx ;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.list_bottom_top_three_left{
+   width: 150rpx;
+   /* float: left; */
+}
+.list_bottom_top_three_right{
+   width: 450rpx;
+   /* float: left; */
+}
+
+#mineAssets .phone-cover {
+  position: fixed;
+  top: 8%;
+  height: 300%;
+  left: -80%;
+  width: 300%;
+  background-color: rgba(0,0,0,0.3);
+}
+.noData {
+ margin-top: 40%;
+ text-align: center;
+ font-size: 28rpx;
+ color:#ccc;
+}
+.noDataImage {
+  height: 250rpx;
+  width: 250rpx;
+}
+.backview{
+  position: fixed;
+  /* top:10rpx; */
+  width:80rpx;
+  height: 60rpx;
+  z-index: 99;
+  margin-top: 20rpx;
+}
+.backview image{
+width: 40rpx;
+height: 40rpx;
+margin-left: 20rpx;
+}
+

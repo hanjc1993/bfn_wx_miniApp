@@ -1,0 +1,38 @@
+/* pages/couponDisable/couponDisable.wxss */
+page{
+  background-color: #efeff4
+}
+.coouponDisable{
+  height: 100%;
+  width: 100%
+}
+.warningImg{
+  margin-top:40%;
+  display:flex;                   
+  justify-content: center;
+}
+.warningImg image{
+  height: 131rpx;
+  width: 131rpx;
+}
+.warningText{
+  margin-top:70rpx;
+  height: 60rpx;
+  width: 100%;
+  text-align: center;
+  font-size: 36rpx;
+  color:#906337;
+}
+.moreCoupons{
+  margin-top: 100rpx;
+  display:flex;                   
+  justify-content: center;
+  height: 80rpx;
+  line-height: 80rpx;
+  color: white;
+}
+.moreCoupons text{
+    background-color: #a48b78;
+    border-radius: 10rpx;
+    font-size: 34rpx
+}

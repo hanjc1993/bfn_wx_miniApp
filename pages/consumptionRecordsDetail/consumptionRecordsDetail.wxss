@@ -1,0 +1,470 @@
+/* pages/consumptionRecordsDetail/consumptionRecordsDetail.wxss */
+page{
+  background-color: #e5e5e5;
+  width: 100%;
+}
+#consumptionRecords {
+  width: 100%;
+}
+.content {
+  margin-top: 20rpx;
+  width: 100%;
+}
+.content1 {
+  margin-top: 10rpx;
+  width: 100%;
+}
+.cardsDetail {
+  height: 340rpx;
+}
+.buyDetail {
+  height: 340rpx;
+}
+.consumptionRecords {
+  background-color: #ffffff;
+  width: 100%;
+  height: 190rpx;
+}
+.consumptionRecordsLeft {
+  height: 190rpx;
+  float: left;
+}
+.consumptionRecords1 {
+  background-color: #fcfcfa;
+  width: 100%;
+  height: 170rpx;
+  border-bottom: 6rpx solid white
+}
+/* .rowss{
+  background-color:
+} */
+.consumptionRecordsLeft1 {
+  height: 170rpx;
+  float: left;
+}
+.imageInfo {
+  height: 155rpx;
+  width: 155rpx;
+  margin-top: 20rpx;
+  margin-left: 30rpx;
+  overflow: hidden;
+}
+.imageInfo1 {
+  height: 155rpx;
+  width: 155rpx;
+  margin-top: 8rpx;
+  margin-left: 30rpx;
+  overflow: hidden;
+}
+.consumptionRecordsRight {
+  height: 160rpx;
+  width: 540rpx;
+  float: right;
+}
+.nameinfo {
+  width: 540rpx;
+  margin-top: 15rpx;
+  margin-left: 0rpx;
+  font-size: 36rpx;
+  color:#333;
+}
+.phone {
+  width: 540rpx;
+  margin-top: 10rpx;
+  margin-left: 0rpx;
+  font-size: 24rpx;
+  color:#999;
+}
+.order {
+  width: 540rpx;
+  margin-top: 0rpx;
+  margin-left: 0rpx;
+  font-size: 24rpx;
+  color:#999;
+}
+.orderNo {
+  font-size: 24rpx;
+  margin-left: 12rpx;
+  color:#999;
+}
+.orderTime {
+  width: 540rpx;
+  margin-top: 0rpx;
+  margin-left: 0rpx;
+  font-size: 24rpx;
+  color:#999;
+}
+.showline{
+  width: 100%;
+  border-top: 2rpx #e5e5e5 solid;
+}
+.title {
+  width: 100%;
+  height: 60rpx;
+  line-height: 60rpx;
+  background-color: white;
+}
+.title1{
+  width: 100%;
+  height: 60rpx;
+  line-height: 60rpx;
+  background-color: #fcfcfa;
+}
+.imageDetail {
+  float: left;
+  height: 40rpx;
+  width: 60rpx;
+  margin-top: 10rpx;
+  margin-left: 20rpx;
+  overflow: hidden;
+}
+.titleDetail {
+  float: right;
+  height: 50rpx;
+  width: 650rpx;
+  margin-top: 0rpx;
+  margin-left: 0rpx;
+  font-size: 24rpx;
+  color:#999;
+  background-color: white
+}
+
+
+.nameinfo1 {
+  float: left;
+  width: 350rpx;
+  margin-top: 5rpx;
+  margin-left: 0rpx;
+  font-size: 32rpx;
+  color:#333;
+}
+.nameinfo2 {
+  float: right;
+  width: 50rpx;
+  margin-top: 5rpx;
+  margin-left: 0rpx;
+  font-size: 24rpx;
+  color:#999;
+}
+.nameinfo3 {
+  float: right;
+  width: 100rpx;
+  margin-top: 5rpx;
+  margin-right: 10rpx;
+  font-size: 32rpx;
+  color:#333;
+  text-align: right;
+}
+.nameinfo4 {
+  float: left;
+  width: 300rpx;
+  margin-top: 20rpx;
+  margin-left: 0rpx;
+  font-size: 24rpx;
+  color:#999;
+}
+.nameinfo5 {
+  float: right;
+  width: 200rpx;
+  margin-top: 20rpx;
+  margin-right: 27rpx;
+  font-size: 24rpx;
+  color:#999;
+  text-align: right;
+}
+.nameinfo6 {
+  float: left;
+  width: 300rpx;
+  margin-top: 5rpx;
+  margin-left: 0rpx;
+  font-size: 24rpx;
+  color:#999;
+}
+.nameinfo7 {
+  float: right;
+  width: 50rpx;
+  margin-top: 5rpx;
+  margin-right: 16rpx;
+  font-size: 24rpx;
+  color:#999;
+}
+.price {
+  float: left;
+  height: 50rpx;
+  width: 300rpx;
+  margin-top: 5rpx;
+  margin-left: 0rpx;
+  font-size: 40rpx;
+  color: #f56c6c;
+}
+.price1 {
+  color: #f56c6c;
+}
+.originalPrice {
+  font-size: 28rpx;
+  margin-left: 10rpx;
+  color: #999;
+}
+.originalPrice1 {
+  font-size: 28rpx;
+  margin-left: 10rpx;
+  color: #999;
+  text-decoration: line-through;
+}
+.bottom_btn {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: #906337;
+  color: #fff;
+  text-align: center;
+  height: 88rpx;
+  line-height: 88rpx;
+}
+.bottom_btn_complete {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: #ccc;
+  color: #fff;
+  text-align: center;
+  height: 88rpx;
+  line-height: 88rpx;
+}
+.anonymous_submissions_btn_view {
+  margin-bottom: 50rpx;
+  width: 100%;
+  overflow: hidden;
+  height: 88rpx;
+  line-height: 88rpx;
+}
+.anonymous_submissions_btn {
+  width: 80%;
+  margin: 0 auto;
+  background-color: #fbb25c;
+  color: #fff;
+  border-radius: 10rpx;
+}
+.anonymous_submissions_disable_btn {
+  width: 80%;
+  margin: 0 auto;
+  background-color: #ccc;
+  color: #fff;
+  border-radius: 10rpx;
+}
+.bottom {
+  width: 100%;
+  height: 80rpx;
+  line-height: 80rpx;
+  background-color: #ffffff;
+}
+.bottom2 {
+  width: 100%;
+  height: 80rpx;
+  line-height: 80rpx;
+  background-color: #e5e5e5;
+}
+.bottomDetail {
+  float: right;
+  text-align: right;
+  height: 50rpx;
+  width: 650rpx;
+  margin-top: 0rpx;
+  margin-right: 20rpx;
+  font-size: 32rpx;
+  color:#333;
+}
+/** dialog */
+.modal-mask {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #000;
+  opacity: 0.2;
+  overflow: hidden;
+  z-index: 9998;
+  color: #fff;
+}
+.modal-dialog {
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+  position: fixed;
+  text-align: center;
+  background: #fff;
+  bottom: 0;
+  left: 0;
+  z-index: 9999;
+  background: #fff;
+}
+/** end */
+.evaluationTitle {
+  width: 100%;
+  height: 240rpx;
+  text-align: center;
+  background: #c9bc9c;
+}
+.evaluationTitleCloseImage {
+  height: 40rpx;
+  width: 40rpx;
+  margin-top: 10rpx;
+  margin-left: 680rpx;
+}
+.evaluationTitleInfo {
+  width: 100%;
+  text-align: center;
+  height: 130rpx;
+}
+.evaluationTitleImage {
+  border-radius: 50%;
+  width: 130rpx;
+  height: 130rpx;
+  margin-top: -25rpx;
+}
+.evaluationTitleContent {
+  font-size: 32rpx;
+  color:white;
+}
+.serviceEvaluationTitle {
+  margin-top: 20rpx;
+  width: 100%;
+}
+.serviceEvaluationContent {
+  width: 500rpx;
+  margin:  0 auto;
+}
+.serviceEvaluationText {
+  text-align: left;
+  font-size: 32rpx;
+  color:#333;
+}
+.starsView {
+  margin-top: 20rpx;
+}
+.starsImage {
+  height: 40rpx;
+  width: 40rpx;
+}
+.starsImageMargin {
+  margin-left: 15rpx;
+}
+.starsContent {
+  font-size: 32rpx;
+  color:#333;
+}
+.performanceTitle {
+  text-align: center;
+  width: 100%;
+}
+.performanceTitleContent {
+  background: #FFF;
+  margin-top: -10px;
+  font-size: 24rpx;
+  color: #999;
+  position: relative;
+  top:-16px;
+  padding:0 20rpx;
+  text-align: center;
+}
+.line{
+  width: 90%;
+  height: 1px;
+  background: #e5e5e5;
+  margin: 30rpx auto;
+
+}
+.performanceTitleLine1 {
+  float: left;
+  width: 50rpx;
+  margin-top: 30rpx;
+  margin-left: 50rpx;
+  border: 2rpx #e5e5e5 solid;
+}
+.performanceTitleLine2 {
+  float: right;
+  width: 50rpx;
+  margin-top: 30rpx;
+  margin-right: 50rpx;
+  border: 2rpx #e5e5e5 solid;
+}
+.performanceView {
+  width: 100%;
+}
+.performanceContent {
+  width: 500rpx;
+  margin:  0 auto;
+}
+.timeLineView {
+  width: 100%;
+  text-align: center;
+}
+.timeLine {
+  overflow: hidden;
+  width: 90%;
+  margin-left: 60rpx;
+}
+.comments {
+  height: 60rpx;
+  line-height: 60rpx;
+  float: left;
+  margin: 10rpx;
+  margin-bottom: 10rpx;
+  font-size: 32rpx;
+}
+.commentsText {
+  height: 50rpx;
+  line-height: 50rpx;
+  float: left;
+  padding: 0 10rpx;
+  margin: 10rpx;
+  margin-bottom: 10rpx;
+  font-size: 24rpx;
+  border: 2rpx #e5e5e5 solid;
+  color: #999;
+  border-radius: 10rpx; 
+}
+.commentsColor {
+  background-color: #906337;
+  color: #fff;
+}
+.commentsTextarea {
+  height: 145rpx;
+  width: 100%;
+  float: left;
+  margin: 10rpx;
+  margin-bottom: 20rpx;
+  font-size: 32rpx;
+  border: 2rpx #e5e5e5 solid;
+  border-radius: 10rpx; 
+}
+.other-button-hover{
+  background-color: #906337;
+}
+.backview{
+  position: fixed;
+  /* top:10rpx; */
+  width:80rpx;
+  height: 60rpx;
+  z-index: 99;
+}
+.backview image{
+width: 40rpx;
+height: 40rpx;
+margin-left: 20rpx;
+}
+.bigMountain{
+  position: absolute;
+  height: 70rpx;
+  width:250rpx;
+  right: 10rpx;
+  top:160rpx;
+}
+.smallMountain{
+  position: absolute;
+  height: 45rpx;
+  width:180rpx;
+  left: 75rpx;
+  top:85rpx;
+}

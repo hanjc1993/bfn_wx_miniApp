@@ -1,0 +1,41 @@
+<!--pages/consumptionRecords/consumptionRecords.wxml-->
+<view wx:if='{{backButton}}' class='backview' bindtap="gotoMinePage">
+  <image src='../../images/infoback_image.png'></image>
+</view>
+<view id="consumptionRecords">
+  <view>
+    <scroll-view id="" scroll-y="true">
+      <view class="content">
+        <view class="touch-item {{item.isTouchMove ? 'touch-move-active' : ''}}" bindtouchstart="touchstart" bindtouchmove="touchmove" wx:for="{{items}}" data-index="{{index}}" wx:for-item="item" >
+          <view class="delcontent" data-item="{{item.code}}" bindtap="chooseConsumptionRecords">
+            <view class="consumptionRecords">
+              <view class="consumptionRecordsLeft">
+                <image mode='aspectFill' class="imageInfo" src="{{item.imgUrl1}}"/>
+              </view>
+              <view class="consumptionRecordsRight">
+                <view class="nameinfo">
+                  {{item.storeName}}
+                </view>
+                <view class="date">
+                  {{item.insertTime}}
+                </view>
+                <view>
+                  <view class="price">
+                    {{item.payAmount}}<text class="priceUnit">元</text>
+                  </view>
+                </view>
+              </view>
+            </view>
+          </view>
+          <view class="del" catchtap="del" data-index="{{index}}" data-item="{{item.id}}">删除</view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+</view>
+<view class="noData" wx:if="{{noData}}">
+    <image class="noDataImage" src="../../images/wujilu.png"></image>
+    <view>没有消费记录</view>      
+</view>
+<!--默认隐藏-->
+<loading hidden="{{hiddenLoading}}">正在加载</loading>

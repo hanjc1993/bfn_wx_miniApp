@@ -1,0 +1,66 @@
+<!--pages/project/project.wxml-->
+<view wx:if='{{backButton}}' class='backview' bindtap="gotoMinePage">
+  <image src='../../images/infoback_image.png'></image>
+</view>
+<view id="project" class="page">
+    <!-- 搜索 -->
+    <!-- <view class = "search">
+        <input class = "intoforce" placeholder="请输入项目名称" bindinput="inputTyping" name = "searchForce"></input>
+    </view> -->
+    <view class = "search">
+        <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
+        <input class = "intoforce" placeholder="请输入项目名称" bindconfirm ="inputSelect" name = "searchForce"></input>
+    </view>
+
+    <scroll-view class="navbar" scroll-x="true">
+      <text wx:for="{{navbar}}" data-idx="{{index}}" class="item {{currentTab==index ? 'active' : ''}}" wx:key="unique" bindtap="navbarTap">{{item}}</text>
+    </scroll-view>
+
+    <!-- <view hidden="{{currentTab!==0}}"></view> -->
+      <!-- list循环部分 -->
+      <view class="icon-box {{item.showView?'show':'hide'}}" wx:for="{{initialData}}" wx:for-index="index" wx:for-item="item">
+        <view class="icon-box_left" bindtap='goDatails' data-item = "{{item.uuid}}" data-time = "{{item.nursingTime}}" data-name = "{{item.name}}" data-casb = "{{item.categorySubCategory}}">
+          <!-- <image src="{{item.imgUrl}}" ></image> -->
+          <image src="{{item.imgUrl}}" class='leftImg' mode='widthFix' style='height:160rpx; width:240rpx;'></image>
+        </view>
+        <view class="icon-box_mid " bindtap='goDatails' data-item = "{{item.uuid}}" data-time = "{{item.nursingTime}}" data-name = "{{item.name}}" data-casb = "{{item.categorySubCategory}}">
+          <view class="icon-box_mid_top">
+            {{item.name}}
+          </view>
+          <view class="icon-box_mid_mid">
+            <!-- <image src="../../images/home_project_detail.png"></image> -->
+            <!-- <view class="icon-box_mid_mid_text">
+              {{item.categorySubCategory}}
+            </view> -->
+            <text wx:if="{{item.categorySubCategory != ''}}" style="background-color:#c9bc9c;color:white;border-radius:8rpx;" space="nbsp">  {{item.categorySubCategory}}  </text>
+          </view>
+          <view class="icon-box_mid_bottom">
+            <view class = "icon-box_mid_bottom_left">
+              <label style="color:#f56c6c;font-size:24rpx;">¥</label>
+              <span style="color:#f56c6c;font-size:32rpx;margin-left:-8rpx">
+                {{item.retailPrice}}
+              </span>
+              <!-- <text space="nbsp" style="color:#ff796e;float;"></text> -->
+            </view>
+             <view wx:if="{{item.hiddenTimeContent}}" class="icon-box_mid_bottom_right">
+               <text space="nbsp" style="float:right;margin-right:2px;margin-top:2px;font-size:12px;color:#999">最早可预订{{item.startTime}}</text>
+             </view>
+          </view>
+        </view>
+        <view class="icon-box_right">
+          <view class="icon-box_right_top">
+            {{item.nursingTime}}分钟
+          </view>
+          <view class="icon-box_right_bottom" bindtap='goOrder' data-name = "{{item.name}}" data-id = "{{item.uuid}}">
+            <image src="../../images/home_yoyaku_image.png"></image>
+          </view>
+        </view>
+      </view>
+
+      <view class ="blankPages {{showViewBottom?'show':'hide'}}">
+          未搜索到您要找的项目
+      </view>
+
+</view>
+<!--默认隐藏-->
+<loading hidden="{{hiddenLoading}}">正在加载</loading>

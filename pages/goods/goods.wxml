@@ -1,0 +1,279 @@
+<!--pages/goods/goods.wxml-->
+<scroll-view id="goods" scroll-y="true">
+<view  class="page">
+  <view class="navbar">
+    <text wx:for="{{navbar}}" data-idx="{{index}}" class="item {{currentTab==index ? 'active' : ''}}" wx:key="unique"     bindtap="navbarTap">{{item}}</text>
+  </view>
+  <view  class='search'>
+    <view class='list-search-box'>
+      <icon type="search" size="15" />
+      <input class="intoforce" placeholder="请输入项目名称" bindinput="inputTyping" name = "searchForce"/>
+    </view>
+  </view>
+    <!--项目-->
+  <view hidden="{{currentTab!==0}}">
+
+   <view class="navbarProject">
+      <text wx:for="{{navbarProject}}" data-idx="{{index}}" class="item {{currentTabProject==index ? 'active' : ''}}" wx:key="unique" bindtap="navbarProject">{{item}}</text>
+   </view>
+    <!--招牌项目-->
+    <view hidden="{{currentTabProject!==0}}">
+      <!-- list循环部分 -->
+      <view class="icon-box {{item.showView?'show':'hide'}}" wx:for="{{initialData}}" wx:for-index="index" wx:for-item="item">
+        <view class="icon-box_left">
+          <image src="../../images/home_project_image.png"></image>
+        </view>
+        <view class="icon-box_mid ">
+          <view class="icon-box_mid_top">
+            {{item.title}}
+          </view>
+          <view class="icon-box_mid_mid">
+            <image src="../../images/home_project_detail.png"></image>
+          </view>
+          <view class="icon-box_mid_bottom">
+             <text space="nbsp" style="font-size:20px;color:#ff796e;float;">¥{{item.price}}</text>
+             <text space="nbsp" style="font-size:11px;padding-left:35rpx;">最早可预订{{item.time}}</text>
+          </view>
+        </view>
+        <view class="icon-box_right">
+          <view class="icon-box_right_top">
+            {{item.minutes}}min
+          </view>
+          <view class="icon-box_right_bottom">
+            <image src="../../images/home_yoyaku_image.png"></image>
+          </view>
+        </view>
+      </view>
+
+      <view class ="blankPages {{showViewBottom?'show':'hide'}}">
+          未搜索到您要找的项目
+      </view>
+
+    </view>
+    <!--舒缓疲劳-->
+    <view hidden="{{currentTabProject!==1}}">
+
+          <!-- list循环部分 -->
+      <view class="icon-box {{item.showView?'show':'hide'}}" wx:for="{{initialData}}" wx:for-index="index" wx:for-item="item">
+        <view class="icon-box_left">
+          <image src="../../images/home_project_image.png"></image>
+        </view>
+        <view class="icon-box_mid ">
+          <view class="icon-box_mid_top">
+            {{item.title}}
+          </view>
+          <view class="icon-box_mid_mid">
+            <image src="../../images/home_project_detail.png"></image>
+          </view>
+          <view class="icon-box_mid_bottom">
+             <text space="nbsp" style="font-size:20px;color:#ff796e;float;">¥{{item.price}}</text>
+             <text space="nbsp" style="font-size:11px;padding-left:35rpx;">最早可预订{{item.time}}</text>
+          </view>
+        </view>
+        <view class="icon-box_right">
+          <view class="icon-box_right_top">
+            {{item.minutes}}min
+          </view>
+          <view class="icon-box_right_bottom">
+            <image src="../../images/home_yoyaku_image.png"></image>
+          </view>
+        </view>
+      </view>
+
+      <view class ="blankPages {{showViewBottom?'show':'hide'}}">
+          未搜索到您要找的项目
+      </view>
+
+    </view>
+    <!--健体助眠-->
+    <view hidden="{{currentTabProject!==2}}">
+
+          <!-- list循环部分 -->
+      <view class="icon-box {{item.showView?'show':'hide'}}" wx:for="{{initialData}}" wx:for-index="index" wx:for-item="item">
+        <view class="icon-box_left">
+          <image src="../../images/home_project_image.png"></image>
+        </view>
+        <view class="icon-box_mid ">
+          <view class="icon-box_mid_top">
+            {{item.title}}
+          </view>
+          <view class="icon-box_mid_mid">
+            <image src="../../images/home_project_detail.png"></image>
+          </view>
+          <view class="icon-box_mid_bottom">
+             <text space="nbsp" style="font-size:20px;color:#ff796e;float;">¥{{item.price}}</text>
+             <text space="nbsp" style="font-size:11px;padding-left:35rpx;">最早可预订{{item.time}}</text>
+          </view>
+        </view>
+        <view class="icon-box_right">
+          <view class="icon-box_right_top">
+            {{item.minutes}}min
+          </view>
+          <view class="icon-box_right_bottom">
+            <image src="../../images/home_yoyaku_image.png"></image>
+          </view>
+        </view>
+      </view>
+
+      <view class ="blankPages {{showViewBottom?'show':'hide'}}">
+          未搜索到您要找的项目
+      </view>
+
+    </view>
+    <!--抗老养颜-->
+    <view hidden="{{currentTabProject!==3}}">
+
+          <!-- list循环部分 -->
+      <view class="icon-box {{item.showView?'show':'hide'}}" wx:for="{{initialData}}" wx:for-index="index" wx:for-item="item">
+        <view class="icon-box_left">
+          <image src="../../images/home_project_image.png"></image>
+        </view>
+        <view class="icon-box_mid ">
+          <view class="icon-box_mid_top">
+            {{item.title}}
+          </view>
+          <view class="icon-box_mid_mid">
+            <image src="../../images/home_project_detail.png"></image>
+          </view>
+          <view class="icon-box_mid_bottom">
+             <text space="nbsp" style="font-size:20px;color:#ff796e;float;">¥{{item.price}}</text>
+             <text space="nbsp" style="font-size:11px;padding-left:35rpx;">最早可预订{{item.time}}</text>
+          </view>
+        </view>
+        <view class="icon-box_right">
+          <view class="icon-box_right_top">
+            {{item.minutes}}min
+          </view>
+          <view class="icon-box_right_bottom">
+            <image src="../../images/home_yoyaku_image.png"></image>
+          </view>
+        </view>
+      </view>
+
+      <view class ="blankPages {{showViewBottom?'show':'hide'}}">
+          未搜索到您要找的项目
+      </view>
+
+    </view>
+
+  </view>
+<!--卡项-->
+  <view hidden="{{currentTab!==1}}">
+  
+   <view class="navbarCarditem">
+      <text wx:for="{{navbarCarditem}}" data-idx="{{index}}" class="item {{currentTabCarditem==index ? 'active' : ''}}" wx:key="unique" bindtap="navbarCarditem">{{item}}</text>
+   </view>
+    <!--套餐卡-->
+    <view hidden="{{currentTabCarditem!==0}}">
+       <!-- list循环部分 -->
+      <view class="card_icon-box {{item.showView?'show':'hide'}}" wx:for="{{initialDataCard}}" wx:for-index="index" wx:for-item="item" >
+        <view class="card_icon-box_left">
+          <image src="../../images/goods_card.png"></image>
+        </view>
+        <view class="card_icon-box_right">
+            <view class="card_icon-box_right_top">{{item.title}}</view>
+            <view class="card_icon-box_right_mid">
+               护理时长：{{item.nursingTime}}分钟
+            </view>
+            <view class="card_icon-box_right_bottom">
+               功效类别 : {{item.category}}
+            </view>
+        </view>
+        <view class="card_icon-box_last">
+            <view class="card_icon-box_last_mid">
+               护理次数：{{item.nursingCount}}次            
+            </view>
+            <view class="card_icon-box_last_bottom">
+                  有<text style='margin-left:12rpx;margin-right:6rpx;'>效</text> 期：{{item.periodValidity}}年
+            </view>
+        </view>
+      </view>
+      <view class ="blankPages {{showViewBottom?'show':'hide'}}">
+          未搜索到您要找的项目
+      </view>
+
+    </view>
+    <!--储金卡-->
+    <view hidden="{{currentTabCarditem!==1}}">
+      
+      <!-- list循环部分 -->
+      <view class="card_icon-box {{item.showView?'show':'hide'}}" wx:for="{{initialDataCard}}" wx:for-index="index" wx:for-item="item" >
+        <view class="card_icon-box_left">
+          <image src="../../images/goods_card.png"></image>
+        </view>
+        <view class="card_icon-box_right">
+            <view class="card_icon-box_right_top">{{item.title}}</view>
+            <view class="card_icon-box_right_mid">
+               护理时长：{{item.nursingTime}}分钟
+            </view>
+            <view class="card_icon-box_right_bottom">
+               功效类别 : {{item.category}}
+            </view>
+        </view>
+        <view class="card_icon-box_last">
+            <view class="card_icon-box_last_mid">
+               护理次数：{{item.nursingCount}}次            
+            </view>
+            <view class="card_icon-box_last_bottom">
+                  有<text style='margin-left:12rpx;margin-right:6rpx;'>效</text> 期：{{item.periodValidity}}年
+            </view>
+        </view>
+      </view>
+      <view class ="blankPages {{showViewBottom?'show':'hide'}}">
+          未搜索到您要找的项目
+      </view>
+
+    </view>
+  </view>
+<!--产品-->
+  <view hidden="{{currentTab!==2}}">
+
+   <view class="navbarProduct">
+      <text wx:for="{{navbarProduct}}" data-idx="{{index}}" class="item {{currentTabProduct==index ? 'active' : ''}}" wx:key="unique" bindtap="navbarProduct">{{item}}</text>
+   </view>
+    <!--洗漱用品-->
+    <view hidden="{{currentTabProduct!==0}}">
+       <!-- list循环部分 -->
+      <view class="pro_icon-box {{item.showView?'show':'hide'}}" wx:for="{{initialDataCard}}" wx:for-index="index" wx:for-item="item" >
+        <view class="pro_icon-box_left">
+          <image src="../../images/goods_product.png"></image>
+        </view>
+        <view class="pro_icon-box_right">
+            <view class="pro_icon-box_right_top">{{item.title}}</view>
+            <view class="pro_icon-box_right_mid">
+               <view class="pro_icon-box_right_mid_left">规格：100ml</view>
+               <view class="pro_icon-box_right_mid_right">功效：滋润去屑</view>
+            </view>
+            <view class="pro_icon-box_right_bottom">
+               独特设计的锁水柔顺洗发水,使其柔软顺滑易于打理,令秀发丝丝莹润。。。。。。
+            </view>
+        </view>
+      </view>
+
+    </view>
+    <!--门店小物-->
+    <view hidden="{{currentTabProduct!==1}}">
+
+      <!-- list循环部分 -->
+      <view class="pro_icon-box {{item.showView?'show':'hide'}}" wx:for="{{initialDataCard}}" wx:for-index="index" wx:for-item="item" >
+        <view class="pro_icon-box_left">
+          <image src="../../images/goods_product.png"></image>
+        </view>
+        <view class="pro_icon-box_right">
+            <view class="pro_icon-box_right_top">{{item.title}}</view>
+            <view class="pro_icon-box_right_mid">
+               <view class="pro_icon-box_right_mid_left">规格：100ml</view>
+               <view class="pro_icon-box_right_mid_right">功效：滋润去屑</view>
+            </view>
+            <view class="pro_icon-box_right_bottom">
+               独特设计的锁水柔顺洗发水,使其柔软顺滑易于打理,令秀发丝丝莹润。。。。。。
+            </view>
+        </view>
+      </view>
+
+    </view>
+
+  </view>
+
+</view>
+</scroll-view>
