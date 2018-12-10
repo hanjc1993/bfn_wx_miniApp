@@ -14,7 +14,7 @@
     <view class='top_bottom' wx:if="{{allProjectHasBeenLoad}}">
       <view class="top_bottom_left" bindtap='chooseStore'>
         <view class="top_bottom_left_top">
-          <image src='../../images/home_positionIcon.png'></image>【更换门店】{{allProjectHasBeenLoad?storesInfo.name:''}}
+          <image src='../../images/home_changeStore.svg'></image>【更换门店】{{allProjectHasBeenLoad?storesInfo.name:''}}
         </view>
         <view class="top_bottom_left_bottom" wx:if="{{allProjectHasBeenLoad}}">
           <image src='../../images/home_positionIcon.png'></image> {{storesInfo.detailAddr}}

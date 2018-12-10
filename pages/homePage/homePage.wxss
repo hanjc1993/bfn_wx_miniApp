@@ -63,10 +63,11 @@ page{
   width: 600rpx;
   font-size: 36rpx;
   color:#333;
+  margin-left: 2.5%;
 }
 .top_bottom_left_top image{
-  height: 25rpx;
-  width: 20rpx
+  height: 26rpx;
+  width: 26rpx
 }
 .top_bottom_left_bottom{
   height: 50rpx;
