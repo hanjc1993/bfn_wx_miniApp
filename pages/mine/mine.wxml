@@ -1,49 +1,48 @@
 <!--pages/mine/mine.wxml-->
 <view id="mine" class="page" wx:if="{{showPage}}">
-<view class="ad_popError" wx:if="{{popErrorMsg}}">{{popErrorMsg}}</view>
-  <view class = "top">
-    <view class = "top_top">
-      <view class = "top_top_left">
-             <button class="imgJumpBtn" open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onGotUserInfo">
-                <view class="userinfo-avatar">
-              <!-- <button class="headimgBtn" style="background-image:url({{avatarUrl==''?'../../images/mine-2.png':avatarUrl}});" open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onGotUserInfo"></button>  -->
-                  <open-data type="userAvatarUrl" ></open-data> 
-                </view>
-             </button> 
-        
+  <view class="ad_popError" wx:if="{{popErrorMsg}}">{{popErrorMsg}}</view>
+  <view class="top">
+    <view class="top_top">
+      <view class="top_top_left">
+        <button class="imgJumpBtn" open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onGotUserInfo">
+          <view class="userinfo-avatar">
+            <!-- <button class="headimgBtn" style="background-image:url({{avatarUrl==''?'../../images/mine-2.png':avatarUrl}});" open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onGotUserInfo"></button>  -->
+            <open-data type="userAvatarUrl"></open-data>
+          </view>
+        </button>
+
       </view>
-      <view class ="top_top_right" >
-        <view class ="top_top_right_top">
+      <view class="top_top_right">
+        <view class="top_top_right_top">
           <form bindsubmit="retrunData">
-          <open-data type="userNickName" class = "top-left-text hide{{showNikeNameOne?'show':''}}" wx:if="{{nikename==''}}"></open-data>
-          <input class = "top-left-text hide{{showNikeNameTwo?'show':''}}" bindinput="inputTyping" 
-                 placeholder="请输入昵称" value="{{nikename}}" name = "nikename" maxlength='9'></input>     
-          <view class = "top-left-text hide{{showNikeNameThree?'show':''}}" wx:if="{{nikename!=''}}">{{nikename}}</view>
-          <image class = "xiugai hide{{showNikeNameFour?'show':''}}"  src="../../images/xiugai.png"          bindtap="changeNikeName"></image>
-          <button class="surebutton hide{{showNikeNameFive?'show':''}}" form-type="submit">确定</button>
+            <open-data type="userNickName" class="top-left-text hide{{showNikeNameOne?'show':''}}" wx:if="{{nikename==''}}"></open-data>
+            <input class="top-left-text hide{{showNikeNameTwo?'show':''}}" bindinput="inputTyping" placeholder="请输入昵称" value="{{nikename}}" name="nikename" maxlength='9'></input>
+            <view class="top-left-text hide{{showNikeNameThree?'show':''}}" wx:if="{{nikename!=''}}">{{nikename}}</view>
+            <image class="xiugai hide{{showNikeNameFour?'show':''}}" src="../../images/xiugai.png" bindtap="changeNikeName"></image>
+            <button class="surebutton hide{{showNikeNameFive?'show':''}}" form-type="submit">确定</button>
           </form>
         </view>
-        <view class ="top_top_right_bottom">会员卡号：{{cardNumber}}</view>
-      </view> 
+        <view class="top_top_right_bottom">会员卡号：{{cardNumber}}</view>
+      </view>
       <!-- <view class ="top_top_last" bindtap="goSetUp" > -->
       <!-- <view class ="top_top_last"  open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onGotUserInfo" >
         设置
       </view> -->
-      <button class ="top_top_last"  open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onGotUserInfo" >
+      <button class="top_top_last" open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onGotUserInfo">
         设置
       </button>
       <view class="forShowMountain">
-        <image src = '../../images/big_mountain.png'></image>
+        <image src='../../images/big_mountain.png'></image>
       </view>
     </view>
-    <view class = "top_bottom">
-      <view class = "top_bottom_left" bindtap="goMineAssets">
-        <view class = "top_bottom_left_top">
-         <view class = "top_bottom_left_top_left">{{assets}}</view>
-         <view class = "top_bottom_left_top_right">项</view>
+    <view class="top_bottom">
+      <view class="top_bottom_item" bindtap="goMineAssets">
+        <view class="top_bottom_item_top">
+          <view class="top_bottom_item_top_left">{{assets}}</view>
+          <view class="top_bottom_item_top_right">项</view>
         </view>
-        <view class = "top_bottom_left_bottom">
-           我的资产
+        <view class="top_bottom_item_bottom top_bottom_left_bottom">
+          我的资产
         </view>
         <view class="for_small_mountain_left">
           <image src='../../images/small_mountain_left.png'></image>
@@ -52,15 +51,15 @@
           <image src='../../images/small_mountain_right.png'></image>
         </view>
       </view>
-      <view class = "top_bottom_left1">
+      <view class="top_bottom_left1">
       </view>
-      <view class = "top_bottom_right" bindtap="goCoupons">
-        <view class = "top_bottom_right_top">
-           <view class = "top_bottom_left_top_left">{{coupons}}</view>
-           <view class = "top_bottom_left_top_right">张</view>
+      <view class="top_bottom_item" bindtap="goCoupons">
+        <view class="top_bottom_item_top">
+          <view class="top_bottom_item_top_left">{{coupons}}</view>
+          <view class="top_bottom_item_top_right">张</view>
         </view>
-        <view class = "top_bottom_right_bottom">
-           我的优惠券
+        <view class="top_bottom_item_bottom top_bottom_right_bottom">
+          我的优惠券
         </view>
       </view>
     </view>
@@ -69,36 +68,42 @@
   <view class="bottom" bindtap='goWdyy'>
     <view class="bottom_index">
       <view class="weui-cell__bd">
-        <image class = "title_image" mode='aspectFill' src="../../images/mine_wdyy.png" ></image>
-        <view class = "bottom_mid">我的预约</view>
-        <view class ="roundRed {{isHaveNotDone?'show':'hide'}}"></view> 
+        <image class="title_image" mode='aspectFill' src="../../images/mine_wdyy.png"></image>
+        <view class="bottom_mid">我的预约</view>
+        <view class="roundRed {{isHaveNotDone?'show':'hide'}}"></view>
       </view>
-      <view class="weui-cell__ft weui-cell__ft_in-access"></view>         
-    </view>            
-  </view> 
-  <view class='border'>  <view class='borderleft'></view><view class='borderright'></view> </view>
+      <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+    </view>
+  </view>
+  <view class='border'>
+    <view class='borderleft'></view>
+    <view class='borderright'></view>
+  </view>
 
   <view class="bottom" bindtap='goYhhd'>
     <view class="bottom_index">
       <view class="weui-cell__bd">
-       <image class = "title_image" mode='aspectFill' src="../../images/mine_yhhd.png" ></image>
-       <view class = "bottom_mid">优惠活动</view>
-       <!-- <view class ="roundRed {{showViewTwo?'show':'hide'}}"></view> -->
+        <image class="title_image" mode='aspectFill' src="../../images/mine_yhhd.png"></image>
+        <view class="bottom_mid">优惠活动</view>
+        <!-- <view class ="roundRed {{showViewTwo?'show':'hide'}}"></view> -->
       </view>
-      <view class="weui-cell__ft weui-cell__ft_in-access"></view>         
-    </view>            
+      <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+    </view>
   </view>
-  <view class='border'>  <view class='borderleft'></view><view class='borderright'></view> </view>
-  
+  <view class='border'>
+    <view class='borderleft'></view>
+    <view class='borderright'></view>
+  </view>
+
   <view class="bottom_NoBorderBottom" bindtap='goXfjl'>
     <view class="bottom_index">
       <view class="weui-cell__bd">
-        <image class = "title_image" mode='aspectFill' src="../../images/mine_xfjl.png" ></image>
-        <view class = "bottom_mid">消费记录</view>
+        <image class="title_image" mode='aspectFill' src="../../images/mine_xfjl.png"></image>
+        <view class="bottom_mid">消费记录</view>
         <!-- <view class ="roundRed {{showViewThree?'show':'hide'}}"></view> -->
       </view>
-      <view class="weui-cell__ft weui-cell__ft_in-access"></view>         
-    </view>            
+      <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+    </view>
   </view>
 </view>
 <!--默认隐藏-->
