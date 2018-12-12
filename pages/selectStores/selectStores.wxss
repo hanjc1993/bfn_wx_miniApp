@@ -101,10 +101,10 @@
 }
 .upArrow {
   float: right;
-  height: 10rpx;
-  width: 10rpx;
-  margin-top: -43rpx;
-  margin-right: 260rpx;
+  height: 20rpx;
+  width: 20rpx;
+  margin-top: -50rpx;
+  margin-right: 250rpx;
 }
 .viewAllStoresDown {
   width: 100%;
@@ -115,16 +115,16 @@
   color: #666;
 }
 .viewAllStoresFontDown {
-  margin-left: 220rpx;
+  margin-left: 240rpx;
   height: 40px;
   line-height: 40px;
 }
 .downArrow {
   float: right;
-  height: 10rpx;
-  width: 10rpx;
-  margin-top: -42rpx;
-  margin-right: 245rpx;
+  height: 20rpx;
+  width: 20rpx;
+  margin-top: -50rpx;
+  margin-right: 250rpx;
 }
 .imageInfo {
   height: auto;
@@ -140,6 +140,9 @@
   margin-left: 10rpx;
   font-size: 40rpx;
   color: #333;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
 }
 .distance {
   float: right;

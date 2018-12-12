@@ -5,6 +5,7 @@ var login = require("../../utils/login.js");
 var util = require('../../utils/util.js');
 // 引入SDK核心类
 var QQMapWX = require('../../utils/qqmap-wx-jssdk.js');
+let City = require('../../utils/allcity.js');
 var interval = null //倒计时函数
 Page({
 
@@ -119,6 +120,8 @@ Page({
     nextmargin:'30px',
     // 下架状态
     actStatus: false,
+    // 城市信息
+    allCity: City,
   },
 
   // 轮播图的切换事件    
@@ -707,18 +710,101 @@ Page({
     } else {
       console.log('获取门店接口开始时间'+new Date())
       wx.request({
-        url: app.globalData.path + 'rest/transmission/getStoreInfo',
+        url: app.globalData.path + 'rest/transmission/getStoreAllData',
         method: 'GET',
         data: {
           storeCode: self.data.storeCode,
           cityCode: self.data.positionCode,
           name: self.data.storeName,
+          lon: app.globalData.currentPositionLon,
+          lat: app.globalData.currentPositionLat,
+          // vipNo: app.globalData.vipNo
         },
         success: function (res) {
           console.log('获取门店接口结束时间' + new Date())
           console.log(res);
           if (res.data.length != 0) {
-            self.getCalculateDistanceArr(res.data);
+            // self.getCalculateDistanceArr(res.data);
+            for (var index in res.data.proDtos) {
+              if (res.data.proDtos[index].projectEfficacyClass == "招牌项目") {
+                if (res.data.proDtos[index].name.length >= 9) {
+                  res.data.proDtos[index].name = res.data.proDtos[index].name.substring(0, 10) + '..'
+                }
+                self.data.projectList.push(res.data.proDtos[index]);
+              }
+              if (self.data.projectList.length == 2) {
+                break;
+              }
+            }
+
+            for (var index in self.data.projectList) {
+              self.data.projectList[index].reservationAvailableTime.sort(self.compare("startTime"));
+              if (self.data.projectList[index].reservationAvailableTime.length != 0) {
+                self.data.projectList[index].reservationAvailableTime[0].startTime = self.data.projectList[index].reservationAvailableTime[0].startTime.substring(11, 16);
+                self.data.projectList[index].hiddenTimeContent = true;
+              } else {
+                self.data.projectList[index].hiddenTimeContent = false;
+              }
+
+              var category = self.data.projectList[index].category;
+              var subCategory = self.data.projectList[index].subCategory;
+              var categorySubCategory = "";
+              if (category == "" || category == null) {
+                if (subCategory == "" || subCategory == null) {
+                  categorySubCategory = "";
+                } else {
+                  categorySubCategory = subCategory;
+                }
+              } else {
+                if (subCategory == "" || subCategory == null) {
+                  categorySubCategory = category
+                } else {
+                  categorySubCategory = category + "，" + subCategory;
+                }
+              }
+              self.data.projectList[index].categorySubCategory = categorySubCategory;
+            }
+
+            self.setData({
+              technicianList: res.data.nurseDtos
+            });
+
+            for (var index in self.data.technicianList) {
+              if (self.data.technicianList[index].evaluateGood == null) {
+                self.data.technicianList[index].evaluateGood = 0
+              }
+              if (self.data.technicianList[index].name.length == 2) {
+                self.data.technicianList[index].name = self.data.technicianList[index].name.substring(0, 1) + "   " + self.data.technicianList[index].name.substring(1, 2)
+              }
+            }
+
+            console.log(self.data.tabbarflag + ',' + (self.data.tabbarflag != true))
+            if (self.data.tabbarflag != true) {
+              wx.showTabBar({
+                animation: false //是否需要过渡动画
+              })
+            }
+            app.globalData.selectStoreTohomePage = '';
+
+            self.setData({
+              // 一个门店信息的信息
+              storesInfo: res.data,
+              // 一个门店code
+              storeCode: res.data.storeCode,
+              // 一个门店名称
+              storeName: res.data.name,
+
+              allProjectHasBeenLoad: true,
+              projectList: self.data.projectList,
+              technicianList: self.data.technicianList
+            });
+            app.globalData.storeName = self.data.storeName;
+            app.globalData.storeCode = self.data.storeCode;
+            self.hideLoading();
+            // // 获取项目列表
+            // self.getProjects();
+            // // 获取养脑师
+            // self.getNurses();
           } else {
             // 获取指定门店信息
             self.getSpecifiedStoreInfo();
@@ -795,37 +881,102 @@ Page({
     var self = this;
     self.data.storesInfo = {};
     wx.request({
-      url: app.globalData.path + 'rest/transmission/getStoreInfo',
+      url: app.globalData.path + 'rest/transmission/getStoreAllData',
       method: 'GET',
       data: {
         storeCode: 'UM0008',
         cityCode: '',
         name: '',
+        lon: app.globalData.currentPositionLon,
+        lat: app.globalData.currentPositionLat,
+        // vipNo: app.globalData.vipNo
       },
       success: function (res) {
         if (res.data.length != 0) {
+          for (var index in res.data.proDtos) {
+            if (res.data.proDtos[index].projectEfficacyClass == "招牌项目") {
+              if (res.data.proDtos[index].name.length >= 9) {
+                res.data.proDtos[index].name = res.data.proDtos[index].name.substring(0, 10) + '..'
+              }
+              self.data.projectList.push(res.data.proDtos[index]);
+            }
+            if (self.data.projectList.length == 2) {
+              break;
+            }
+          }
+
+          for (var index in self.data.projectList) {
+            self.data.projectList[index].reservationAvailableTime.sort(self.compare("startTime"));
+            if (self.data.projectList[index].reservationAvailableTime.length != 0) {
+              self.data.projectList[index].reservationAvailableTime[0].startTime = self.data.projectList[index].reservationAvailableTime[0].startTime.substring(11, 16);
+              self.data.projectList[index].hiddenTimeContent = true;
+            } else {
+              self.data.projectList[index].hiddenTimeContent = false;
+            }
+
+            var category = self.data.projectList[index].category;
+            var subCategory = self.data.projectList[index].subCategory;
+            var categorySubCategory = "";
+            if (category == "" || category == null) {
+              if (subCategory == "" || subCategory == null) {
+                categorySubCategory = "";
+              } else {
+                categorySubCategory = subCategory;
+              }
+            } else {
+              if (subCategory == "" || subCategory == null) {
+                categorySubCategory = category
+              } else {
+                categorySubCategory = category + "，" + subCategory;
+              }
+            }
+            self.data.projectList[index].categorySubCategory = categorySubCategory;
+          }
+
+          self.setData({
+            technicianList: res.data.nurseDtos
+          });
+
+          for (var index in self.data.technicianList) {
+            if (self.data.technicianList[index].evaluateGood == null) {
+              self.data.technicianList[index].evaluateGood = 0
+            }
+            if (self.data.technicianList[index].name.length == 2) {
+              self.data.technicianList[index].name = self.data.technicianList[index].name.substring(0, 1) + "   " + self.data.technicianList[index].name.substring(1, 2)
+            }
+          }
+
+          console.log(self.data.tabbarflag + ',' + (self.data.tabbarflag != true))
+          if (self.data.tabbarflag != true) {
+            wx.showTabBar({
+              animation: false //是否需要过渡动画
+            })
+          }
+          app.globalData.selectStoreTohomePage = '';
+
           self.setData({
             // 一个门店信息的信息
-            storesInfo: res.data[0],
-          });
-          self.setData({
+            storesInfo: res.data,
             // 一个门店code
-            storeCode: res.data[0].storeCode,
+            storeCode: res.data.storeCode,
             // 一个门店名称
-            storeName: res.data[0].name,
+            storeName: res.data.name,
             // 城市名称
             positionCity: '珠海市',
             // 城市code
             positionCode: '440400000000',
+            allProjectHasBeenLoad: true,
+            projectList: self.data.projectList,
+            technicianList: self.data.technicianList
           });
           app.globalData.storeName = self.data.storeName;
           app.globalData.storeCode = self.data.storeCode;
           app.globalData.cityName = self.data.positionCity;
           app.globalData.cityCode = self.data.positionCode;
-          // 获取项目列表
-          self.getProjects();
-          // 获取养脑师
-          self.getNurses();
+          // // 获取项目列表
+          // self.getProjects();
+          // // 获取养脑师
+          // self.getNurses();
         }
       },
       fail: function (err) {
@@ -1017,26 +1168,19 @@ Page({
         });
         app.globalData.cityName = self.data.positionCity;
         app.globalData.firstCityName = self.data.positionCity;
-        wx.request({
-          url: app.globalData.path + 'rest/transmission/getCity',
-          data: {},
-          success: function (res) {
-            for (var index in res.data) {
-              if (res.data[index].name.indexOf(self.data.positionCity) == 0) {
-                self.setData({
-                  positionCode: res.data[index].code
-                });
-                app.globalData.cityCode = self.data.positionCode;
-                app.globalData.firstCityCode= self.data.positionCode;
-              }
-            }
-            // 获取门店信息
-            self.getStoreInfo();
-          },
-          fail: function () {
-            // fail
+        var allcity = self.data.allCity;
+
+        for (var index in allcity) {
+          if (allcity[index].name.indexOf(self.data.positionCity) == 0) {
+            self.setData({
+              positionCode: allcity[index].code
+            });
+            app.globalData.cityCode = self.data.positionCode;
+            app.globalData.firstCityCode = self.data.positionCode;
           }
-        });
+        }
+        // 获取门店信息
+        self.getStoreInfo();
       },
       fail: function () {
         // fail

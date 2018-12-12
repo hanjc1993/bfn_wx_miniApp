@@ -29,126 +29,129 @@
       </view>
     </view>
 
-    <map id="myMap" hidden="{{!showOneStoresInfo}}" bindtap="tapMap" style="width:{{map_width}}%; height:{{map_height}}px;" longitude="{{longitude}}" latitude="{{latitude}}" markers="{{markers}}" show-location="false" bindmarkertap="getStoreBybindmarkertap" bindtap="packUpAllStoresInfoList">
-    </map>
-    <view class="navigationInfo" hidden="{{!showOneStoresInfo}}" bindtouchstart="handletouchtart" bindtouchmove="handletouchmove" bindtouchend="handletouchend">
-      <view class="navigation" data-item="{{storesInfo}}" bindtap="gotoPage">
-        <view class="navigationLeft">
-          <image class="imageInfo" mode="aspectFill" src="{{storesInfo.imgUrl==null?'../../images/storeImgNull.png':storesInfo.imgUrl}}" />
-        </view>
-        <view class="navigationRight">
-          <view class="nameinfo">
+    <map id="myMap" hidden="{{!showOneStoresInfo}}" bindtap="tapMap" style="width:{{map_width}}%; height:{{map_height}}px;" longitude="{{longitude}}" latitude="{{latitude}}" markers="{{markers}}" show-location="false" bindmarkertap="getStoreBybindmarkertap"
+      bindtap="packUpAllStoresInfoList"></map>
+
+    <cover-view class="navigationInfo" hidden="{{!showOneStoresInfo}}" bindtouchstart="handletouchtart" bindtouchmove="handletouchmove" bindtouchend="handletouchend">
+      <cover-view class="navigation" data-item="{{storesInfo}}" bindtap="gotoPage">
+        <cover-view class="navigationLeft">
+          <cover-image class="imageInfo" mode="aspectFill" src="{{storesInfo.imgUrl==null?'../../images/storeImgNull.png':storesInfo.imgUrl}}" />
+        </cover-view>
+        <cover-view class="navigationRight">
+          <cover-view class="nameinfo">
             {{storesInfo.name}}
-          </view>
-          <view class="phoneinfo">
-            <image class="phoneimage" mode="aspectFill" src="../../images/phoneIcon.png" />
-            <view>
-              <view class="phoneRight">
+          </cover-view>
+          <cover-view class="phoneinfo">
+            <cover-image class="phoneimage" mode="aspectFill" src="../../images/phoneIcon.png" />
+            <cover-view>
+
+              <cover-view class="phoneRight">
                 {{storesInfo.phone}}
-              </view>
-              <view class="distance">
+              </cover-view>
+              <cover-view class="distance">
                 {{storesInfo.distance}}km
-              </view>
-            </view>
-          </view>
-          <view class="addressinfo">
-            <image class="addressimage" mode="aspectFill" src="../../images/addressIcon.png" />
-            <view>
+              </cover-view>
+            </cover-view>
+          </cover-view>
+          <cover-view class="addressinfo">
+            <cover-image class="addressimage" mode="aspectFill" src="../../images/addressIcon.png" />
+            <cover-view>
 
-              <view class="addressinfoRight">
+              <cover-view class="addressinfoRight">
                 {{storesInfo.detailAddr}}
-              </view>
-            </view>
-          </view>
-          <view>
-            <view class="views">
+              </cover-view>
+            </cover-view>
+          </cover-view>
+          <cover-view>
+            <cover-view class="views">
               浏览量:{{storesInfo.pageViewCnt}}
-            </view>
-            <view class="applauseRate">
+            </cover-view>
+            <cover-view class="applauseRate">
               好评率:{{storesInfo.evaluateGood}}%
-            </view>
-          </view>
-        </view>
-      </view>
-      <view class="showline">
-      </view>
-      <view class="viewAllStores" bindtap="getAllStoresInfoList">
-        <view class="viewAllStoresFont">
+            </cover-view>
+          </cover-view>
+        </cover-view>
+      </cover-view>
+      <cover-view class="showline">
+      </cover-view>
+      <cover-view class="viewAllStores" bindtap="getAllStoresInfoList">
+        <cover-view class="viewAllStoresFont">
           查看所有门店
-        </view>
-        <image class="upArrow" src="../../images/upArrow.png" />
-      </view>
-    </view>
-    <view class="navigationInfo2" hidden="{{!showOneStoresInfo}}">
-      <image class="hereimage" data-item="{{storesInfo.storeCode}}" bindtap="getNavigation" src="../../images/here.png" />
-    </view>
+        </cover-view>
+        <cover-image class="upArrow" src="../../images/upArrow.png" />
+      </cover-view>
+    </cover-view>
+    <cover-view class="navigationInfo2" hidden="{{!showOneStoresInfo}}">
+      <cover-image class="hereimage" data-item="{{storesInfo.storeCode}}" bindtap="getNavigation" src="../../images/here.png" />
+    </cover-view>
 
-    <view class="navigationInfo5" bindtap="packUpAllStoresInfoList">
-      <view class="navigationInfo3" style="margin-bottom:{{scrollHeight}}rpx;" hidden="{{!showAllStoresInfo}}">
-        <view class="viewAllStoresDown">
-          <view class="viewAllStoresFontDown">
+    <cover-view class="navigationInfo5" bindtap="packUpAllStoresInfoList">
+      <cover-view class="navigationInfo3" style="margin-bottom:{{scrollHeight}}rpx;" hidden="{{!showAllStoresInfo}}">
+        <cover-view class="viewAllStoresDown">
+          <cover-view class="viewAllStoresFontDown">
             收起所有门店
-          </view>
-          <image class="downArrow" src="../../images/downArrow.png" />
-        </view>
-        <view class="showline">
-        </view>
-      </view>
-    </view>
-    <view class="navigationInfo5" style="height:{{scrollHeight}}rpx;overflow-y:scroll">
-      <view wx:for="{{allStoresInfo}}" hidden="{{!showAllStoresInfo}}" wx:for-index="index" wx:for-item="item">
-        <view class="navigation">
-          <view class="navigationLeft" bindtap="gotoPage" data-item="{{item}}">
-            <image class="imageInfo" mode="aspectFill" src="{{item.imgUrl==null?'../../images/storeImgNull.png':item.imgUrl}}" />
-          </view>
-          <view class="navigationRight">
-            <view bindtap="gotoPage" data-item="{{item}}">
-              <view class="nameinfo">
+          </cover-view>
+          <cover-image class="downArrow" src="../../images/downArrow.png" />
+        </cover-view>
+        <cover-view class="showline">
+        </cover-view>
+      </cover-view>
+    </cover-view>
+
+    <cover-view class="navigationInfo5" style="height:{{scrollHeight}}rpx;overflow-y:scroll">
+      <cover-view wx:for="{{allStoresInfo}}" hidden="{{!showAllStoresInfo}}" wx:for-index="index" wx:for-item="item">
+        <cover-view class="navigation">
+          <cover-view class="navigationLeft" bindtap="gotoPage" data-item="{{item}}">
+            <cover-image class="imageInfo" mode="aspectFill" src="{{item.imgUrl==null?'../../images/storeImgNull.png':item.imgUrl}}" />
+          </cover-view>
+          <cover-view class="navigationRight">
+            <cover-view bindtap="gotoPage" data-item="{{item}}">
+              <cover-view class="nameinfo">
                 {{item.name}}
-              </view>
-              <view class="phoneinfo">
-                <image class="phoneimage" mode="aspectFill" src="../../images/phoneIcon.png" />
-                <view class="phoneLeft">
+              </cover-view>
+              <cover-view class="phoneinfo">
+                <cover-image class="phoneimage" mode="aspectFill" src="../../images/phoneIcon.png" />
+                <cover-view class="phoneLeft">
 
-                  <view class="phoneRight">
+                  <cover-view class="phoneRight">
                     {{item.phone}}
-                  </view>
-                  <view class="distance">
+                  </cover-view>
+                  <cover-view class="distance">
                     {{item.distance}}km
-                  </view>
-                </view>
-              </view>
-              <view class="addressinfo">
-                <image class="addressimage" mode="aspectFill" src="../../images/addressIcon.png" />
-                <view class="addressLeft">
+                  </cover-view>
+                </cover-view>
+              </cover-view>
+              <cover-view class="addressinfo">
+                <cover-image class="addressimage" mode="aspectFill" src="../../images/addressIcon.png" />
+                <cover-view class="addressLeft">
 
-                  <view class="addressinfoRight">
+                  <cover-view class="addressinfoRight">
                     {{item.detailAddr}}
-                  </view>
-                </view>
-              </view>
-            </view>
-            <view>
-              <view class="applauseRate2">
+                  </cover-view>
+                </cover-view>
+              </cover-view>
+            </cover-view>
+            <cover-view>
+              <cover-view class="applauseRate2">
                 好评率:{{item.evaluateGood}}%
-              </view>
-              <view class="views2">
+              </cover-view>
+              <cover-view class="views2">
                 浏览量:{{item.pageViewCnt}}
-              </view>
-              <view class="">
-                <image class="hereimag2" data-item="{{item.storeCode}}" bindtap="getNavigation" src="../../images/here2.png" />
-              </view>
-            </view>
-          </view>
-        </view>
-        <view class="showline">
-        </view>
-      </view>
-      <view class="viewOtherStores" hidden="{{!showAllStoresInfo}}">
-        <view class="viewOtherStoresFont" >
+              </cover-view>
+              <cover-view class="">
+                <cover-image class="hereimag2" data-item="{{item.storeCode}}" bindtap="getNavigation" src="../../images/here2.png" />
+              </cover-view>
+            </cover-view>
+          </cover-view>
+        </cover-view>
+        <cover-view class="showline">
+        </cover-view>
+      </cover-view>
+      <cover-view class="viewOtherStores" hidden="{{!showAllStoresInfo}}">
+        <cover-view class="viewOtherStoresFont">
           店铺更新中，敬请期待
-        </view>
-      </view>
-    </view>
+        </cover-view>
+      </cover-view>
+    </cover-view>
   </view>
 </view>

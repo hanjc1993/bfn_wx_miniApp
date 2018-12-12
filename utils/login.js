@@ -45,6 +45,9 @@ function userlogin(_self, callback) {
                   }
                 });
               } else {
+                var result = {
+                  "code": 0,
+                };
                 callback(result);
               }
             }
@@ -82,6 +85,9 @@ function userlogin(_self, callback) {
             }
           });
         } else {
+          var result = {
+            "code": 0,
+          };
           callback(result);
         }
       }
@@ -104,7 +110,7 @@ function checkInitAgree(_self, callback) {
   // 判断网络状态
   checkAgree(_self, function () {
     // 判断用户权限
-    if (app.globalData.vipNo != '') {
+    if (app.globalData.vipNo != '' && app.globalData.vipNo != null) {
       // 业务处理
       callback();
     } else {
@@ -143,4 +149,4 @@ module.exports = {
   userlogin: userlogin, // 用户login
   checkInitAgree: checkInitAgree, // 初始化，保证用户login成功
   checkAgree: checkAgree, // 检查网络状态
-} 
+}

@@ -4,10 +4,9 @@ const app = getApp();
 Page({
 
   data: {
-    // city: City
+    city: City,
     // 加载中
     hiddenLoading: true,
-    city: []
   },
 
   input(e){
@@ -55,22 +54,29 @@ Page({
 
   clickme: function (e) {
     var self = this;
-    var name = e.currentTarget.dataset.name
-    wx.request({
-      url: app.globalData.path + 'rest/transmission/getCity',
-      data: {},
-      success: function (res) {
-        for (var index in res.data) {
-          if (res.data[index].name.indexOf(name) == 0) {
-            app.globalData.cityCode = res.data[index].code;
-          }
-        }
-        self.queryStoreByAll(app.globalData.cityCode, name);
-      },
-      fail: function () {
-        // fail
+    var name = e.currentTarget.dataset.name;
+    var allcity = self.data.allCity
+    for (var index in allcity) {
+      if (allcity[index].name.indexOf(name) == 0) {
+        app.globalData.cityCode = allcity[index].code;
       }
-    });
+    }
+    self.queryStoreByAll(app.globalData.cityCode, name);
+    // wx.request({
+    //   url: app.globalData.path + 'rest/transmission/getCity',
+    //   data: {},
+    //   success: function (res) {
+    //     for (var index in res.data) {
+    //       if (res.data[index].name.indexOf(name) == 0) {
+    //         app.globalData.cityCode = res.data[index].code;
+    //       }
+    //     }
+    //     self.queryStoreByAll(app.globalData.cityCode, name);
+    //   },
+    //   fail: function () {
+    //     // fail
+    //   }
+    // });
 
     if(name=='定位失败'){
       this.loadInfo();
