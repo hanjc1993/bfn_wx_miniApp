@@ -392,7 +392,7 @@ Page({
     console.log("跳转至技师详情界面")
     var self = this;
     wx.navigateTo({
-      url: '../../pages/teacherDetail/teacherDetail?storeCode=' + self.data.storeCode + '&uuid=' + e.currentTarget.dataset.item.uuid + '&name=' + e.currentTarget.dataset.item.name + '&srcImg=' + e.currentTarget.dataset.item.srcImg + '&star=' + e.currentTarget.dataset.item.star,
+      url: '../../pages/teacherDetail/teacherDetail?storeCode=' + self.data.storeCode + '&uuid=' + e.currentTarget.dataset.item.uuid + '&name=' + e.currentTarget.dataset.item.name + '&srcImg=' + encodeURIComponent(e.currentTarget.dataset.item.srcImg) + '&star=' + e.currentTarget.dataset.item.star,
     });
   },
 
@@ -701,6 +701,7 @@ Page({
   getStoreInfo: function () {
     var self = this;
     self.data.storesInfo = {};
+    self.data.projectList = [];
     console.log(self.data.storeCode);
     console.log(self.data.positionCode);
     console.log(self.data.storeName);
@@ -880,6 +881,7 @@ Page({
   getSpecifiedStoreInfo: function () {
     var self = this;
     self.data.storesInfo = {};
+    self.data.projectList = [];
     wx.request({
       url: app.globalData.path + 'rest/transmission/getStoreAllData',
       method: 'GET',

@@ -8,8 +8,8 @@ App({
   },
 
   globalData: {
-    AppID: 'wxcffcbb402b02c858',
-    AppSecret: 'd43b046c29cba3f59aaf34e8ee653110',
+    AppID: 'wx9050e00c72033650',
+    AppSecret: '3033e441f4d2aaad73702268682b0744',
     session_key: '',
     openid: '',
     vipNo: '',
