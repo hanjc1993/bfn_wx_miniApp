@@ -1,6 +1,9 @@
 /* pages/yoyakuPage/yoyakuPage.wxss */
 @import "../../lib/weui.wxss";
 
+button{
+  padding: 0 10px;
+}
 page {
   background-color: #efeff4;
   height: 100%;
@@ -218,6 +221,10 @@ radio {
   white-space: nowrap;
   display: flex;
 }
+/*隐藏滚动条*/
+::-webkit-scrollbar {
+  display: none
+}
 
 .navbar {
   flex: none;
@@ -225,7 +232,6 @@ radio {
   background: #fff;
   width: 100%;
 }
-
 .navbar .item {
   position: relative;
   margin-top: 20rpx;

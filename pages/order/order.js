@@ -109,7 +109,6 @@ Page({
     phoneNumber: '',//18640887833
     //输入的验证码
     yzmCode:'',
-    hiddenmodalput: false,
     hiddenmodalbindphone: false,
 
     reservationAvailableTime: [],
@@ -230,6 +229,9 @@ Page({
       time2230: false,
       time2300: false,
       time2330: false,
+      time0000: false,
+      time0030: false,
+      time0100: false
     },
     // 预约满时
     fulltimes: {
@@ -261,16 +263,19 @@ Page({
       time2230: false,
       time2300: false,
       time2330: false,
+      time0000: false,
+      time0030: false,
+      time0100: false
     },
 
 
-    // 工作时间
+    // 工作时间，有使用它的index判断的逻辑，修改时候一定注意
     timesArr: [
       "10:00:00",
       "10:30:00",
       "11:00:00",
       "11:30:00",
-      "12:00:00",
+      "12:00:00",//有使用timesArr的index判断的逻辑，修改时候一定注意
       "12:30:00",
       "13:00:00",
       "13:30:00",
@@ -279,7 +284,7 @@ Page({
       "15:00:00",
       "15:30:00",
       "16:00:00",
-      "16:30:00",
+      "16:30:00",//有使用timesArr的index判断的逻辑，修改时候一定注意
       "17:00:00",
       "17:30:00",
       "18:00:00",
@@ -287,13 +292,16 @@ Page({
       "19:00:00",
       "19:30:00",
       "20:00:00",
-      "20:30:00",
+      "20:30:00",//有使用timesArr的index判断的逻辑，修改时候一定注意
       "21:00:00",
       "21:30:00",
       "22:00:00",
       "22:30:00",
       "23:00:00",
       "23:30:00",
+      "00:00:00",
+      "00:30:00",
+      "01:00:00"//有使用timesArr的index判断的逻辑，修改时候一定注意
     ],
 
 
@@ -305,9 +313,6 @@ Page({
 
     // 日期Value
     navbarValues: [util.getDateStryyyyMMdd(0), util.getDateStryyyyMMdd(1), util.getDateStryyyyMMdd(2), util.getDateStryyyyMMdd(3), util.getDateStryyyyMMdd(4), util.getDateStryyyyMMdd(5), util.getDateStryyyyMMdd(6), util.getDateStryyyyMMdd(7)],
-
-    // 当前时间
-    nowTime: util.formatTime(new Date()).substring(11),
 
     // 免费预约按钮
     isOk: false,
@@ -348,16 +353,16 @@ Page({
     // console.log("app.globalData.cityCode=" + app.globalData.cityCode);
     // console.log("app.globalData.myVipNo=" + app.globalData.vipNo);
     //进来时 给projectList每个对象加一个checked属性值为false
-    // 
+    //
     // var pl = self.data.projectList
     // for (var index in pl){
     //   pl[index].checked = false
     // }
     // for (var index in pl) {
     //   console.log(pl.checked)
-    // } 
+    // }
     //self.showLoading()
-    
+
     // 获取预约基本信息
     //店名称
     var temp1 = "orderList.orderStore";
@@ -383,12 +388,13 @@ Page({
     var cityName = "orderList.cityName"
     //城市code
     var cityCode = "orderList.cityCode"
-    //homepage  项目列表 项目详情 
+    //homepage  项目列表 项目详情
     if(options.v==1){
     //将项目code封装到数组内 再赋值
     var list = [{ code: options.incloudProjectCode}];
-    self.setData({
-      [temp4]: app.globalData.storeCode,
+      self.setData({
+      // [temp4]: app.globalData.storeCode,
+      [temp4]: 'UM0002',//测试专用
       [temp1]: app.globalData.storeName,//
       [temp2]: options.incloudProjectName,
       [temp3]: list,
@@ -447,29 +453,8 @@ Page({
      });
   },
   doInit:function(storeCode){
-   // this.getNurses(storeCode);
-   // this.getProjects(storeCode);这俩方法 嵌套在getStoreInfo里，得到门店信息再得经纬度？
-    
-    // if(this.data.orderList.orderTime!=''){
-    //   //如果是从养脑师页面传来 带着时间的情况
-    //   console.log("打印currentTab")
-    //   console.log(this.data.orderList.currentTab)
-    //   var e = { currentTarget: { dataset: { idx: this.data.orderList.currentTab}}}
-    //   this.queryStoreAvailabilityTime(new Date(this.data.orderList.orderTime), e, null,false);
-    // }else{
-    //   this.queryStoreAvailabilityTime(new Date(), null, null,false);
-    // }
-    
-    
-    //this.getTodayNurseList(storeCode, new Date());
-    if(this.data.v == 3){//从养脑是页面来
-      //console.log("养脑师页面来,currentTab,需要调接口查询该时间有几位养脑师")
-      //console.log(this.data.orderList.currentTab)
-      //var e = { currentTarget: { dataset: { idx: this.data.orderList.currentTab } } }
-      this.queryNurseforNursePage(this.data.orderList.orderTime);
-    }
+    if(this.data.v == 3) this.queryNurseforNursePage(this.data.orderList.orderTime);//从养脑师页面进来
     this.getStoreInfo(storeCode);
-    
   },
   /**
 * 获取门店信息 经纬度等
@@ -526,7 +511,7 @@ Page({
       //   "Content-Type": "application/json"
       // },
       success: function (res) {
-        
+
         //console.log(res)
         if (res.data.length != 0) {
           for(var index in res.data){
@@ -602,49 +587,49 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-   
+
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-  
+
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-  
+
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-  
+
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-  
+
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-  
+
   },
 
   /**
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-  
+
   },
 
   /**
@@ -655,7 +640,7 @@ Page({
     if (self.data.orderList.incloudProjectName != '' && self.data.orderList.incloudProjectName != '-'&&self.data.orderList.orderTime!=''&&self.data.orderList.orderTime!='-'){
     //判断总人数是否大于门店可用养脑师的人数
     // if (self.data.nurseCount > self.data.orderList.togethers.length + 1)
-    // { 
+    // {
 
         var orderList = self.data.orderList;
         var togetherList = self.data.togetherList;
@@ -691,16 +676,16 @@ Page({
             addBtnIsChecked: false,
           });
         }
-        
-      
+
+
       var temp1 = "togetherList.incloudProjectName";
       var temp2 = "togetherList.orderTime";
       var temp3 = "togetherList.currentTab";
       var temp4 = "togetherList.currentTabIndex";
       var temp5 = "togetherList.incloudProject";
       var temp9 = "togetherList.nurseType";
-      var temp11 = "togetherList.checkedTimeForStatus"; 
-      var temp12 = "togetherList.finalTab"; 
+      var temp11 = "togetherList.checkedTimeForStatus";
+      var temp12 = "togetherList.finalTab";
       //var temp6 = "togetherList.isTimeOk";
 
       self.setData({
@@ -756,16 +741,16 @@ Page({
           showCancel: false,
           confirmColor: '#fbb059',
         })
-       
+
       }
       orderList.togethers.push(togetherList);
       self.setData({
         orderList: orderList,
         //addBtnIsChecked: false,
       });
-    /** 与593搭配注释 */  
+    /** 与593搭配注释 */
     // }else{
-   
+
     //   wx.showModal({
     //     title: '',
     //     content: '门店共有' + self.data.nurseCount + '位可用技师，不能再添加同行人啦...',
@@ -775,7 +760,7 @@ Page({
     //     showAddFriends:false
     //   })
     // }
-    
+
   }else{
       self.setData({
         popErrorMsg:'请选择项目和时间...',
@@ -827,9 +812,9 @@ Page({
       //console.log(checkedTimeList)
       //console.log(self.data.haveBeenCheckedTimeList)
     }
-    
+
     orderList.togethers.splice(e.currentTarget.dataset.index, 1);
-    
+
     for (var index in orderList.togethers) {
      // console.log(index);
       var temp = "orderList.togethers[" + index + "].currentTabIndex";
@@ -870,7 +855,7 @@ Page({
     //console.log(new Date(self.data.navbarValues[self.data.orderList.currentTab]));
     self.queryStoreAvailabilityTime(new Date(self.data.navbarValues[self.data.orderList.currentTab]), e,null);
 
-    
+
   },
 
   // 日期tab切换（同行人）
@@ -899,7 +884,7 @@ Page({
     if(self.data.orderList.isShowIndex==true){
       self.setData({
         [currflag]: false
-      }) 
+      })
     }else{
       self.setData({
         readyToShowTime: true
@@ -945,307 +930,107 @@ Page({
         return
       }
     }
-    
+
   },
-  //每次选择时间时，调用门店当前可用养脑师
-  getNowCanUsedNurseList: function (theDay, index){
-      var self = this;
-      self.setData({
-        whoAreYou:index
-      })
-      self.showLoading()
-      //console.log("选择时间后，打印此时养脑师列表")
-    //console.log(theDay.substring(0, 10).replace(/-/g,''))
-      var copy_theDay = theDay
-    var theday = theDay.substring(0, 10).replace(/-/g, '')
-      //console.log(theday)
-    // var year = theday.getFullYear().toString()
-    // var mon = (theday.getMonth() + 1).toString()
-    //   if (mon < 10) {
-    //     mon = "0" + mon
-    //   }
-    // var day = theday.getDate()
-    //   if (day < 10) {
-    //     day = "0" + day
-    //   }
-    //   console.log(day)
-    //   //day = theDay.getDate().toString()
-    //   // console.log("打印当前时间")
-    //   // console.log(year)
-    //   // console.log(mon)
-    //   // console.log(day)
-    //   var dtoDate = year + mon + day
-    //   console.log(dtoDate)
-      //判断是谁在改项目
-      var prjCode = ''
-      //console.log("同行人ID" + index)
-      //console.log()
-      // //此为判断 在order页面选择门店后，不返回项目CODE，不调接口
-      // if (self.data.orderList.incloudProject.length == 0) {
-      //   console.log("这是选择门店回来 不含有项目code")
-      //   return
-      // }
-      //index为空时  是本人在修改  index有值时，是同行人在选项目
-      if (index == null) {
-        prjCode = self.data.orderList.incloudProject[0].code
-      } else {
-        prjCode = self.data.orderList.togethers[index].incloudProject[0].code
-      }
-
-      //console.log("打印要查询的项目code")
-      //console.log(prjCode)
-       //console.log(dtoDate)
-      //console.log(self.data.orderList.storeCode)
-      // 发起网络请求 获取套餐信息
-      wx.request({
-        url: app.globalData.path + 'rest/res/getReservationTimeRange',
-        method: 'GET',
-        data: {
-          storeCode: self.data.orderList.storeCode,//app.globalDate.storeCode
-          date: theday,//'20180701',
-          vipNo: '',
-          prjUuid: prjCode,//此属性待商榷啊，本应该是个数组
-        },
-        success: function (res) {
-
-          //console.log("得到门店可预约时间段的查询结果");
-          //console.log(res)
-          if (res.data.errcode == 0) {
-          //养脑师的列表属性名不对，循环重新赋值
-          var list = res.data.nurse
-          // //因为要判断这个是本人选择的  然后将可用养脑师的数目统计一下
-          // if (index == null) {
-          //   self.setData({
-          //     nurseCount: list.length
-          //   })
-          // }
-          //赋值
-          if (list.length != 0) {
-            for (var index in list) {
-              list[index].uuid = list[index].nurseCode
-              if (list[index].nurseName.length == 2) {
-                list[index].name = list[index].nurseName.charAt(0) + "   " + list[index].nurseName.charAt(1)
-              } else {
-                list[index].name = list[index].nurseName
+  //每次选择时间时，调用门店当前可用养脑师。index为空时  是本人在修改  index有值时，是同行人在选项目
+  getNowCanUsedNurseList: function (theDay, index) {
+    let self = this;
+    self.showLoading()
+    let orderList = self.data.orderList
+    self.setData({whoAreYou: index})//判断是谁在改项目
+    // 发起网络请求 获取套餐信息
+    let prjUuid = ((index || index === 0) ? orderList.togethers[index] : orderList).incloudProject[0].code
+    let date = theDay.substring(0, 10).replace(/-/g, '')
+    wx.request({
+      url: app.globalData.path + 'rest/res/getReservationTimeRange',
+      method: 'GET',
+      data: {date, prjUuid/*此属性待商榷，本应该是个数组*/, vipNo: '', storeCode: orderList.storeCode/*app.globalDate.storeCode*/},
+      success: function (res) {
+        let resData = res.data
+        if (resData.errcode == 0) {//养脑师的列表属性名不对，循环重新赋值
+          let technicianList = resData.nurse || []
+          technicianList.map(item => {
+            item.uuid = item.nurseCode
+            let nurseName = item.nurseName
+            item.name = (nurseName.length == 2) ? nurseName.charAt(0) + '   ' + nurseName.charAt(1) : nurseName
+            item.level = item.nurseLevel
+            item.imgUrl = item.nurseImg
+            item.star = item.nurseStar
+            item.checked = false
+          })
+          self.setData({technicianList})
+          //选完时间后，和养脑师可用时间比照，有空闲的显示
+          let checktimeStamp = Date.parse(theDay.replace(/-/g, '/'))//将时间的-转换成/   例如2018-09-15 10:00:00  2018/09/15 10:00:00 Iphone才能识别
+          let listCanUsed = []
+          //全都转换成时间戳去比较时间  筛选养脑师
+          self.data.technicianList.map(item => {
+            let availableTime = item.reservationAvailableTime || []
+            availableTime.map(item2 => {
+              let sTime = Date.parse(item2.startTime.replace(/-/g, '/'))
+              let eTime = Date.parse(item2.endTime.replace(/-/g, '/'))
+              if (checktimeStamp >= sTime && checktimeStamp <= eTime) {
+                listCanUsed.push(item)
               }
-              list[index].level = list[index].nurseLevel
-              list[index].imgUrl = list[index].nurseImg
-              list[index].star = list[index].nurseStar
-              list[index].reservationAvailableTime = list[index].reservationAvailableTime
-              list[index].checked = false
-            }
-          }
-            self.setData({
-              //reservationAvailableTime: res.data.reservationAvailableTime,
-              //将该门店的可预约技师列表赋值
-              technicianList: list
             })
-
-
-            //选完时间后，和养脑师可用时间比照，有空闲的显示
-            var checkedTime = copy_theDay
-            var ct = checkedTime.replace(/-/g, '/');//将时间的-转换成/   例如2018-09-15 10:00:00  2018/09/15 10:00:00 Iphone才能识别
-            //console.log("转换时间")
-            //console.log(ct)
-            var ctt = Date.parse(ct)
-            //console.log(ctt)
-            var nurseList = self.data.technicianList
-            var listCanUsed = []
-            //console.log("门店所有可用的技师:")
-            //console.log(nurseList)
-            //全都转换成时间戳去比较时间  筛选养脑师
-            for (var index in nurseList) {
-              if (nurseList[index].reservationAvailableTime.length != 0) {
-                for (var i in nurseList[index].reservationAvailableTime) {
-                  var st = Date.parse(nurseList[index].reservationAvailableTime[i].startTime.replace(/-/g, '/'))
-                  var et = Date.parse(nurseList[index].reservationAvailableTime[i].endTime.replace(/-/g, '/'))
-                  //console.log(ctt >= st);
-                  //console.log(ctt <= et);
-                  if (ctt >= st && ctt <= et) {
-                    listCanUsed.push(nurseList[index])
-                   // console.log(nurseList[index])
-                  }
-                }
-              }
+          })
+          //将筛选后的数组赋值给技师list
+          //本人重新选择了时间，同行人信息清空
+          if (index || index === 0) {//同行人选择时间时
+            let temp3 = `orderList.togethers[${index}].isTimeOk`
+            let count = 0
+            let haveBeenCheckedTimeList = self.data.haveBeenCheckedTimeList
+            haveBeenCheckedTimeList.map(item => {
+              if (theDay == item) count++
+            })
+            if (count >= listCanUsed.length) {
+              self.setData({[temp3]: false})
+              let content = '当前同行人没有可预约的养脑师，请换个时间...'
+              wx.showModal({title: '', content, showCancel: false, confirmColor: '#fbb059',})
+            } else {
+              haveBeenCheckedTimeList.push(theDay)
+              self.setData({[temp3]: true, haveBeenCheckedTimeList})
             }
-
-            //console.log("符合时间的养脑师:")
-            //console.log(listCanUsed)
-            //将筛选后的数组赋值给技师list
-            //本人重新选择了时间，同行人信息清空
-            var ttemp = "orderList.togethers"
-            var nurseType = "orderList.nurseType"
-            //如果是本人的话
-            if( self.data.whoAreYou == null){
-              //console.log("是本人在操作")
-              var riqi = copy_theDay
-              var clist = []
-              clist.push(riqi)
-              self.setData({
-                haveBeenCheckedTimeList: clist,//如果是本人直接将该日期存入 被选中的日期
-                technicianListCanUsed: listCanUsed,
-                [ttemp]: [],//本人重新选择了时间，同行人信息清空
-                showAddFriends: true,//显示添加同行人按钮
-                addBtnIsChecked: false,//添加同行人的按钮变为未选中状态
-                [nurseType]: 2,//修改时间后 默认改为轮值编号 2
-                currTimeNurseCount: listCanUsed.length
-              })
-            }else{
-              //同行人选择时间时
-              //console.log("同行人选了别的时间")
-              var temp3 = "orderList.togethers[" + self.data.whoAreYou+"].isTimeOk"
-              var count = 0
-              for(var i = 0 ;i<self.data.haveBeenCheckedTimeList.length;i++){
-                if (copy_theDay == self.data.haveBeenCheckedTimeList[i]){
-                  count++
-                }
-              }
-             // console.log(count)
-              if (count >= listCanUsed.length){
-                self.setData({
-                  [temp3]: false
-                })
-                wx.showModal({
-                  title: '',
-                  content: '当前同行人没有可预约的养脑师，请换个时间...',
-                  showCancel: false,
-                  confirmColor: '#fbb059',
-                })
-              }else{
-                var plist = self.data.haveBeenCheckedTimeList
-                    plist.push(copy_theDay)
-                self.setData({
-                  [temp3]: true,
-                  haveBeenCheckedTimeList: plist
-                })
-              }
-            }
-            //此时如果不是选择的当前currentTab，需要重新调接口
-            if (self.data.orderList.currentTab != 0) {
-
-            }
-            self.checkValue()
-            self.hiddenLoading()
-            
-          } else {
-            // console.log("这?")
-            // self.checkValue()
-            // self.hiddenLoading()
-            // wx.showModal({
-            //   title: "请求超时",
-            //   content: "系统繁忙，请稍后重试！",
-            //   showCancel: false,
-            // });
+          } else {//本人选择时间时
+            self.setData({
+              haveBeenCheckedTimeList: [theDay],//如果是本人直接将该日期存入 被选中的日期
+              technicianListCanUsed: listCanUsed,
+              ["orderList.togethers"]: [],//本人重新选择了时间，同行人信息清空
+              showAddFriends: true,//显示添加同行人按钮
+              addBtnIsChecked: false,//添加同行人的按钮变为未选中状态
+              ["orderList.nurseType"]: 2,//修改时间后 默认改为轮值编号 2
+              currTimeNurseCount: listCanUsed.length
+            })
           }
-        },
-        fail: function (err) {
-          // wx.showModal({
-          //   title: "请求超时",
-          //   content: "系统繁忙，请稍后重试！",
-          //   showCancel: false,
-          // });
+          self.checkValue()
+          self.hiddenLoading()
         }
-      });
+      }
+    });
   },
 
   /**
    * 选择服务时间
    */
   chooseTime: function (e) {
-    var self = this;
+    let self = this;
+    let buttonTime = e.currentTarget.dataset.item//简化，被点击的按钮上带的参数
+    let nowTime = new Date()
+    let Y_M = nowTime.getFullYear() + '-' + (nowTime.getMonth() + 1) + '-'//年加月
+    let today = Y_M + (nowTime.getDate() + (buttonTime.substring(0, 1) == '0' ? 1 : 0)) + ' '
+    let checkedTime = today +buttonTime
     //选择时间后调用轮值养脑师接口
-    self.getTodayNurseList(app.globalData.storeCode, self.data.navbarValues[self.data.orderList.currentTab] + " " + e.currentTarget.dataset.item.substring(0, 8));
-
-    var temp1 = "orderList.orderTime";
-    var temp2 = "orderList.isShowIndex";
-    var nurseName = "orderList.nurseCodeName"
-    var nurseCode = "orderList.nurseCode"
-   // console.log("截取名字")
+    self.getTodayNurseList(app.globalData.storeCode, checkedTime);
     //将被所有人选中的时间的list清空，再将本次的选中时间赋值
-    var currlist = []
-    var currcheckedtime = self.data.navbarValues[self.data.orderList.currentTab] + " " + e.currentTarget.dataset.item.substring(0, 8)
-    currlist.push(currcheckedtime)
-    //console.log("清空被选中时间的list，并将此次的值赋给haveBeenCheckedTimeList：" + currlist)
-    // self.setData({
-    //   haveBeenCheckedTimeList: currlist
-    // })
-    //如果是轮值技师 不替换，否则技师内容需要清空
-    // var flag = self.data.orderList.nurseCodeName.substring(self.data.orderList.nurseCodeName.length - 3, self.data.orderList.nurseCodeName.length - 1)
-    // if (flag == '轮值'){
-    //   self.setData({
-    //     [temp1]: self.data.navbarValues[self.data.orderList.currentTab] + " " + e.currentTarget.dataset.item.substring(0, 8),
-    //     [temp2]: false,
-    //   })
-    // }else{
-      var thestatus = "orderList.checkedTimeForStatus"
-    var finalTab = "orderList.finalTab"
-      var forstatus = currcheckedtime.substring(11,16).replace(':','')
-     // console.log("状态"+forstatus)
-      self.setData({
-        [temp1]: self.data.navbarValues[self.data.orderList.currentTab] + " " + e.currentTarget.dataset.item.substring(0, 8),
-        [temp2]: false,
-        [nurseName]: '',
-        [nurseCode]: '',
-        [thestatus]: forstatus,//为了展示选中时间的状态
-        [finalTab]: self.data.orderList.currentTab//将选中时间此时的时间日期tab下标 赋值给最终选择时间的日期下标保存，用于显示
-      })
-    // }
-   
-    //console.log(self.data.navbarValues[self.data.orderList.currentTab] + " " + e.currentTarget.dataset.item.substring(0, 8))
+    self.setData({
+      ["orderList.orderTime"]: checkedTime,
+      ["orderList.isShowIndex"]: false,
+      ["orderList.nurseCodeName"]: '',
+      ["orderList.nurseCode"]: '',
+      ["orderList.checkedTimeForStatus"]: buttonTime.substring(0, 5).replace(':', ''),//为了展示选中时间的状态
+      ["orderList.finalTab"]: self.data.orderList.currentTab//将选中时间此时的时间日期tab下标 赋值给最终选择时间的日期下标保存，用于显示
+    })
     //调接口得到当前养脑师列表
-    self.getNowCanUsedNurseList(self.data.navbarValues[self.data.orderList.currentTab] + " " + e.currentTarget.dataset.item.substring(0, 8),null)
-
-
-    // //选完时间后，和养脑师可用时间比照，有空闲的显示
-    // var checkedTime = self.data.navbarValues[self.data.orderList.currentTab] + " " + e.currentTarget.dataset.item.substring(0, 8)
-    // var ct = checkedTime.replace(/-/g, '/');//将时间的-转换成/   例如2018-09-15 10:00:00  2018/09/15 10:00:00 Iphone才能识别
-    // console.log("转换时间")
-    // console.log(ct)
-    // var ctt = Date.parse(ct)
-    // console.log(ctt)
-    // var nurseList = self.data.technicianList
-    // var listCanUsed = []
-    // console.log("门店所有可用的技师:")
-    // console.log(nurseList)
-    // //全都转换成时间戳去比较时间  筛选养脑师
-    // for (var index in nurseList){
-    //   if (nurseList[index].reservationAvailableTime.length!=0){
-    //     for (var i in nurseList[index].reservationAvailableTime){
-    //     var st = Date.parse(nurseList[index].reservationAvailableTime[i].startTime.replace(/-/g, '/'))
-    //     var et = Date.parse(nurseList[index].reservationAvailableTime[i].endTime.replace(/-/g, '/'))
-    //     console.log(ctt >= st);
-    //     console.log(ctt <= et);
-    //     if(ctt>=st&&ctt<=et){
-    //       listCanUsed.push(nurseList[index])   
-    //       console.log(nurseList[index])
-    //     }
-    //     }
-    //   }
-    // }
-    
-    // console.log("符合时间的养脑师:")
-    // console.log(listCanUsed)
-    // //将筛选后的数组赋值给技师list
-    // //本人重新选择了时间，同行人信息清空
-    // var ttemp = "orderList.togethers"
-    // var nurseType = "orderList.nurseType"
-    // self.setData({
-    //   technicianListCanUsed: listCanUsed,
-    //   [ttemp]: [],//本人重新选择了时间，同行人信息清空
-    //   showAddFriends:true,//显示添加同行人按钮
-    //   addBtnIsChecked: false,//添加同行人的按钮变为未选中状态
-    //   [nurseType]:2,//修改时间后 默认改为轮值编号 2
-    // })
-    // self.setData({
-    //   currTimeNurseCount: listCanUsed.length
-    // })
-  
-    // //此时如果不是选择的当前currentTab，需要重新调接口
-    // if (self.data.orderList.currentTab!=0){
-
-    // }
-    // console.log(self.data.navbarValues[self.data.orderList.currentTab] + " " + e.currentTarget.dataset.item.substring(0, 8))
-    //this.checkValue()
+    self.getNowCanUsedNurseList(checkedTime, null)
   },
 
   /**
@@ -1333,7 +1118,7 @@ Page({
     self.setData({
       haveBeenCheckedTimeList:clist
     })
-    
+
     // console.log(e.currentTarget.dataset.index);
     var temp1 = "orderList.togethers[" + e.currentTarget.dataset.index + "].orderTime";
     var temp2 = "orderList.togethers[" + e.currentTarget.dataset.index + "].isShowIndex";
@@ -1352,8 +1137,8 @@ Page({
       [temp11]: forstatus,//将选中的日期赋值
       [temp13]: self.data.orderList.togethers[e.currentTarget.dataset.index].currentTab//点击时间控件时，默认选中之前选中的Tab时间日期
     })
-    
-    //同行人选完时间后看是否与本人时间相同 
+
+    //同行人选完时间后看是否与本人时间相同
     if (self.data.navbarValues[self.data.orderList.togethers[e.currentTarget.dataset.index].currentTab] + " " + e.currentTarget.dataset.item.substring(0, 8) == self.data.orderList.orderTime){
       var count = 0;
       for (var i = 0; i < self.data.haveBeenCheckedTimeList.length;i++){
@@ -1389,7 +1174,7 @@ Page({
       //     if (theflag){
       //       count++
       //     }
-          
+
       //   }
       // }
       //console.log("此时有几个同时间"+count)
@@ -1412,9 +1197,9 @@ Page({
           haveBeenCheckedTimeList:plist
         })
       }
-      
+
     }else{//如果与本人时间不同，则调用接口 查询有几个养脑师可约
-      //调用接口 
+      //调用接口
       self.getNowCanUsedNurseList(self.data.navbarValues[self.data.orderList.togethers[e.currentTarget.dataset.index].currentTab] + " " + e.currentTarget.dataset.item.substring(0, 8), e.currentTarget.dataset.index)
       // self.setData({
       //   [temp3]:true
@@ -1429,187 +1214,42 @@ Page({
 
   // 时间状态
   getTimeStatus: function (e) {
-    //console.log("修改时间状态，参数为下")
-    //console.log(e)
-    var self = this;
-    var timeTemp = {
-      time1000: false,
-      time1030: false,
-      time1100: false,
-      time1130: false,
-      time1200: false,
-      time1230: false,
-      time1300: false,
-      time1330: false,
-      time1400: false,
-      time1430: false,
-      time1500: false,
-      time1530: false,
-      time1600: false,
-      time1630: false,
-      time1700: false,
-      time1730: false,
-      time1800: false,
-      time1830: false,
-      time1900: false,
-      time1930: false,
-      time2000: false,
-      time2030: false,
-      time2100: false,
-      time2130: false,
-      time2200: false,
-      time2230: false,
-      time2300: false,
-      time2330: false,
+    let self = this;
+    let timeTemp = {}
+    for (let i = 1000; i < 2340; i = i + (i % 100 ? 70 : 30)) {
+      timeTemp['time' + i] = true
     }
-    //初始化时间的状态
-    self.setData({
-      times: timeTemp,
-      fulltimes:timeTemp
-    });
-    //得到门店预约最早时间和 最晚时间
-    var minTime = '10:00:00'//所有时间的最小时间，（开始时间）
-    var maxTime = '23:30:00'//所欲时间的最大时间，（打烊时间）
-    // var min = ''
-    // var max
-    // for (var index in self.data.reservationAvailableTime){
-    //    min = self.data.reservationAvailableTime[0].startTime.substring(11)
-    //    max = self.data.reservationAvailableTime[0].endTime.substring(11)
-    //   if (self.data.reservationAvailableTime[index].startTime.substring(11)<minTime){
-    //    min = self.data.reservationAvailableTime[index].startTime.substring(11)
-    //   }
-    //   if (self.data.reservationAvailableTime[index].endTime.substring(11)>maxTime){
-    //    max = self.data.reservationAvailableTime[index].endTime.substring(11)
-    //   }
-    // }
-    //console.log("最小时间："+minTime+",最大时间："+maxTime)
-    // 根据时间给页面的disable赋值
-    var list = []
-    //console.log("这里开始修改时间状态")
-    for (var index1 in self.data.reservationAvailableTime) {
-      for (var index2 in self.data.timesArr) {
-        // 当前时间
-        if (e == 0) {
-          if (self.data.reservationAvailableTime[index1].startTime.substring(11) <= self.data.timesArr[index2] && self.data.timesArr[index2] <= self.data.reservationAvailableTime[index1].endTime.substring(11) && self.data.nowTime <= self.data.timesArr[index2]) {
-            
-            var temp = "times.time" + self.data.timesArr[index2].substring(0, 5).replace(':', '');
-           // var temp1 = "fulltimes.time" + self.data.timesArr[index2].substring(0, 5).replace(':', '');
-            list.push(self.data.timesArr[index2])
-            self.setData({
-              [temp]: true,
-              //[temp1]:false
-            });         
-           }         
-        }else{
-         // console.log("不是预约当天的情况")
-          if (self.data.reservationAvailableTime[index1].startTime.substring(11) <= self.data.timesArr[index2] && self.data.timesArr[index2] <= self.data.reservationAvailableTime[index1].endTime.substring(11) ) {
-            var temp = "times.time" + self.data.timesArr[index2].substring(0, 5).replace(':', '');
-            //var temp1 = "fulltimes.time" + self.data.timesArr[index2].substring(0, 5).replace(':', '');
-            list.push(self.data.timesArr[index2])
-            self.setData({
-              [temp]: true,
-             // [temp1]:false
-            });
-          }
-        }
+    timeTemp.time0000 = true
+    timeTemp.time0030 = true
+    timeTemp.time0100 = true
+    self.setData({times: timeTemp, fulltimes: timeTemp});
+    //以上初始化时间的状态，以下为变量赋值
+    let nowTime = new Date()
+    let nowStamp = nowTime.getTime()
+    let Y_M = nowTime.getFullYear() + '-' + (nowTime.getMonth() + 1) + '-'//年加月
+    let todayHead = Y_M + nowTime.getDate() + ' '//当天的年月日
+    let tomorrowHead = Y_M + (nowTime.getDate() + 1) + ' '//明天的年月日
+    //由于技师时间一定在营业时间内，超出的也算作非可用时间，所以外层判断营业时间，内层判断技师时间。后续如果营业时间后推，只需改变下面写死的maxTime和minTime即可
+    let minTime = new Date(todayHead + '10:00:00').getTime()//开始时间，写死上午10点
+    let maxTime = new Date(tomorrowHead + '02:00:00').getTime()//打烊时间，写死后半夜2点，目前按钮只配置到1点，需要的话加按钮即可
+    self.data.timesArr.map((item, index) => {
+      let timeStamp = new Date((index > 27 ? tomorrowHead : todayHead) + item).getTime()
+      let keyAss = item.substring(0, 5).replace(':', '')
+      if ((minTime <= timeStamp && timeStamp <= maxTime)//门店营业时间之内
+        && ((e == 0) ? nowStamp <= timeStamp : true)//在当前时间之后。。e=0则是当天，不是0则是明天后天等（此时不存在在当前时间之前的情况）
+      ) {
+        //这里在营业时间内，接下来判断技师是否有空
+        self.data.reservationAvailableTime.map(item2 => {
+          let sTime = new Date(item2.startTime).getTime()
+          let eTime = new Date(item2.endTime).getTime()
+          if ((sTime <= timeStamp && timeStamp <= eTime)) self.setData({["fulltimes.time" + keyAss]: false})
+        })
+      } else {
+        self.setData({["times.time" + keyAss]: false})
       }
-    }
-    if(e==0){
-      //console.log("这是可以预约的时间")
-      //console.log(list)
-      var list1 = []
-      for (var index in self.data.timesArr) {
-        if (self.data.timesArr[index] >= minTime && self.data.timesArr[index] >= self.data.nowTime && self.data.timesArr[index] <= maxTime) {
-          list1.push(self.data.timesArr[index])
-        }
-      }
-
-    }else{
-      //console.log("这是可以预约的时间")
-      //console.log(list)
-      var list1 = []
-      for (var index in self.data.timesArr) {
-        if (self.data.timesArr[index] >= minTime && self.data.timesArr[index] <= maxTime) {
-          list1.push(self.data.timesArr[index])
-        }
-      }
-
-    }
-    
-    //console.log(list1)
-    //将可用时间 和可预约时间段的时间相减
-    for(var index in list1){
-      for(var i in list){
-        if(list[i]==list1[index]){
-          list1.splice(index,1)
-        }
-      }
-    }
-  
-    //console.log(list1)
- 
-    //筛选出了可预约时间段内的预约满的时间，进行赋值
-    for(var index in list1){
-      var temp1 = "fulltimes.time" +list1[index].substring(0, 5).replace(':', '');
-      var temp = "times.time" + list1[index].substring(0, 5).replace(':', '');
-      self.setData({
-        [temp1]:true,
-        [temp]:true
-      })
-    }
-   
-    // console.log("******************************")
-    // var currdate = self.data.navbarValues[e].replace(/-/g, '/')
-    // //var curryear = self.navbar
-    // console.log(list1)
-    // for (var index in list1) {
-    //   list1[index] = currdate + ' ' + list1[index]
-    // }
-    // console.log("把日期追加上后")
-    // console.log(list1)
-    // var storeInfo = self.data.storesInfo
-    // console.log(storeInfo.lon)
-    // console.log(storeInfo.lat)
-    // console.log(app.globalData.cityCode)
-    // console.log(self.data.orderList.incloudProject[0])
-    // console.log("///////////////////////////////")
-    // //循环调用接口  判断这个预约满时间是否有其他店门有时间
-    // //给list写上长度
-    // var crlist = new Array(list1.length)
-    // self.setData({
-    //   thelistlength: list1.length
-    // })
-    // console.log("哈哈哈哈哈哈哈哈")
-    // console.log(crlist.length)
-    // console.log(self.data.thelistlength)
-    // self.setData({
-    //   thelist: crlist
-    // })
-    // console.log("这次预先给thelist长度设置为：" + list1.length)
-    // // for(var index in list1){
-    // if (list1.length!=0){
-    //   console.log("这次预先给thelist长度设置为：" + list1.length)
-    //   for (var index = 0; index < list1.length; index++) {
-    //     var currtime = Date.parse(list1[index])
-    //     var param = {
-    //       cityCode: app.globalData.cityCode,
-    //       lon: storeInfo.lon,
-    //       lat: storeInfo.lat,
-    //       distance: '',
-    //       reservationTime: currtime,
-    //       prjUuid: self.data.orderList.incloudProject[0].code,
-    //       vipNo: '',
-    //     }
-    //     var url = app.globalData.path + 'rest/RzMiniProgramRest/searchStoresWithinGivenDistance'
-    //     self.isOtherStoreHasTime(index, url, param, list1)//这里涉及到同步异步 需要提取出wx.request方法 防止数据错乱
-    //   }
-
-    // }else{
-      self.hiddenLoading()
-      self.setData({
-        readyToShowTime: false
-      })
-    //}
+    })
+    self.hiddenLoading()
+    self.setData({readyToShowTime: false})
   },
   /**
    * 异步获取可用时间结果后续处理
@@ -1640,11 +1280,11 @@ Page({
               readyToShowTime: false
             })
           },1000)
-          
+
         }
       }
     }
-   
+
    // console.log(self.data.times)
   },
   /**
@@ -1706,7 +1346,7 @@ Page({
     })
     //如果有被选中的  确定按钮激活
     if (this.data.checkedTechnicianId!=''){
-     
+
       this.setData({
         isCheckedTechnician:true
       })
@@ -1747,7 +1387,7 @@ Page({
           name = list[index].name
         }else{
           list[index].checked = false
-        } 
+        }
       }
       this.setData({
         isShowTechnician: false,
@@ -1831,13 +1471,13 @@ Page({
       isShowConfirmBtn:1
     })
     }
-    
-    var storeName = this.data.orderList.orderStore 
+
+    var storeName = this.data.orderList.orderStore
     if (this.data.orderList.orderStore != '' && this.data.orderList.orderStore != '-') {
     //var name = '';
 
    //点谁 将谁的所选项目数组通过index选出来，再将谁是被选中的赋值给projectList
-    
+
     var checkedProject = this.data.orderList.togethers[partnerIndex].incloudProject;
     //console.log("此时被选中的项目")
      // console.log(checkedProject)
@@ -1857,7 +1497,7 @@ Page({
         if (list[index].uuid == checkedProject[i].code) {
           //name = name + ' ' + list[index].projectName;
           list[index].checked = true
-          
+
         }
       }
     }
@@ -1867,7 +1507,7 @@ Page({
       isShowProjectPartner: true
       })
     } else {
- 
+
       this.setData({
         popErrorMsg: "请选择门店"
       })
@@ -1885,7 +1525,7 @@ Page({
         [temp3]: this.data.currPjCode,
       })
     }
-    
+
     var name = '';
     var list = this.data.projectList;
     //保存时先把所有checked设为false，在通过遍历 将选中的项目设置为true
@@ -1908,7 +1548,7 @@ Page({
     var currentTab = "orderList.currentTab"
     var finalTab = "orderList.finalTab"
     var checkedTimeClear = "orderList.checkedTimeForStatus"
-    
+
     this.setData({
       [checkedTimeClear]:'',//被选中的时间的判断值清空
       [finalTab]:0,//最终选择时间日期的tab的index清空
@@ -1920,7 +1560,7 @@ Page({
     // var e = { currentTarget: { dataset: { idx: this.data.orderList.currentTab}}}
     // console.log("此时的e" + this.data.orderList.currentTab)
     //当保存选择的项目时，调用可用时间段接口，查询该项目的可用时间段，并赋值给时间控件,为了在点开时间的情况下，选择项目，也需要赋值
-    
+
     //this.queryStoreAvailabilityTime(new Date(),null,null,false)
     var temp = "orderList.incloudProjectName";
     //如果name过长，截取一部分，显示..并加上一共选了几项
@@ -1929,7 +1569,7 @@ Page({
       name = name.substring(0, 12) + '..'
     }
     this.setData({
-      
+
       projectList:list,
       isShowProject: false,
       [temp]: name,
@@ -1957,7 +1597,7 @@ Page({
       this.setData({
         [temp3]: this.data.currPjCode,
       })
-    } 
+    }
     // var theflag = false//判断同行人换项目后是否和本人选择的项目相同
     // console.log("+++++++++++++++++++++++++++++")
     // console.log(this.data.currPjCode.length)
@@ -1969,7 +1609,7 @@ Page({
     //     for (var i in this.data.orderList.incloudProject){
     //       if (this.data.orderList.incloudProject[i].code == this.data.currPjCode[index].code){
     //         theflag = true
-    //         break 
+    //         break
     //       }
     //       if (i == this.data.orderList.incloudProject.length-1 && theflag==false){
     //         break label
@@ -2015,7 +1655,7 @@ Page({
     var currentTab = "orderList.togethers[" + partnerIndex + "].currentTab";
     var finalTab = "orderList.togethers[" + partnerIndex + "].finalTab"
     var checkedTimeClear = "orderList.togethers[" + partnerIndex + "].checkedTimeForStatus"
-      
+
     this.setData({
       [checkedTimeClear]: '',//被选中的时间的判断值清空
       [finalTab]: 0,//最终选择时间日期的tab的index清空
@@ -2052,7 +1692,7 @@ Page({
     //     list[index].checked = false
     //   }
     //   this.setData({
-       
+
     //     projectList: list,
     //     [temp]: '-',
     //     [time]:'-',
@@ -2091,7 +1731,7 @@ Page({
     //     [temp]: '-',
     //     [time]:'-'
     //   })
-      
+
     // }
     // //在选中一个项目的情况下 点击取消 清空对应选中项目数组的值
     //  if (this.data.orderList.togethers[partnerIndex].incloudProjectName == '' | this.data.orderList.togethers[partnerIndex].incloudProjectName == '-'){
@@ -2118,7 +1758,7 @@ Page({
   //     })
   //   }else{
   //     this.setData({
-  //       [temp1]: 0, 
+  //       [temp1]: 0,
   //       isShowConfirmBtn:0
   //     })
   //   }
@@ -2155,7 +1795,7 @@ Page({
       })
     }
     var list1 = [];
-  
+
     for (var index in list) {
       var hi = { code: list[index] }
       list1.push(hi)
@@ -2163,7 +1803,7 @@ Page({
     this.setData({
       [temp]: list1
     })
-    
+
   },
 
   /**
@@ -2199,7 +1839,7 @@ Page({
    */
   preventTouchMove: function () {
   },
- 
+
   /**
    * 对话框取消按钮点击事件
    */
@@ -2262,7 +1902,7 @@ Page({
       })
       //console.log(self.data.orderList.incloudProject[0].code)
       //有vipNo则调用创建预约接口
-      // wx.request({    
+      // wx.request({
       //   url: app.globalData.path +'rest/res/createReservation',
       //   data:{
       //     accessToken:'YUIEGDNjBmxmf3VDY0QHU3xmbAQs6dOV5XWLDu',
@@ -2314,7 +1954,7 @@ Page({
     console.log(phoneNumber)
     console.log(openId)
     if (self.data.yzmCode != ''){
-      self.showLoading() //开始一系列验证 
+      self.showLoading() //开始一系列验证
       wx.request({
         url: app.globalData.path + 'rest/xcx/xcxCheckPhoneCode?phone=%2B' + self.data.areaCode + self.data.phoneNumber + '&passWord=' + self.data.yzmCode,//?phone='+self.data.phoneNumber+'&passWord='+self.data.yzmCode,
         // header: {//请求头
@@ -2361,7 +2001,7 @@ Page({
                 encryptedData: encryptedData,
                 iv: iv
               },
-              success:function(res){         
+              success:function(res){
                   var union_id = res.data.union_id;
                   self.setData({
                     union_id: union_id,
@@ -2421,7 +2061,7 @@ Page({
                       }
                     }
                   });
-          
+
                 },
               fail: function (err) {
                 self.hiddenLoading()//关闭loading图标
@@ -2431,7 +2071,7 @@ Page({
                 //   showCancel: false,
                 // });
               }
-            })           
+            })
         }
       },
       fail: function (err) {
@@ -2499,11 +2139,6 @@ Page({
       areadyGetYzm: false,//改变了地区 电话也就更改了 所以将得到验证码状态设置为false
     })
   },
-  cancel: function () {
-    this.setData({
-      hiddenmodalput: false
-    })
-  },
   checkthis:function(r){
     //console.log(r)
     var e = r.currentTarget.dataset.projectid
@@ -2543,9 +2178,9 @@ Page({
     //   //console.log("这是选择门店回来 不含有项目code")
     //   return
     // }
- 
+
       prjCode = self.data.orderList.incloudProject[0].code
- 
+
     //console.log("打印要查询的项目code")
     //console.log(prjCode)
     //console.log(self.data.orderList.storeCode)
@@ -2629,7 +2264,7 @@ Page({
               }
               console.log("符合时间的养脑师数据返回完毕:")
               console.log(listCanUsed)
-              
+
               //将筛选后的数组赋值给技师list
               self.setData({
                 technicianListCanUsed: listCanUsed,
@@ -2644,7 +2279,7 @@ Page({
             confirmColor: '#fbb059',
           });
         }
-        
+
       },
       fail: function (err) {
         wx.showModal({
@@ -2731,15 +2366,15 @@ Page({
             }else{
               list[index].name = list[index].nurseName
             }
-            
+
             list[index].level = list[index].nurseLevel
             list[index].imgUrl = list[index].nurseImg
             list[index].star = list[index].nurseStar
             list[index].reservationAvailableTime = list[index].reservationAvailableTime
             list[index].checked = false
-          }  
+          }
          }
-        
+
         // 后台正常返回
         if (res.data.errcode == 0) {
             self.setData({
@@ -2786,12 +2421,12 @@ Page({
                 })
               }
             }else{
-              
+
                   self.getTimeStatus(0)
-              
+
                 //self.hiddenLoading()
               }
-        
+
         } else {
           // wx.showModal({
           //   title: "请求超时",
@@ -2811,38 +2446,22 @@ Page({
   },
 
   /**  检测页面 必填项是否已经填写   */
-  checkValue:function(){
-    var partner = true
-    var singo = []
-    var list = this.data.orderList
-    if(list.togethers.length!=0){
-      for(var index in list.togethers){
-        if (list.togethers[index].incloudProjectName != '' && list.togethers[index].incloudProjectName != '-' && list.togethers[index].orderTime != '' && list.togethers[index].orderTime != '-' && list.togethers[index].orderTime != '请重新选择时间' && list.togethers[index].isTimeOk == true){
-          var flag = true
-          singo.push(flag)
-        }else{
-          var flag  = false
-          singo.push(flag)
-        }
-      }
-      for(var i in singo){
-        if(singo[i] == false){
-          partner = false
-        }
-      }
-    }else{
-      partner = true
-    }
-    console.log(partner+">>>")
-    if (partner && list.incloudProjectName != '' && list.incloudProjectName != '-'&&list.orderTime!=''&&list.orderTime!='-'&&list.orderStore!=''&&list.orderStore!='-'){
-      this.setData({
-        isOk:true
-      })
-    }else{
-      this.setData({
-        isOk: false
-      })
-    }
+  checkValue: function () {
+    let singo = []
+    let list = this.data.orderList
+    let arrrr = ['', '-']
+    let togethers = list.togethers || []
+    togethers.map(item => {
+      singo.push(arrrr.indexOf(item.incloudProjectName) < 0 && ['', '-', '请重新选择时间'].indexOf(item.orderTime) < 0 && item.isTimeOk)
+    })
+    let partner = singo.every(item => {
+      return item
+    })
+    let isOk = Boolean(partner &&
+      arrrr.indexOf(list.incloudProjectName) < 0 &&
+      arrrr.indexOf(list.orderTime) < 0 &&
+      arrrr.indexOf(list.orderStore) < 0)
+    this.setData({isOk})
   },
   //验证大陆手机号
   testPhoneDalu:function(phone){
@@ -2856,7 +2475,7 @@ Page({
   },
 
   //获取验证码
-  yzmGet:function(){  
+  yzmGet:function(){
     var self =this
     var phone = self.data.phoneNumber;
     if(phone==''){
@@ -2907,7 +2526,7 @@ Page({
             })
             app.ohShitfadeOut(self);
             return
-            
+
           } else {
             self.setData({
               popErrorMsg: '请检查电话号对错'
@@ -2942,7 +2561,7 @@ Page({
         this.setData({
           phoneNumber: e.detail.value,
           jihuo:true,
-          
+
         })
       } else {
         this.setData({
@@ -2960,7 +2579,7 @@ Page({
           app.ohShitfadeOut(this);
           return
         }
-        
+
       }
     } else {
       if (e.detail.value.length == 8 && this.testPhoneGangAo(e.detail.value)) {
@@ -2985,7 +2604,7 @@ Page({
         }
       }
     }
-    
+
     console.log(this.data.phoneNumber)
   }
   ,
@@ -3040,44 +2659,24 @@ Page({
     })
   },
   //查询当天轮排技师
-  getTodayNurseList:function(storeCode,today){
-    //console.log("查询该门店当天轮排技师")
-    //var storeCode = "02010101008"
-    //console.log(storeCode + "," + today)
-    //console.log(today.replace(/-/g, '/'))
-    //var hah = new Date
-    //console.log(Date.parse(today.replace(/-/g, '/')))
-    var self = this
-    var currentDay = Date.parse(today)
-    var nurseCodeName = "orderList.nurseCodeName"
-    var nurseCode = "orderList.nurseCode"
-    var projectCode = []//self.data.orderList.incloudProject
-    for (var index in self.data.orderList.incloudProject){
-      projectCode[index]=self.data.orderList.incloudProject[index].code
-    }
-    //console.log(projectCode)
-    //console.log("轮排技师的参数 项目code：")
-    //console.log(projectCode)
+  getTodayNurseList: function (storeUuid, checkedTime) {
+    let self = this
+    let date = Date.parse(checkedTime)//'1536854400000'
+    let projectCode = []
+    self.data.orderList.incloudProject.map(item => {
+      projectCode.push(item.code)
+    })
     wx.request({
       url: app.globalData.path + 'rest/reservation/storeTurns',
-      data:{
-        storeUuid: storeCode,
-        date: currentDay,//'1536854400000'//currentDay
-        projectCode: projectCode
-      },
-      success:function(res){
-          //console.log("今天轮排技师")
-          //console.log(res)
-        if (res.data.length != 0 &&res.data.errcode != "RES-51002" && res.data.errcode != "RES-52001" && res.data.errcode != "RES-50012"){
-           //console.log("进入这里了")
-          //console.log(res.data.errcode)
-           self.setData({
-            [nurseCodeName]:res.data[0].name+'轮排',
-            [nurseCode]:res.data[0].uuid
+      data: {storeUuid, date, projectCode},
+      success: function (res) {
+        let resData = res.data
+        if (resData.length && ["RES-51002", "RES-52001", "RES-50012"].indexOf(resData.errcode) < 0) {
+          self.setData({
+            ["orderList.nurseCodeName"]: resData[0].name + '轮排',
+            ["orderList.nurseCode"]: resData[0].uuid
           })
-        }else{
-          //console.log("没有轮排人员")
-        }
+        }// else console.log("没有轮排人员")
       }
     })
   },
@@ -3118,87 +2717,64 @@ Page({
   },
   //预约满时
   yoyakuFullTime:function(e){
-    var self = this
-    //console.log(e)
+    let self = this
     self.showLoading()
-    var prjId = ''
-    if(e.currentTarget.dataset.index==99){
-      //console.log("是本人选了满的时间")
-      prjId = self.data.orderList.incloudProject[0].code
-
-    }else{
-      //console.log("是同行人选了满的时间")
-      prjId = self.data.orderList.togethers[e.currentTarget.dataset.index].incloudProject[0].code
-    }
-    var times = self.data.navbarValues[self.data.orderList.currentTab] + " " + e.currentTarget.dataset.item.substring(0, 8)
-    //console.log('预约满时')
-    //console.log(times)
-    var dtoTime = Date.parse(times.replace(/-/g, '/'))
-    //console.log(dtoTime)
-    var url = app.globalData.path + 'rest/RzMiniProgramRest/searchStoresWithinGivenDistance'
-    var storeInfo = self.data.storesInfo
-    var param = {
+    let orderList = self.data.orderList//简化
+    let dataset = e.currentTarget.dataset//简化，被点击的按钮上带的参数
+    let index = dataset.index//简化，点击的按钮的index属性。index==99指是本人选了满的时间，否则是同行人选择的。潜在bug，选择了超过99个时间的时候触发
+    let prjUuid = (index == 99 ? orderList : orderList.togethers[index]).incloudProject[0].code//预约的项目id
+    // let times = self.data.navbarValues[orderList.currentTab] + " " + dataset.item.substring(0, 8)//以前只能预约当天的时间
+    let nowTime = new Date()
+    let Y_M = nowTime.getFullYear() + '-' + (nowTime.getMonth() + 1) + '-'//年加月
+    let todayHead = Y_M + nowTime.getDate() + ' '//当天的年月日
+    let tomorrowHead = Y_M + (nowTime.getDate() + 1) + ' '//明天的年月日
+    let times = (dataset.item.substring(0, 1) == '0' ? tomorrowHead : todayHead) + dataset.item//现在可以预约后半夜的时间
+    let reservationTime = Date.parse(times)
+    let url = app.globalData.path + 'rest/RzMiniProgramRest/searchStoresWithinGivenDistance'
+    let storeInfo = self.data.storesInfo
+    let param = {
       cityCode: app.globalData.cityCode,
-      lon: storeInfo.lon,
-      lat: storeInfo.lat,
-      distance: '3000',
-      reservationTime: dtoTime,
-      prjUuid: prjId,
-      vipNo: '',
+      lon: storeInfo.lon, lat: storeInfo.lat,
+      distance: '3000', reservationTime, prjUuid, vipNo: '',
     }
-    self.isOtherStoreHaveTime(url, param, dtoTime)
-    //console.log(e)
+    self.isOtherStoreHaveTime(url, param, reservationTime)
     self.hiddenLoading()
-    // self.setData({
-    //   hiddenmodalput:true,
-    //   currFullTime: dtoTime
-    // })
   },
-  isOtherStoreHaveTime: function (url, param, dtoTime){
-    var self = this
+  //查询其他门店是否有有空的护理师
+  isOtherStoreHaveTime: function (url, data, dtoTime) {
+    let self = this
+    let content = ''
+    let confirmText = '确定'
+    let showCancel = false
+    let success = function (res) {
+    }
+
+    function showModal () {
+      wx.showModal({title: '', content, confirmColor: '#fbb059', confirmText, success, showCancel})
+    }
+
     wx.request({
-      url: url,
-      data:param,
-      method:'POST',
-      success:function(res){
-        //console.log("进入这里")
-        console.log(res)
-        if(res.data.length>0){
-          wx.showModal({
-            title: '',
-            content: app.globalData.storeName+'此时间已约满，是否查看同时间可预约门店？',
-            confirmColor:'#fbb059',
-            confirmText:'查看',
-            success:function(res){
-              if(res.confirm){
-                self.setData({
-                  //hiddenmodalput: true,
-                  currFullTime: dtoTime
-                })
-                self.go2otherStore()
-              }
+      url, data, method: 'POST',
+      success (res) {
+        if (res.data.length > 0) {
+          content = app.globalData.storeName + '此时间已约满，是否查看同时间可预约门店？'
+          confirmText = '查看'
+          showCancel = true
+          success = function (res) {
+            if (res.confirm) {
+              self.setData({currFullTime: dtoTime})
+              self.go2otherStore()
             }
-          })
-          //  self.setData({
-          //   hiddenmodalput:true,
-          //   currFullTime: dtoTime
-          //  })
-        }else{
-          wx.showModal({
-            title: '',
-            content: '该时间段暂无可预约门店，请您尝试更换其他时间，谢谢！',
-            showCancel:false,
-            confirmColor: '#fbb059',
-          })
+          }
+          showModal()
+        } else {
+          content = '该时间段暂无可预约门店，请您尝试更换其他时间，谢谢！'
+          showModal()
         }
       },
-      fail:function(err){
-        wx.showModal({
-          title: '',
-          content: "服务器出错，稍后再试",
-          showCancel: false,
-          confirmColor: '#fbb059',
-        })
+      fail (err) {
+        content = "服务器出错，稍后再试"
+        showModal()
       }
     })
   },
@@ -3251,7 +2827,7 @@ Page({
         count ++
       }
     }
-    
+
     var len = count
     var temp = "orderList.incloudProject";
     var temp1 = "orderList.isShowConfirmBtn";
@@ -3310,7 +2886,7 @@ Page({
     }
 
     var len = count
-    
+
     //var temp = "orderList.togethers[" + this.data.partnerIndex + "].incloudProject";
     var temp1 = "orderList.togethers[" + this.data.partnerIndex + "].isShowConfirmBtn";
     //var len = e.detail.value.length
@@ -3342,14 +2918,14 @@ Page({
   chooseNurse:function(e){
     //console.log(e.currentTarget.dataset.id)
     var nurseid = e.currentTarget.dataset.id
-    
+
     var list = this.data.technicianListCanUsed
     //console.log("点击前的养脑师")
     //console.log(list)
     for (var index in list){
       if (list[index].uuid == nurseid){
         //console.log("被选中的养脑师id："+nurseid)
-        list[index].checked = true 
+        list[index].checked = true
       }else{
         list[index].checked = false
       }
