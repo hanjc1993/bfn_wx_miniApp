@@ -132,7 +132,7 @@ Page({
         currProjectName = list[index].incloudProject[0].projectName + "..（共" + list[index].incloudProject.length + "项）"
       }
       wx.navigateTo({
-        url: '../../pages/myOrderListDetail/myOrderListDetail?storeName=' + list[index].storeName + "&projectName=" + list[index].totalName + "&status=" + list[index].status + "&technician=" + list[index].nurseName + "&time=" + list[index].startTime + "&vipNo=" + list[index].vipNo + "&reservationCode=" + list[index].reservationCode + "&nurseCode=" + list[index].nurseCode + "&storeCode=" + list[index].storeCode + "&orderCode=" + list[index].orderCode,
+        url: '../../pages/myOrderListDetail/myOrderListDetail?storeName=' + list[index].storeName + "&projectName=" + list[index].totalName + "&status=" + list[index].status + "&technician=" + list[index].nurseName + "&time=" + list[index].startTime + "&vipNo=" + list[index].vipNo + "&reservationCode=" + list[index].reservationCode + "&nurseCode=" + list[index].nurseCode + "&storeCode=" + list[index].storeCode + "&orderCode=" + list[index].orderCode +`&remark=${list[index].remark}`,
       })
   },
 

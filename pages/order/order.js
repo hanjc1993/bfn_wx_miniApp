@@ -11,6 +11,9 @@ Page({
    * 页面的初始数据
    */
   data: {
+    showCover_remark: false,//是否显示备注输入弹窗
+    showCover_mask: false,//是否显示cover的遮罩层
+    cover_remark_text: '',//备注输入框的内容，实时更新
     //判断currtab
     currtab:'',
     //判断是从养脑师页面来的时候 v=3 此时需要调时间接口的
@@ -143,7 +146,7 @@ Page({
       // 预约护理师名称
       nurseCodeName: '',
       // 备注
-      remark: '本人',
+      remark: '',
       // 门店编码
       storeCode: '',
       // 门店名称
@@ -309,10 +312,26 @@ Page({
     showAddFriends: true,
 
     // 日期bar
-    navbar: [util.getDateStrMMdd(0), util.getDateStrMMdd(1), util.getDateStrMMdd(2), util.getDateStrMMdd(3), util.getDateStrMMdd(4), util.getDateStrMMdd(5), util.getDateStrMMdd(6), util.getDateStrMMdd(7)],
+    navbar: [
+      util.getDateStrMMdd(0),
+      util.getDateStrMMdd(1),
+      util.getDateStrMMdd(2),
+      util.getDateStrMMdd(3),
+      util.getDateStrMMdd(4),
+      util.getDateStrMMdd(5),
+      util.getDateStrMMdd(6),
+      util.getDateStrMMdd(7)],
 
     // 日期Value
-    navbarValues: [util.getDateStryyyyMMdd(0), util.getDateStryyyyMMdd(1), util.getDateStryyyyMMdd(2), util.getDateStryyyyMMdd(3), util.getDateStryyyyMMdd(4), util.getDateStryyyyMMdd(5), util.getDateStryyyyMMdd(6), util.getDateStryyyyMMdd(7)],
+    navbarValues: [
+      util.getDateStryyyyMMdd(0),
+      util.getDateStryyyyMMdd(1),
+      util.getDateStryyyyMMdd(2),
+      util.getDateStryyyyMMdd(3),
+      util.getDateStryyyyMMdd(4),
+      util.getDateStryyyyMMdd(5),
+      util.getDateStryyyyMMdd(6),
+      util.getDateStryyyyMMdd(7)],
 
     // 免费预约按钮
     isOk: false,
@@ -393,8 +412,8 @@ Page({
     //将项目code封装到数组内 再赋值
     var list = [{ code: options.incloudProjectCode}];
       self.setData({
-      // [temp4]: app.globalData.storeCode,
-      [temp4]: 'UM0002',//测试专用
+      [temp4]: app.globalData.storeCode,
+      // [temp4]: 'UM0002',//测试专用
       [temp1]: app.globalData.storeName,//
       [temp2]: options.incloudProjectName,
       [temp3]: list,
@@ -837,25 +856,13 @@ Page({
 
   // 日期tab切换
   navbarTap: function (e) {
-    //console.log(e.currentTarget.dataset.idx)
-    var self = this;
-    self.setData({
-      readyToShowTime:true
-    })
+    let self = this;
+    self.setData({readyToShowTime: true})
     self.showLoading();
-    var temp = "orderList.currentTab";
-    self.setData({
-      [temp]: e.currentTarget.dataset.idx,
-      currtab: e.currentTarget.dataset.idx
-    });
-    //console.log("currTab!!!!!" + self.data.currtab)
-    //console.log("orderList.currentTab!!!!!" + self.data.orderList.currentTab)
+    let currtab = e.currentTarget.dataset.idx
+    self.setData({["orderList.currentTab"]: currtab, currtab});
     //选日期tab时期 调用门店可预约时间段接口
-    //console.log("选日期tab时期 调用门店可预约时间段接口");
-    //console.log(new Date(self.data.navbarValues[self.data.orderList.currentTab]));
-    self.queryStoreAvailabilityTime(new Date(self.data.navbarValues[self.data.orderList.currentTab]), e,null);
-
-
+    self.queryStoreAvailabilityTime(new Date(self.data.navbarValues[currtab]), e,null);
   },
 
   // 日期tab切换（同行人）
@@ -933,14 +940,15 @@ Page({
 
   },
   //每次选择时间时，调用门店当前可用养脑师。index为空时  是本人在修改  index有值时，是同行人在选项目
-  getNowCanUsedNurseList: function (theDay, index) {
+  getNowCanUsedNurseList: function (theDay, index,thisDay) {
     let self = this;
     self.showLoading()
     let orderList = self.data.orderList
     self.setData({whoAreYou: index})//判断是谁在改项目
     // 发起网络请求 获取套餐信息
     let prjUuid = ((index || index === 0) ? orderList.togethers[index] : orderList).incloudProject[0].code
-    let date = theDay.substring(0, 10).replace(/-/g, '')
+    //正常这里直接取thisDay即可，但调用的时候可能不传，预约后半夜的时间时必传。所以用下面这个三目。thisDay是处理过的20181220这种格式无需再次处理
+    let date = theDay.substring(11, 12) == '0' ? thisDay : theDay.substring(0, 10).replace(/-/g, '')
     wx.request({
       url: app.globalData.path + 'rest/res/getReservationTimeRange',
       method: 'GET',
@@ -960,7 +968,7 @@ Page({
           })
           self.setData({technicianList})
           //选完时间后，和养脑师可用时间比照，有空闲的显示
-          let checktimeStamp = Date.parse(theDay.replace(/-/g, '/'))//将时间的-转换成/   例如2018-09-15 10:00:00  2018/09/15 10:00:00 Iphone才能识别
+          let checktimeStamp = Date.parse(theDay.replace(/-/g, '/'))//将时间的-转换成/   例如2018-09-15 10:00:00  2018/09/15 10:00:00 旧版Iphone才能识别
           let listCanUsed = []
           //全都转换成时间戳去比较时间  筛选养脑师
           self.data.technicianList.map(item => {
@@ -968,11 +976,10 @@ Page({
             availableTime.map(item2 => {
               let sTime = Date.parse(item2.startTime.replace(/-/g, '/'))
               let eTime = Date.parse(item2.endTime.replace(/-/g, '/'))
-              if (checktimeStamp >= sTime && checktimeStamp <= eTime) {
-                listCanUsed.push(item)
-              }
+              if (checktimeStamp >= sTime && checktimeStamp <= eTime) listCanUsed.push(item)
             })
           })
+
           //将筛选后的数组赋值给技师list
           //本人重新选择了时间，同行人信息清空
           if (index || index === 0) {//同行人选择时间时
@@ -1014,10 +1021,13 @@ Page({
   chooseTime: function (e) {
     let self = this;
     let buttonTime = e.currentTarget.dataset.item//简化，被点击的按钮上带的参数
-    let nowTime = new Date()
+    let plusDay = self.data.currtab//0是当天，1是明天，2是后天。。。
+    let nowTime = new Date()//如果是当天，则nowTime是当前时间，如果是以后的天，则nowTime是那一天的0点
+    if (plusDay) nowTime = new Date(`${nowTime.getFullYear()}/${nowTime.getMonth() + 1}/${nowTime.getDate()+plusDay}`);
     let Y_M = nowTime.getFullYear() + '-' + (nowTime.getMonth() + 1) + '-'//年加月
     let today = Y_M + (nowTime.getDate() + (buttonTime.substring(0, 1) == '0' ? 1 : 0)) + ' '
     let checkedTime = today +buttonTime
+    let thisDay = (Y_M + nowTime.getDate()).replace(/-/g,'')
     //选择时间后调用轮值养脑师接口
     self.getTodayNurseList(app.globalData.storeCode, checkedTime);
     //将被所有人选中的时间的list清空，再将本次的选中时间赋值
@@ -1030,7 +1040,7 @@ Page({
       ["orderList.finalTab"]: self.data.orderList.currentTab//将选中时间此时的时间日期tab下标 赋值给最终选择时间的日期下标保存，用于显示
     })
     //调接口得到当前养脑师列表
-    self.getNowCanUsedNurseList(checkedTime, null)
+    self.getNowCanUsedNurseList(checkedTime, null, thisDay)
   },
 
   /**
@@ -1091,10 +1101,8 @@ Page({
   /**
    * 选择服务时间（同行人）
    */
-  togetherChooseTime: function (e) {
-    var self = this;
-   // console.log("同行人修改了时间，看养脑师列表变化（开始时）")
-    //console.log(self.data.technicianList)
+  togetherChooseTime (e) {
+    let self = this;
     //判断这个人的原来时间是否在已被选择的时间list中，若有，这删除一个
     var clist = self.data.haveBeenCheckedTimeList
     for (var i = 0; i < clist.length;i++){
@@ -1106,7 +1114,6 @@ Page({
     //如果有同样的时间同行人  isTimeOk为false 则修改了了这个人的，另一个人变为true
     for (var j = 0; j < self.data.orderList.togethers.length; j++) {
       if (self.data.orderList.togethers[j].orderTime == self.data.orderList.togethers[e.currentTarget.dataset.index].orderTime && self.data.orderList.togethers[j].isTimeOk == false && self.data.orderList.togethers[e.currentTarget.dataset.index].isTimeOk == true) {
-        //self.data.orderList.togethers[j].isTimeOk == true
         clist.push(self.data.orderList.togethers[j].orderTime)
         var togethers = "orderList.togethers[" + j + "].isTimeOk"
         self.setData({
@@ -1118,18 +1125,13 @@ Page({
     self.setData({
       haveBeenCheckedTimeList:clist
     })
-
-    // console.log(e.currentTarget.dataset.index);
     var temp1 = "orderList.togethers[" + e.currentTarget.dataset.index + "].orderTime";
     var temp2 = "orderList.togethers[" + e.currentTarget.dataset.index + "].isShowIndex";
     var temp3 = "orderList.togethers[" + e.currentTarget.dataset.index + "].isTimeOk";
     var temp11 = "orderList.togethers[" + e.currentTarget.dataset.index + "].checkedTimeForStatus"
-    //var temp12 = "orderList.togethers[" + e.currentTarget.dataset.index + "].currentTab"
     var temp13 = "orderList.togethers[" + e.currentTarget.dataset.index + "].finalTab"
     var forstatus = self.data.navbarValues[self.data.orderList.togethers[e.currentTarget.dataset.index].currentTab] + " " + e.currentTarget.dataset.item.substring(0, 8)//.substring(11, 16).replace(':', '')
     forstatus = forstatus.substring(11, 16).replace(':', '')
-    //console.log("啊哈哈哈哈哈哈哈哈哈哈哈哈")
-    //console.log(forstatus)
     //被选中时间的的状态
     self.setData({
       [temp1]: self.data.navbarValues[self.data.orderList.togethers[e.currentTarget.dataset.index].currentTab] + " " + e.currentTarget.dataset.item.substring(0, 8),
@@ -1146,38 +1148,6 @@ Page({
           count++
         }
       }
-      // for(var index in self.data.orderList.togethers){//遍历所有同行人
-      //   if (self.data.orderList.orderTime == self.data.orderList.togethers[index].orderTime){//同行人和本人时间相同时
-      //     //
-      //     var theflag = false//判断同行人换项目后是否和本人选择的项目相同
-      //     console.log("+++++++++++++++++++++++++++++")
-      //     console.log(this.data.currPjCode.length)
-      //     console.log(this.data.orderList.incloudProject.length)
-      //     label:
-      //     if (self.data.orderList.togethers[index].incloudProject.length == this.data.orderList.incloudProject.length) {
-      //       for (var j in self.data.orderList.togethers[index].incloudProject) {
-      //         theflag = false
-      //         for (var i in this.data.orderList.incloudProject) {
-      //           if (this.data.orderList.incloudProject[i].code == self.data.orderList.togethers[index].incloudProject[j].code) {
-      //             theflag = true
-      //             break
-      //           }
-      //           if (i == this.data.orderList.incloudProject.length - 1 && theflag == false) {
-      //             break label
-      //           }
-      //         }
-      //       }
-      //     } else {
-      //       theflag = false
-      //     }
-      //     //如果相同项目相同时间 则++
-      //     if (theflag){
-      //       count++
-      //     }
-
-      //   }
-      // }
-      //console.log("此时有几个同时间"+count)
       if (count >= self.data.currTimeNurseCount){//count代表同时间一共要去的人数，若大于同时间可预约养脑师的人数时，提示
         self.setData({
           [temp3]: false
@@ -1201,19 +1171,13 @@ Page({
     }else{//如果与本人时间不同，则调用接口 查询有几个养脑师可约
       //调用接口
       self.getNowCanUsedNurseList(self.data.navbarValues[self.data.orderList.togethers[e.currentTarget.dataset.index].currentTab] + " " + e.currentTarget.dataset.item.substring(0, 8), e.currentTarget.dataset.index)
-      // self.setData({
-      //   [temp3]:true
-      // })
     }
-    // console.log(self.data.navbarValues[self.data.orderList.togethers[e.currentTarget.dataset.index].currentTab] + " " + e.currentTarget.dataset.item.substring(0, 8))
-   // this.getTimeStatus(e)
-   //console.log("同行人修改了时间，看养脑师列表变化")
-   //console.log(self.data.technicianList)
     this.checkValue()
   },
 
   // 时间状态
   getTimeStatus: function (e) {
+    //e=0则是当天，1是明天2是后天等
     let self = this;
     let timeTemp = {}
     for (let i = 1000; i < 2340; i = i + (i % 100 ? 70 : 30)) {
@@ -1222,9 +1186,10 @@ Page({
     timeTemp.time0000 = true
     timeTemp.time0030 = true
     timeTemp.time0100 = true
-    self.setData({times: timeTemp, fulltimes: timeTemp});
+    self.setData({times: JSON.parse(JSON.stringify(timeTemp)), fulltimes: timeTemp});//防止共用指针
     //以上初始化时间的状态，以下为变量赋值
-    let nowTime = new Date()
+    let nowTime = new Date()//如果是当天，则nowTime是当前时间，如果是以后的天，则nowTime是那一天的0点
+    if (e) nowTime = new Date(`${nowTime.getFullYear()}/${nowTime.getMonth() + 1}/${nowTime.getDate()+e}`);
     let nowStamp = nowTime.getTime()
     let Y_M = nowTime.getFullYear() + '-' + (nowTime.getMonth() + 1) + '-'//年加月
     let todayHead = Y_M + nowTime.getDate() + ' '//当天的年月日
@@ -1235,8 +1200,7 @@ Page({
     self.data.timesArr.map((item, index) => {
       let timeStamp = new Date((index > 27 ? tomorrowHead : todayHead) + item).getTime()
       let keyAss = item.substring(0, 5).replace(':', '')
-      if ((minTime <= timeStamp && timeStamp <= maxTime)//门店营业时间之内
-        && ((e == 0) ? nowStamp <= timeStamp : true)//在当前时间之后。。e=0则是当天，不是0则是明天后天等（此时不存在在当前时间之前的情况）
+      if ((minTime <= timeStamp && timeStamp <= maxTime)/*门店营业时间之内*/ && ((e == 0) ? nowStamp <= timeStamp : true)//在当前时间之后。。e!=0则不存在在当前时间之前的情况
       ) {
         //这里在营业时间内，接下来判断技师是否有空
         self.data.reservationAvailableTime.map(item2 => {
@@ -1515,6 +1479,35 @@ Page({
       return
     }
   },
+
+  /**
+   * 添加备注的弹窗方法
+   */
+  //点击备注箭头打开添加备注弹窗
+  editRemark () {
+    this.setData({
+      showCover_mask: true,
+      showCover_remark: true,
+      cover_remark_text:this.data.orderList.remark
+    })
+  },
+  //点击关闭coverMask及其子元素
+  closeCoverMask (e) {
+    let self = this
+    self.setData({showCover_remark: false})
+    setTimeout(() => {
+      self.setData({showCover_mask: false})
+    }, 200)//动画维持0.2秒
+  },
+  //弹窗中点击确认关闭弹窗
+  confirmCover_remark(){
+    this.setData({'orderList.remark': this.data.cover_remark_text})
+    this.closeCoverMask()
+  },
+  //实时更新备注输入框的内容
+  CRContentInput(e){
+    this.setData({cover_remark_text: e.detail.value})
+  },
   /**
    * 选择项目
    */
@@ -1585,6 +1578,7 @@ Page({
     })
     this.checkValue()
   },
+
 //同行人保存项目
   saveProjectPartner:function(){
     //将是否跟本人项目一样的属性初始化
@@ -2296,12 +2290,8 @@ Page({
    * 查询门店可预约时间段
    */
   queryStoreAvailabilityTime: function (theDay,e,index) {
-    //var today = new Date();
-
     var self = this;
     self.showLoading()
-    //console.log("查询门店可预约时间段，查询的日期为")
-    //console.log(theDay)
     var year = theDay.getFullYear().toString()
     var mon = (theDay.getMonth() + 1).toString()
     if(mon<10){
@@ -2311,12 +2301,6 @@ Page({
     if(day<10){
       day = "0" + day
     }
-    //console.log(day)
-    //day = theDay.getDate().toString()
-    // console.log("打印当前时间")
-    // console.log(year)
-    // console.log(mon)
-    // console.log(day)
     var dtoDate = year + mon + day
     //console.log(dtoDate)
     //判断是谁在改项目
@@ -2724,7 +2708,9 @@ Page({
     let index = dataset.index//简化，点击的按钮的index属性。index==99指是本人选了满的时间，否则是同行人选择的。潜在bug，选择了超过99个时间的时候触发
     let prjUuid = (index == 99 ? orderList : orderList.togethers[index]).incloudProject[0].code//预约的项目id
     // let times = self.data.navbarValues[orderList.currentTab] + " " + dataset.item.substring(0, 8)//以前只能预约当天的时间
-    let nowTime = new Date()
+    let plusDay = self.data.currtab//0是当天，1是明天，2是后天。。。
+    let nowTime = new Date() //如果是当天，则nowTime是当前时间，如果是以后的天，则nowTime是那一天的0点
+    if (plusDay) nowTime = new Date(`${nowTime.getFullYear()}/${nowTime.getMonth() + 1}/${nowTime.getDate()+plusDay}`);
     let Y_M = nowTime.getFullYear() + '-' + (nowTime.getMonth() + 1) + '-'//年加月
     let todayHead = Y_M + nowTime.getDate() + ' '//当天的年月日
     let tomorrowHead = Y_M + (nowTime.getDate() + 1) + ' '//明天的年月日

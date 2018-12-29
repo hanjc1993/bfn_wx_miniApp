@@ -1,0 +1,8 @@
+<!--pages/moreStoreImgs/moreStoreImgs.wxml-->
+<view id="moreStoreImgs">
+  <view class="imagesList">
+    <view class="imageItem" wx:for="{{imagesList}}" wx:key="{{index}}" data-idx="{{index}}" bindtap="previewImage">
+      <image mode="widthFix" src="{{item.imgAbs}}"></image>
+    </view>
+  </view>
+</view>

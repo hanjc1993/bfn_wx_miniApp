@@ -30,7 +30,8 @@ Page({
     showWelcomeText:'',
     //isEvaluated:false,
     hiddenLoading:true,
-    hiddenmodalput:false
+    hiddenmodalput:false,
+    remark:'',//新增备注
   },
   checkboxChange: function (e) {
     console.log(e)
@@ -98,7 +99,8 @@ Page({
       reservationCode: reservationCode,
       nurseCode: nurseCode,
       storeCode: storeCode,
-      orderCode: orderCode
+      orderCode: orderCode,
+      remark:options.remark
     })
     console.log(options.status)
   },

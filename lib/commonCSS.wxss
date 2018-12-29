@@ -1,0 +1,14 @@
+.midTextLine {
+  border-bottom: 1px solid red;
+  position: absolute;
+  top: 48%;
+  width: 100%;
+}
+
+.floatL {
+  float: left;
+}
+
+.floatR {
+  float: right;
+}

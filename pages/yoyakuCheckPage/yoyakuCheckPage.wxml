@@ -18,7 +18,7 @@
             门店
           </view>
       </view>
-      <view class="context_text_right_storeName" bindtap=''>
+      <view class="context_text_right context_text_right_storeName" bindtap=''>
          <text space='nbsp'>{{orderList.orderStore}} </text>  
           <view style="float:right;height:80rpx;width:50rpx" bindtap='go2Store'>
            <image style="height:50rpx;width:50rpx;margin-top:15rpx" src='../../images/IconForDingwei.png'></image>
@@ -74,6 +74,17 @@
             待提交 <span style="color:#b5b6b6"> </span>
         </view>
   </view>
+  <view class="the_rows remark">
+    <view class="content_text">
+      <image src="../../images/order/remark.png"></image>
+      <view class="name_text">备注</view>
+    </view>
+    <view class="context_text_right" wx:if="{{!orderList.remark}}">无</view>
+    <view class="remarkContent" wx:if="{{orderList.remark}}">
+      <view>{{orderList.remark}}</view>
+    </view>
+  </view>
+
 </view>
 <!-- 同行人 -->
 <view style='height:28%;background-color:white;margin-bottom:3%' wx:if="{{orderList.togethers.length!=0}}" wx:for="{{orderList.togethers}}" index="index" wx:for-item="item">

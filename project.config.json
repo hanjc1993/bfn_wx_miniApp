@@ -4,11 +4,12 @@
 		"ignore": []
 	},
 	"setting": {
-		"urlCheck": true,
+		"urlCheck": false,
 		"es6": true,
 		"postcss": true,
 		"minified": true,
-		"newFeature": true
+		"newFeature": true,
+		"autoAudits": false
 	},
 	"compileType": "miniprogram",
 	"libVersion": "2.2.3",
@@ -33,13 +34,19 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
+			"current": 1,
 			"list": [
 				{
 					"id": 1,
 					"name": "在线预约",
 					"pathName": "pages/order/order",
 					"query": "orderStore=大连三丰大厦店&incloudProjectCode=PRJ001616&incloudProjectName=龙脑调养护理&storeCode=UM0002&v=1"
+				},
+				{
+					"id": 1,
+					"name": "在线预约22",
+					"pathName": "pages/moreStoreImgs/moreStoreImgs",
+					"query": ""
 				}
 			]
 		}

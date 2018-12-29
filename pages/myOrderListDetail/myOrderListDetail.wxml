@@ -97,6 +97,17 @@
         </view>
   </view>
 
+  <view class="the_rows remark">
+    <view class="content_text">
+      <image src="../../images/order/remark.png" mode='aspectFill'></image>
+      <view class="name_text">备注</view>
+    </view>
+    <view class="context_text_right" wx:if="{{!remark}}">无</view>
+    <view class="remarkContent" wx:else>
+      <view>{{remark}}</view>
+    </view>
+  </view>
+
   </view>
 
   <view class="bottom_btn" wx:if="{{status=='未服务'}}" bindtap='cancelOrder'>

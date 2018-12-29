@@ -1,36 +1,81 @@
 <!--pages/homePage/homePage.wxml-->
 <view id="homePage" wx:if="{{allProjectHasBeenLoad}}">
-<view class="ad_popError" wx:if="{{popErrorMsg}}">{{popErrorMsg}}</view>
+  <view class="ad_popError" wx:if="{{popErrorMsg}}">{{popErrorMsg}}</view>
   <view class="show_images">
     <view class="top_top">
-      <swiper class="swiper-box" indicator-dots="true" autoplay="true" circular="true" interval="4000" duration="1000">  
-          <block wx:for="{{queryShuffling.rzIndexImgDtoList}}" wx:for-index="index" wx:if="{{allProjectHasBeenLoad}}">  
-            <swiper-item>  
-              <image src="{{item.imgUrl}}" class="slide-image" mode="aspectFill" data-item="{{item}}" bindtap='gotoWebUrlPath'/>  
-            </swiper-item>  
-          </block>  
+      <swiper class="swiper-box" indicator-dots="true" autoplay="true" circular="true" interval="4000" duration="1000">
+        <block wx:for="{{queryShuffling.rzIndexImgDtoList}}" wx:for-index="index" wx:if="{{allProjectHasBeenLoad}}">
+          <swiper-item>
+            <image src="{{item.imgUrl}}" class="slide-image" mode="aspectFill" data-item="{{item}}" bindtap='gotoWebUrlPath' />
+          </swiper-item>
+        </block>
       </swiper>
-    </view> 
+      <view class="top_top_moreImg" bindtap="showMoreImgs">
+        <image src="../../images/homePage/moreImg.svg"></image>
+        <text>环境</text>
+      </view>
+    </view>
     <view class='top_bottom' wx:if="{{allProjectHasBeenLoad}}">
-      <view class="top_bottom_left" bindtap='chooseStore'>
-        <view class="top_bottom_left_top">
-          <image src='../../images/home_changeStore.svg'></image><text style='font-weight:bold'>[更换门店]</text> {{allProjectHasBeenLoad?storesInfo.name:''}}
-        </view>
-        <view class="top_bottom_left_bottom" wx:if="{{allProjectHasBeenLoad}}">
-          <image src='../../images/home_positionIcon.png'></image> {{storesInfo.detailAddr}}
+      <view class="top_bottom_top" bindtap='chooseStore'>
+        <view class="TBT_changeStore">更换门店</view>
+        <view class="TBT_storeName">{{storesInfo.name}}</view>
+        <view class="TBT_tel" bindtap="makeCall">
+          <image src="../../images/homePage/tel.png"></image>
         </view>
       </view>
-      <view class="top_bottom_right" bindtap='makeCall'>
-          <image src="../../images/home_phone.png"></image>
+      <view class="top_bottom_bottom">
+        <view class="TBB_viewCount">
+          <image src="../../images/homePage/hot.png"></image>
+          浏览量：{{storesInfo.pageViewCnt}}
+        </view>
+      </view>
+      <!--181224备份，稳定就删除-->
+      <!--<view class="top_bottom_left" bindtap='chooseStore'>-->
+        <!--<view class="top_bottom_left_top">-->
+          <!--<image src='../../images/home_changeStore.svg'></image>-->
+          <!--<text style='font-weight:bold'>[更换门店]</text> {{allProjectHasBeenLoad?storesInfo.name:''}}-->
+        <!--</view>-->
+        <!--<view class="top_bottom_left_bottom" wx:if="{{allProjectHasBeenLoad}}">-->
+          <!--<image src='../../images/home_positionIcon.png'></image> {{storesInfo.detailAddr}}-->
+        <!--</view>-->
+      <!--</view>-->
+      <!--<view class="top_bottom_right" bindtap='makeCall'>-->
+        <!--<image src="../../images/home_phone.png"></image>-->
+      <!--</view>-->
+    </view>
+  </view>
+
+  <view class="storeDetail">
+    <view class="storeDetail_Addr">
+     <view class="SDA_icon SDA_left">
+       <image mode="aspectFit" src="../../images/homePage/addr.png"></image>
+     </view>
+      <view class="SDA_mid">{{storesInfo.detailAddr}}</view>
+      <!--<view class="SDA_mid">双行测试双行测试双行测试双行测试双行测试双行测试双行测试双行测试双行测试双行测试</view>-->
+      <view class="SDA_icon SDA_right">
+        <image mode="aspectFit" src="../../images/homePage/direction.png"></image>
+      </view>
+    </view>
+
+    <view class="storeDetail_Info">
+      <view class="SDI_item SDI_item1 SDI_openTime">
+        <image src="../../images/homePage/open.png"></image>营业时间：{{storeWorkTime}}
+      </view>
+      <view class="SDI_item SDI_item1 SDI_bedsCnt">
+        <image src="../../images/homePage/beds.png"></image>床位数量：{{storeBedsCnt}}
+      </view>
+      <view class="SDI_item SDI_item2 SDI_parksCnt">
+        <image src="../../images/homePage/parking.png"></image>免费停车
       </view>
     </view>
   </view>
+
   <!-- 店庆轮播优惠券 -->
   <view wx:if="{{queryShuffling.couponStatus&&allProjectHasBeenLoad}}" style="margin-top: 10rpx;height: 210rpx; width: 100%; position: relative;">
-     <image src="../../images/actlunbo.png" style="height: 210rpx; width: 100%;">
+    <image src="../../images/actlunbo.png" style="height: 210rpx; width: 100%;">
     </image>
-      <view style="width: 88%;position: absolute; top:20rpx;left:48rpx;z-index:3;">
-        <!-- <view style="margin-left: 38rpx;" class="box" bindtouchstart="touchstart" bindtouchmove="touchmove" bindtouchend="touchend">
+    <view style="width: 88%;position: absolute; top:20rpx;left:48rpx;z-index:3;">
+      <!-- <view style="margin-left: 38rpx;" class="box" bindtouchstart="touchstart" bindtouchmove="touchmove" bindtouchend="touchend">
           <view animation="{{animation1}}">
             <image src="{{rzIndexCouponDtoList[0].couponImg}}" class="img" style="width:{{img_width_one}}rpx" mode='aspectFill'/>
           </view>
@@ -41,23 +86,24 @@
             <image src="{{rzIndexCouponDtoList[2].couponImg}}" class="img3" style="width:{{img_width_three}}rpx" mode='aspectFill'/>
           </view>
         </view> -->
-        <view class="banner-swiper1" >
-          <swiper indicator-dots="{{indicatorDots}}" circular="true" autoplay="{{autoplay}}" current='{{swiperCurrent}}' indicator-color="{{beforeColor}}" indicator-active-color="{{afterColor}}" circular='{{circular}}' previous-margin="{{previousmargin}}" next-margin="{{nextmargin}}" bindchange="swiperChange" >
-            <block wx:for="{{rzIndexCouponDtoList}}" wx:key="key">
-              <swiper-item>
-                <image src="{{item.couponImg}}" class="slide-image1 {{index == swiperCurrent ? ' active1' : ''}}" bindchange="chuangEvent" id="{{index}}" data-item="{{item}}" bindtap="yuyueBtn"></image>          
-              </swiper-item>
-            </block>
-          </swiper>
-        </view>
+      <view class="banner-swiper1">
+        <swiper indicator-dots="{{indicatorDots}}" circular="true" autoplay="{{autoplay}}" current='{{swiperCurrent}}' indicator-color="{{beforeColor}}" indicator-active-color="{{afterColor}}" circular='{{circular}}' previous-margin="{{previousmargin}}" next-margin="{{nextmargin}}"
+          bindchange="swiperChange">
+          <block wx:for="{{rzIndexCouponDtoList}}" wx:key="key">
+            <swiper-item>
+              <image src="{{item.couponImg}}" class="slide-image1 {{index == swiperCurrent ? ' active1' : ''}}" bindchange="chuangEvent" id="{{index}}" data-item="{{item}}" bindtap="yuyueBtn"></image>
+            </swiper-item>
+          </block>
+        </swiper>
       </view>
+    </view>
   </view>
 
-<!-- 绑定电话 -->
+  <!-- 绑定电话 -->
   <view class="modal-mask" bindtap="hideModal" catchtouchmove="preventTouchMove" wx:if="{{hiddenmodalbindphone}}"></view>
-  <view class='bind_phone'  wx:if="{{hiddenmodalbindphone}}" catchtouchmove="preventTouchMove">
+  <view class='bind_phone' wx:if="{{hiddenmodalbindphone}}" catchtouchmove="preventTouchMove">
     <view class="bind_phone_top">
-      <view  class="bind_phone_top_btn" bindtap='closePage'>
+      <view class="bind_phone_top_btn" bindtap='closePage'>
         <image style="height:30rpx;width:30rpx;margin-top:15rpx;margin-right:-35rpx" src="../../images/icon_cross.png"></image>
       </view>
     </view>
@@ -69,40 +115,47 @@
     <view class="tb">
       <view style="width:100%;height:90rpx;line-height:90rpx">
         <view class="rowName">地　区:</view>
-        <view class="tb_text" bindtap='chooseArea'>{{area?area:'请选择'}}</view><view class='arrow'/>
-      </view> 
+        <view class="tb_text" bindtap='chooseArea'>{{area?area:'请选择'}}</view>
+        <view class='arrow' />
+      </view>
       <view style="width:100%;height:90rpx;line-height:90rpx">
         <view class="rowName">手　机:</view>
-        <view class="tb_text">+{{areaCode}}<input placeholder='请输入电话号' placeholder-style="font-size:24rpx;color:#cccccc" style="width:75%;height:70rpx;float:right;text-align:center" type="number" maxlength="{{areaCode=='86'?'11':'8'}}" bindinput="getPhone" value="{{phonecash}}"></input></view>
-      </view> 
-      
+        <view class="tb_text">+{{areaCode}}
+          <input placeholder='请输入电话号' placeholder-style="font-size:24rpx;color:#cccccc" style="width:75%;height:70rpx;float:right;text-align:center" type="number" maxlength="{{areaCode=='86'?'11':'8'}}" bindinput="getPhone" value="{{phonecash}}"></input>
+        </view>
+      </view>
+
       <view style="width:100%;height:90rpx;line-height:90rpx;">
         <view class="rowName">验证码:</view>
-        <view class="tb_text1"><input style="margin-top:10rpx;" maxlength='6' type="number" placeholder='请输入' placeholder-style="font-size:24rpx;color:#cccccc" bindinput="setYzmCode" value="{{yzmcash}}"></input></view>
-         <view class="{{jihuo?'yzm':'yzmGray'}}"  bindtap="{{disabled&&jihuo?'yzmGet':''}}">{{time}}<!--<image style="width:100%;height:70rpx" src="../../images/yzm.png"></image>--></view> 
-      </view> 
+        <view class="tb_text1">
+          <input style="margin-top:10rpx;" maxlength='6' type="number" placeholder='请输入' placeholder-style="font-size:24rpx;color:#cccccc" bindinput="setYzmCode" value="{{yzmcash}}"></input>
+        </view>
+        <view class="{{jihuo?'yzm':'yzmGray'}}" bindtap="{{disabled&&jihuo?'yzmGet':''}}">{{time}}
+          <!--<image style="width:100%;height:70rpx" src="../../images/yzm.png"></image>-->
+        </view>
+      </view>
     </view>
 
-    <button class="{{!(yzmRight&&jihuo&&areadyGetYzm)?'bindbtnGray':'bindbtn'}}"  open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="{{!(yzmRight&&jihuo&&areadyGetYzm)?'':'onGotUserInfo'}}">
+    <button class="{{!(yzmRight&&jihuo&&areadyGetYzm)?'bindbtnGray':'bindbtn'}}" open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="{{!(yzmRight&&jihuo&&areadyGetYzm)?'':'onGotUserInfo'}}">
       绑定
-    </button> 
-  </view> 
-<!-- 选择地区 -->
-  <view class="modal-mask1" bindtap="hideModal1" catchtouchmove="preventTouchMove" wx:if="{{hiddenmodalchoosearea}}"></view>
-  <view class="chooseArea"  wx:if="{{hiddenmodalchoosearea}}">
-    <radio-group style="height:310rpx;margin-top:50rpx" bindchange="areaChange">
-      <view  style='font-size:45rpx;color:#b5b4b3;height:80rpx;line-height:80rpx' wx:for="{{areaList}}" wx:for-item="item">
-        <radio value="{{item.id}}" color="#906337" style="transform:scale(0.7)" checked="{{item.checked}}">{{item.name}}</radio>
-      </view>   
-    </radio-group>
-    <view  class="saveArea" bindtap='saveArea'>
-    确定
+    </button>
   </view>
+  <!-- 选择地区 -->
+  <view class="modal-mask1" bindtap="hideModal1" catchtouchmove="preventTouchMove" wx:if="{{hiddenmodalchoosearea}}"></view>
+  <view class="chooseArea" wx:if="{{hiddenmodalchoosearea}}">
+    <radio-group style="height:310rpx;margin-top:50rpx" bindchange="areaChange">
+      <view style='font-size:45rpx;color:#b5b4b3;height:80rpx;line-height:80rpx' wx:for="{{areaList}}" wx:for-item="item">
+        <radio value="{{item.id}}" color="#906337" style="transform:scale(0.7)" checked="{{item.checked}}">{{item.name}}</radio>
+      </view>
+    </radio-group>
+    <view class="saveArea" bindtap='saveArea'>
+      确定
+    </view>
   </view>
 
 
   <!-- 中间部分 -->
-  <view class='showProject' >
+  <view class='showProject'>
     <view class='mid_top'>
       <view class='mid_top_left'>
         <view style="background-color: #906337; width:5rpx;height:35rpx;float:left;margin-top:14rpx;"></view>
@@ -113,9 +166,10 @@
       </view>
     </view>
     <view class="mid_mid">
-  <!-- 正式需要循环 -->
-      <view class="mid_mid_content" wx:for="{{projectList}}" wx:for-index="index" wx:for-item="item" >
+      <!-- 正式需要循环 -->
+      <view class="mid_mid_content" wx:for="{{projectList}}" wx:for-index="index" wx:for-item="item">
         <view class="mid_mid_content_left" bindtap='projectDetail' data-item="{{item}}">
+          <view class="MMCL_newIcon"><text>新</text></view>
           <image wx:if="{{allProjectHasBeenLoad}}" src="{{item.imgUrl}}" class='leftImg' mode='widthFix' style='height:160rpx; width:240rpx;'></image>
           <!-- mode='widthFix' style='height:160rpx; width:240rpx;' -->
         </view>
@@ -153,7 +207,7 @@
     </view>
   </view>
   <!-- bottom部分 -->
-  <view class="showTechnician" >
+  <view class="showTechnician" wx:if="{{technicianList.length}}">
     <view class="bottom_top">
       <view class="bottom_top_left">
         <view style="background-color: #906337; width:5rpx;height:35rpx;float:left;margin-top:16rpx;"></view>
@@ -162,7 +216,7 @@
       <view class="bottom_top_right" bindtap='moreTechnician'>更多></view>
     </view>
     <view class="bottom_bottom">
-      <scroll-view scroll-x="true" style="height:320rpx;white-space:nowrap;background-color:#efeff4">
+      <scroll-view scroll-x="true" style="height:320rpx;white-space:nowrap;background-color:#f5f5f5">
         <view class="bottom_bottom_list" style="{{technicianList.length == index + 1?'margin-right: 4%;':''}}" wx:for="{{technicianList}}" wx:for-index="index" wx:for-item="item" wx:if="{{allProjectHasBeenLoad}}">
           <view class="bottom_bottom_list_top" bindtap='technicianDetail' data-item="{{item}}">
             <image src="{{item.srcImg==null?'../../images/headImg.png':item.srcImg}}"></image>
@@ -170,15 +224,15 @@
           <view class="bottom_bottom_list_bottom">
             <view style="height:50rpx;width:100%">
               <view style='font-size:28rpx;color:#333; margin-left:15rpx;float:left; width:125rpx'>
-              <!-- <text space='nbsp' style="font-size:28rpx">{{item.name}}    {{item.level}}</text> -->
+                <!-- <text space='nbsp' style="font-size:28rpx">{{item.name}}    {{item.level}}</text> -->
                 {{item.name}}
               </view>
               <view style='font-size:26rpx;color:#333;float:right;margin-top:2rpx;margin-right:15rpx'>
-              <!-- <text space='nbsp' style="font-size:28rpx">{{item.name}}    {{item.level}}</text> -->
+                <!-- <text space='nbsp' style="font-size:28rpx">{{item.name}}    {{item.level}}</text> -->
                 {{item.level}}
               </view>
-            </view>  
-              <!-- wx:if="{{item.showEvaluateGood}}" -->
+            </view>
+            <!-- wx:if="{{item.showEvaluateGood}}" -->
             <view style="font-size:25rpx;color:#999;text-align: right;margin-right: 15rpx;height:43rpx;">
               {{item.evaluateGood}}好评
             </view>
@@ -187,9 +241,11 @@
       </scroll-view>
     </view>
   </view>
-  <view wx:if="{{queryShuffling.alertStatus&&allProjectHasBeenLoad}}"><!-- jack叹号去掉 -->
-    <view class="modal-mask" bindtap="hideModal" catchtouchmove="preventTouchMove" wx:if="{{isShowDianQingImage&&allProjectHasBeenLoad}}"></view>                                                                                       <!-- jack叹号去掉 -->
-    <view class="dianqing"  wx:if="{{isShowDianQingImage&&allProjectHasBeenLoad}}" catchtouchmove="preventTouchMove">
+  <view wx:if="{{queryShuffling.alertStatus&&allProjectHasBeenLoad}}">
+    <!-- jack叹号去掉 -->
+    <view class="modal-mask" bindtap="hideModal" catchtouchmove="preventTouchMove" wx:if="{{isShowDianQingImage&&allProjectHasBeenLoad}}"></view>
+    <!-- jack叹号去掉 -->
+    <view class="dianqing" wx:if="{{isShowDianQingImage&&allProjectHasBeenLoad}}" catchtouchmove="preventTouchMove">
       <view style="float:left;width:100%;height:100%">
         <view class="xBackground" bindtap='closeDianQing'>x</view>
         <image src="{{queryShuffling.actImgUrl}}" data-item="{{queryShuffling.actId}}" bindtap='clickDianQing'></image>

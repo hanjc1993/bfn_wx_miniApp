@@ -156,6 +156,34 @@
         <view class="weui-cell__ft weui-cell__ft_in-access"></view>
       </view>
     </view>
+
+    <view class="the_rows" bindtap='editRemark'>
+      <view class="content_text">
+        <image id="notnull" src=''></image>
+        <image src="../../images/order/remark.png" mode='aspectFill'></image>
+        <view class="name_text">备注</view>
+      </view>
+      <view class='content_text_right1'>
+        <view class="content_text_right2 orderRemark">{{orderList.remark || '请选择'}}</view>
+      </view>
+      <view class="arrow">
+        <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+      </view>
+    </view>
+  </view>
+
+  <view id="coverMask" class="coverMask {{showCover_mask?'':'hide'}} {{showCover_remark?'':'opacity'}}">
+    <view class="cover_Remark {{showCover_remark?'':'hideInBottom'}}">
+      <view class="CR_title">
+        <view class="CRT_item" bindtap="closeCoverMask">取消</view>
+        <view class="CRT_name">编辑备注</view>
+        <view class="CRT_item" style="color: #fac281;" bindtap="confirmCover_remark">确定</view>
+      </view>
+      <view class="CR_content">
+        <textarea maxlength="200" placeholder="请输入备注" class="CRC_textarea" bindinput="CRContentInput" value="{{cover_remark_text}}"></textarea>
+        <view class="CRC_textCnt">{{cover_remark_text.length}}/200</view>
+      </view>
+    </view>
   </view>
 
   <!-- 预约详情（同行人） -->
@@ -470,22 +498,22 @@
         <view class="show_project_title_right1"  wx:if="{{!isCheckedTechnician}}">确定</view>
         <view class="show_project_title_right" bindtap='saveTechnician' wx:if="{{isCheckedTechnician}}">确定</view>
       </view>
-    <radio-group bindchange="">  
+    <radio-group bindchange="">
       <scroll-view scroll-y="true" style="height:600rpx">
-        <view class="show_project_row" wx:for="{{technicianList}}" wx:for-item="project" index="index" data-id="{{project.uuid}}" bindtap='chooseNurse'> 
+        <view class="show_project_row" wx:for="{{technicianList}}" wx:for-item="project" index="index" data-id="{{project.uuid}}" bindtap='chooseNurse'>
           <view class="show_project_list">
             <view class="choose_Project">
                 <radio value="{{project.uuid}}" color="#906337" checked="{{project.checked}}" style='transform:scale(.7)'/>
             </view>
             <view class="show_project_list_image_nurse">
               <image src="{{project.imgUrl}}" ></image>
-              
+
             </view>
             <view class="show_project_list_text">
               <view class="show_project_list_text_top">
                 <text space="nbsp">{{project.name}}丨{{project.level}}</text>
               </view>
-           
+
               <view class="starsView">
                 <image class="starsImage" data-item="1" bindtap='stars' src="{{project.star>=1 ? '../../images/icon_yellow_stars.png' : '../../images/icon_white_stars.png'}}"/>
                 <text class="starsImageMargin"></text>
@@ -498,8 +526,8 @@
                 <image class="starsImage" data-item="5" bindtap='stars' src="{{project.star>=5 ? '../../images/icon_yellow_stars.png' : '../../images/icon_white_stars.png'}}"/>
               </view>
             </view>
-          </view> 
-        </view>  
+          </view>
+        </view>
       </scroll-view>
     </radio-group>
   </view> -->

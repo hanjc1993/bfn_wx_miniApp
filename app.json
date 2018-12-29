@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/homePage/homePage",
+    "pages/moreStoreImgs/moreStoreImgs",    
     "pages/selectStores/selectStores",
     "pages/order/order",
     "pages/mine/mine",

@@ -21,9 +21,27 @@ page{
 .the_rows{
    background-color: white;
    height:80rpx;
-   width:95%;
-   margin-left: 5%;
+   width:90%;
+   margin: 0 5%;
    border-bottom: 2rpx solid #e5e5e5
+}
+.the_rows:last-child{
+  border-bottom: none
+}
+.the_rows.remark{
+  height: auto;
+  min-height: 80rpx;
+}
+.the_rows.remark .remarkContent{
+  margin-bottom: 30rpx;
+  clear: left;
+  height: 350rpx;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 30rpx;
+  font-size: 30rpx;
+  line-height: 40rpx;
+  background-color: #f8f8f8;
 }
 .content_text_storeName{
   float: left;
@@ -47,15 +65,7 @@ page{
   margin-left: 14rpx
 }
 .context_text_right_storeName{
-  float: right;
-  height:80rpx;
-  width:60%;
-   font-size: 30rpx;
-   color:#b5b6b6;
-   margin-right:6%;
-   text-align: right;
-   line-height: 80rpx
-  
+  width: 60%;
 }
 .content_text{
   float: left;
@@ -80,14 +90,12 @@ page{
 }
 .context_text_right{
   float: right;
-  height:80rpx;
-  width:50%;
-   font-size: 30rpx;
-   color:#b5b6b6;
-   margin-right:6%;
-   text-align: right;
-   line-height: 80rpx
-  
+  height: 80rpx;
+  width: 50%;
+  font-size: 30rpx;
+  color: #b5b6b6;
+  text-align: right;
+  line-height: 80rpx
 }
 #notnull{
   padding-top: 10%;

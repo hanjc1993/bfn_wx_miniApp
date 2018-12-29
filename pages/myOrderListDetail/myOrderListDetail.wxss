@@ -25,6 +25,30 @@ page{
    margin-left: 5%;
    border-bottom: 2rpx solid #e5e5e5
 }
+.the_rows:last-child{
+  border-bottom: none
+}
+.the_rows.remark{
+  width: 90%;
+  height: auto;
+  min-height: 80rpx;
+  margin-right: 5%;
+}
+.the_rows.remark .context_text_right{
+  margin-right: 0;
+}
+.the_rows.remark .remarkContent{
+  margin-bottom: 30rpx;
+  clear: left;
+  height: 350rpx;
+  width: 100%;
+  box-sizing: border-box;
+  margin-right: 30rpx;
+  padding: 30rpx;
+  font-size: 30rpx;
+  line-height: 40rpx;
+  background-color: #f8f8f8;
+}
 .content_text{
   float: left;
   height:80rpx;

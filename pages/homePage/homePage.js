@@ -13,10 +13,12 @@ Page({
    * 页面的初始数据
    */
   data: {
+    storeWorkTime:'',//门店的营业时间
+    storeBedsCnt:'',//门店剩余床位数量
     //后台alertStatus是否展示店庆图，展示 则tabbarflag为true 则应该隐藏tabbar
-    tabbarflag:false,
+    tabbarflag: false,
     //所有项目加载完才显示
-    allProjectHasBeenLoad:false,
+    allProjectHasBeenLoad: false,
     //检测是否点击获取验证码
     areadyGetYzm: false,
     //注册使用的参数
@@ -72,8 +74,6 @@ Page({
     hiddenmodalbindphone: false,
 
 
-
-
     // 加载中
     hiddenLoading: true,
     // 店庆轮播优惠券
@@ -105,47 +105,274 @@ Page({
 
     // 轮播图    
     swiperCurrent: 0,
-    indicatorDots: false,    
-    autoplay: false,    
-    interval: 2000,    
-    duration: 1000,    
+    indicatorDots: false,
+    autoplay: false,
+    interval: 2000,
+    duration: 1000,
     circular: true,
     // 指示点颜色
     beforeColor: "white",
     // 当前选中的指示点颜色
     afterColor: "coral",
-    // 前边距 
-    previousmargin:'30px',
+    // 前边距
+    previousmargin: '30px',
     // 后边距
-    nextmargin:'30px',
+    nextmargin: '30px',
     // 下架状态
     actStatus: false,
     // 城市信息
     allCity: City,
   },
 
-  // 轮播图的切换事件    
-  swiperChange: function (e) {
-    console.log(e.detail.current);
-    // 获取当前轮播图片的下标    
+  // 显示加载图层
+  showLoading: function () {
     this.setData({
-      swiperCurrent: e.detail.current   
-    })  
+      hiddenLoading: false,
+    });
+  },
+  // 隐藏加载图层
+  hideLoading: function () {
+    this.setData({hiddenLoading: true,});
   },
 
-  // 滑动图片切换    
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function (options) {
+    let self = this;
+    if (app.globalData.selectStoreTohomePage != 1) {
+      self.showLoading();
+      login.checkInitAgree(self, function () {
+      });
+      self.doInit();
+    }
+    app.globalData.mark_v == 0 ? wx.hideTabBar({animation: false}) : wx.showTabBar({animation: false})//是否需要过渡动画
+  },
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function () {
+    var self = this;
+    app.globalData.v = '';
+    if (app.globalData.selectStoreTohomePage == 1) {
+      self.showLoading();
+      login.checkInitAgree(self, function () {
+      });
+      self.doInit();
+    }
+  },
+  doInit: function () {
+    let self = this;
+    self.queryShuffling();// 获取轮播图片
+    let storeCode = app.globalData.storeCode, storeName = app.globalData.storeName
+    if (storeCode != '' && storeName != '') {
+      self.setData({positionCity: '', positionCode: '', storeName, storeCode});// 城市名称.城市code.预约门店.预约门店code
+      self.getStoreInfo();// 获取门店信息
+    } else {
+      self.loadInfo();// 获取城市名称
+    }
+  },
+  /**
+   * 获取门店信息
+   */
+  getStoreInfo: function () {
+    let self = this;
+    let data = self.data
+    let storeCode = data.storeCode
+    let cityCode = data.positionCode
+    let name = data.storeName
+    if (storeCode == "" && cityCode == "" && name == "") {
+      self.getSpecifiedStoreInfo();// 获取默认门店信息
+    } else {
+      self.getStoreAllData({
+        storeCode, cityCode, name,
+        lon: app.globalData.currentPositionLon,
+        lat: app.globalData.currentPositionLat,
+      }, false);
+    }
+  },
+  /**
+   * 获取当前位置
+   */
+  loadInfo: function () {
+    let self = this;
+    wx.getLocation({
+      type: 'gcj02', // 默认为 wgs84 返回 gps 坐标，gcj02 返回可用于 wx.openLocation 的坐标
+      success: function (res) {
+        let longitude = res.longitude
+        let latitude = res.latitude
+        app.globalData.currentPositionLon = longitude
+        app.globalData.currentPositionLat = latitude
+        self.loadCity(longitude, latitude)
+      },
+      fail: self.getSpecifiedStoreInfo,//失败获取默认门店
+    });
+  },
+  /**
+   * 获取城市信息
+   */
+  loadCity: function (longitude, latitude) {
+    let self = this
+    let key = 'OXFBZ-AGJC2-UECUS-C6M5G-UVVMK-ZXBLD'
+    wx.request({
+      url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + latitude + ',' + longitude + '&key=' + key,
+      data: {},
+      header: {'Content-Type': 'application/json'},
+      success: function (res) {
+        let city = res.data.result.address_component.city;
+        self.setData({positionCity: city});
+        app.globalData.cityName = city;
+        app.globalData.firstCityName = city;
+        let allcity = self.data.allCity;
+        allcity.map(item => {
+          if (item.name.indexOf(city) == 0) {
+            let positionCode = item.code
+            self.setData({positionCode});
+            app.globalData.cityCode = positionCode;
+            app.globalData.firstCityCode = positionCode;
+          }
+        })
+        self.getStoreInfo();// 获取门店信息
+      },
+    });
+  },
+  /**
+   * 获取默认门店信息
+   */
+  getSpecifiedStoreInfo: function () {
+    let global = app.globalData
+    this.getStoreAllData({
+      storeCode: 'UM0008', cityCode: '', name: '',
+      lon: global.currentPositionLon,
+      lat: global.currentPositionLat,
+    }, true)
+  },
+  //获取门店全部信息
+  getStoreAllData (data, isSpecified) {
+    let self = this;
+    let global = app.globalData
+    let selfData = self.data
+    selfData.storesInfo = {};
+    selfData.projectList = [];
+    let projectList = selfData.projectList
+    let socket1 =function () {
+      return new Promise((resolve)=>{
+        wx.request({
+          url: global.path + 'rest/transmission/getStoreAllData',
+          // url: 'http://192.168.0.121:8081/' + 'rest/transmission/getStoreAllData',
+          method: 'GET',
+          data,
+          success: function (res) {
+            let resData = res.data
+            resData.proDtos.some(item => {
+              if (item.projectEfficacyClass == "招牌项目") {
+                if (item.name.length >= 9) item.name = item.name.substring(0, 10) + '..'
+                projectList.push(item);
+              }
+              return projectList.length == 2;
+            })
+            projectList.map(item => {
+              let canUseTime = item.reservationAvailableTime || []
+              if (canUseTime.length) {
+                canUseTime.sort(self.compare("startTime"));
+                canUseTime[0].startTime = canUseTime[0].startTime.substring(11, 16);
+              }
+              item.hiddenTimeContent = Boolean(canUseTime.length)
+
+              let category = item.category;
+              let subCategory = item.subCategory;
+              if (category == "" || category == null) {
+                item.categorySubCategory = (subCategory || subCategory === 0) ? subCategory : '';
+              } else {
+                item.categorySubCategory = category + ((subCategory == "" || subCategory == null) ? '' : ("，" + subCategory))
+              }
+            })
+            self.setData({technicianList: resData.nurseDtos});
+            let technicianList = selfData.technicianList
+
+            technicianList.map(item => {
+              item.evaluateGood = item.evaluateGood || 0
+              if (item.name.length == 2) item.name = item.name.substring(0, 1) + "   " + item.name.substring(1, 2)
+            })
+            if (!selfData.tabbarflag) wx.showTabBar({animation: false}); //是否需要过渡动画
+            global.selectStoreTohomePage = '';
+
+            let obj = {
+              storesInfo: resData,// 一个门店信息的信息
+              storeCode: resData.storeCode,// 一个门店code
+              storeName: resData.name,// 一个门店名称
+              allProjectHasBeenLoad: true,
+              projectList, technicianList
+            }
+            if (isSpecified) {
+              obj.positionCity = '珠海市'// 城市名称
+              obj.positionCode = '440400000000'// 城市code
+              global.cityName = '珠海市'// 城市名称
+              global.cityCode = '440400000000'// 城市code
+            }
+            self.setData(obj);
+            global.storeName = selfData.storeName;
+            global.storeCode = selfData.storeCode;
+            resolve()
+          },
+          fail: resolve,
+        });
+      })
+    }
+
+    socket1().then(()=>{
+      wx.request({
+        url: global.path + 'rest/RzSubsequentDemand/getStoreWorkTime',
+        // url: 'http://192.168.0.121:8081/' + 'rest/RzSubsequentDemand/getStoreWorkTime',
+        method: 'GET',
+        data:{storeCode:selfData.storeCode},
+        success: function (res) {
+          let resData = res.data
+          let sTime = resData.startTime
+          let eTime = resData.endTime
+          if(sTime && eTime){
+            sTime = sTime.substring(0,5)
+            eTime = eTime.substring(0,5)
+            self.setData({
+              storeWorkTime: sTime + '-' + (sTime>eTime?'次日':'') + eTime,
+              storeBedsCnt: resData.bedNum
+            })
+          }else{
+            self.setData({
+              storeWorkTime: '11:00-23:00',
+              storeBedsCnt: '详询门店'
+            })
+          }
+          self.hideLoading()
+        },
+        fail: self.hideLoading ,
+      });
+    })
+  },
+
+
+// 轮播图的切换事件
+  swiperChange: function (e) {
+    console.log(e.detail.current);
+    // 获取当前轮播图片的下标
+    this.setData({
+      swiperCurrent: e.detail.current
+    })
+  },
+
+  // 滑动图片切换
   chuangEvent: function (e) {
     this.setData({
       swiperCurrent: e.currentTarget.id
-    })  
+    })
   },
 
- closeDianQing:function(){
-   wx.showTabBar({
-     animation: false //是否需要过渡动画
-   })
+  closeDianQing: function () {
+    wx.showTabBar({
+      animation: false //是否需要过渡动画
+    })
     this.setData({
-      isShowDianQingImage:false,
+      isShowDianQingImage: false,
       showView: true,
     })
   },
@@ -162,12 +389,12 @@ Page({
       animation: false //是否需要过渡动画
     })
     this.setData({
-      isShowDianQingImage:  true,
+      isShowDianQingImage: true,
       showView: false,
     })
   },
 
-  clickDianQing: function(e){
+  clickDianQing: function (e) {
     var self = this;
     wx.request({
       url: app.globalData.path + 'rest/RzAct/getAct?actStatus=1',
@@ -209,135 +436,17 @@ Page({
       }
     });
   },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
-    var self = this;
-    if (app.globalData.selectStoreTohomePage != 1) {
-      self.showLoading();
-      login.checkInitAgree(self, function () {
-      });
-      self.doInit();
-    }
-    if (app.globalData.mark_v == 0) {
-      wx.hideTabBar({
-        animation: false //是否需要过渡动画
-      })
-    }else{
-      wx.showTabBar({
-         animation: false //是否需要过渡动画
-       })
-    }
-    //起初隐藏tabbar
-    // if (app.globalData.mark_v == 1){
-    //   app.globalData.mark_v = ''
-    //   wx.showTabBar({
-    //     animation: false //是否需要过渡动画
-    //   })
-    // }else{
-    //   wx.hideTabBar({
-    //     animation: false //是否需要过渡动画
-    //   })
-    // }
-
-
-  },
-  doInit: function () {
-    var self = this;
-    // 获取轮播图片
-    console.log("换门店....................")
-    
-    self.queryShuffling();
-    console.log("app.globalData.storeName=" + app.globalData.storeName);
-    console.log("app.globalData.storeCode=" + app.globalData.storeCode);
-    console.log("app.globalData.cityName=" + app.globalData.cityName);
-    console.log("app.globalData.cityCode=" + app.globalData.cityCode);
-    console.log("app.globalData.vipNo=" + app.globalData.vipNo);
-    
-    if (app.globalData.storeCode != '' && app.globalData.storeName != '') {
-      self.setData({
-        // 城市名称
-        positionCity: '',
-        // 城市code
-        positionCode: '',
-        // 预约门店
-        storeName: app.globalData.storeName,
-        // 预约门店code
-        storeCode: app.globalData.storeCode,
-      });
-      // 获取门店信息
-      self.getStoreInfo();
-    } else {
-      // 获取城市名称
-      self.loadInfo();
-    }
+  //轮播图上的浮窗，点击跳到新页面查看更多门店照片
+  showMoreImgs () {
+    wx.navigateTo({
+      url: '../../pages/moreStoreImgs/moreStoreImgs',
+    });
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-    var self = this;
-    app.globalData.v = '';
-    if (app.globalData.selectStoreTohomePage == 1){
-      self.showLoading();
-      login.checkInitAgree(self, function () {
-      });
-      self.doInit();
-    }
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-  
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-  
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-  
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-  
-  },
-
-  /**
-   * 自己添加的方法
-   */
-  chooseStore:function(e){
+  chooseStore: function (e) {
     var self = this;
     console.log("跳转至选择门店界面")
-    if (app.globalData.cityCode != '' && app.globalData.cityName != ''){
+    if (app.globalData.cityCode != '' && app.globalData.cityName != '') {
       self.data.positionCode = app.globalData.cityCode;
       self.data.positionCity = app.globalData.cityName;
     }
@@ -349,7 +458,7 @@ Page({
     })
   },
 
-  moreProject:function(e){
+  moreProject: function (e) {
     var self = this;
     console.log("跳转至所有项目一览界面")
     wx.navigateTo({
@@ -357,14 +466,14 @@ Page({
     })
   },
 
-  yoyakuBtn:function(e){
+  yoyakuBtn: function (e) {
     var self = this;
     wx.navigateTo({
-      url: '../../pages/order/order?orderStore=' + self.data.storeName + '&incloudProjectCode=' + e.currentTarget.id + '&incloudProjectName=' + e.currentTarget.dataset.item +'&storeCode='+self.data.storeCode + '&v=1',
+      url: '../../pages/order/order?orderStore=' + self.data.storeName + '&incloudProjectCode=' + e.currentTarget.id + '&incloudProjectName=' + e.currentTarget.dataset.item + '&storeCode=' + self.data.storeCode + '&v=1',
     })
   },
 
-  moreTechnician:function(e){
+  moreTechnician: function (e) {
     console.log("跳转至技师列表界面")
     var self = this;
     wx.navigateTo({
@@ -372,14 +481,14 @@ Page({
     })
   },
 
-  projectDetail:function(e){
+  projectDetail: function (e) {
     console.log(e);
-    console.log("跳转至项目详情界面"+e.currentTarget.id)
+    console.log("跳转至项目详情界面" + e.currentTarget.id)
     var name = e.currentTarget.dataset.item.name
     if (name.length >= 9) {
-      name= name.substring(0, 10) + '..'
+      name = name.substring(0, 10) + '..'
     }
- 
+
     console.log(354)
     console.log(name)
     var self = this;
@@ -388,7 +497,7 @@ Page({
     });
   },
 
-  technicianDetail:function(e){
+  technicianDetail: function (e) {
     console.log("跳转至技师详情界面")
     var self = this;
     wx.navigateTo({
@@ -396,7 +505,7 @@ Page({
     });
   },
 
-  makeCall:function(e){
+  makeCall: function (e) {
     var self = this;
     wx.makePhoneCall({
       phoneNumber: self.data.storesInfo.phone,
@@ -412,21 +521,21 @@ Page({
 
     console.log(e)
     var self = this;
-    if (e.currentTarget.dataset.item.webUrlPath == null){
+    if (e.currentTarget.dataset.item.webUrlPath == null) {
       return;
     } else if (e.currentTarget.dataset.item.webUrlPath != null && e.currentTarget.dataset.item.actId == null) {
-      var theurl = '../../'+e.currentTarget.dataset.item.webUrlPath
+      var theurl = '../../' + e.currentTarget.dataset.item.webUrlPath
       console.log(theurl)
-      if (theurl.indexOf('mine')!= 0){
+      if (theurl.indexOf('mine') != 0) {
         wx.switchTab({
-          url:theurl
+          url: theurl
         })
       }
-        wx.navigateTo({
-          url: theurl
-        });
-      
-      
+      wx.navigateTo({
+        url: theurl
+      });
+
+
     } else {
       self.showLoading();
       // 发起网络请求 获取活动信息
@@ -477,7 +586,7 @@ Page({
   },
 
   getAct: function (actId) {
-    
+
   },
 
   /** 店庆轮播优惠券 */
@@ -519,7 +628,7 @@ Page({
   },
 
   //向左滑动事件
-  scrollLeft() {
+  scrollLeft () {
     var animation1 = wx.createAnimation({
       duration: 1000,
       timingFunction: "linear",
@@ -554,9 +663,9 @@ Page({
 
     var that = this;
     setTimeout(function () {
-      that.animation1.translateX(0).opacity(1).step({ duration: 0, timingFunction: 'linear' });
-      that.animation2.translateX(0).opacity(1).scale().step({ duration: 0, timingFunction: 'linear' });
-      that.animation3.translateX(0).opacity(1).scale().step({ duration: 0, timingFunction: 'linear' });
+      that.animation1.translateX(0).opacity(1).step({duration: 0, timingFunction: 'linear'});
+      that.animation2.translateX(0).opacity(1).scale().step({duration: 0, timingFunction: 'linear'});
+      that.animation3.translateX(0).opacity(1).scale().step({duration: 0, timingFunction: 'linear'});
 
       that.setData({
         animation1: animation1.export(),
@@ -578,7 +687,7 @@ Page({
   },
 
   //向右滑动事件
-  scrollRight() {
+  scrollRight () {
     var animation1 = wx.createAnimation({
       duration: 1000,
       timingFunction: "linear",
@@ -622,9 +731,9 @@ Page({
 
     var that = this;
     setTimeout(function () {
-      that.animation1.translateX(0).opacity(1).scale(1, 1).step({ duration: 0, timingFunction: 'linear' });
-      that.animation2.translateX(0).opacity(1).scale(1, 1).step({ duration: 0, timingFunction: 'linear' });
-      that.animation3.translateX(0).opacity(1).step({ duration: 0, timingFunction: 'linear' });
+      that.animation1.translateX(0).opacity(1).scale(1, 1).step({duration: 0, timingFunction: 'linear'});
+      that.animation2.translateX(0).opacity(1).scale(1, 1).step({duration: 0, timingFunction: 'linear'});
+      that.animation3.translateX(0).opacity(1).step({duration: 0, timingFunction: 'linear'});
       that.setData({
         animation1: animation1.export(),
         animation2: animation2.export(),
@@ -671,13 +780,13 @@ Page({
           rzIndexCouponDtoList: res.data.rzIndexCouponDtoList,
         });
 
-        if (res.data.alertStatus == false){
+        if (res.data.alertStatus == false) {
           // wx.showTabBar({
           //   animation: false //是否需要过渡动画
           // })
-        }else if (res.data.alertStatus == true && self.data.isShowDianQingImage == true){
+        } else if (res.data.alertStatus == true && self.data.isShowDianQingImage == true) {
           self.setData({
-            tabbarflag:true
+            tabbarflag: true
           })
           wx.hideTabBar({
             animation: false //是否需要过渡动画
@@ -695,143 +804,17 @@ Page({
     });
   },
 
+
   /**
-   * 获取门店信息
+   * 获取俩点之间的距离-数组
    */
-  getStoreInfo: function () {
-    var self = this;
-    self.data.storesInfo = {};
-    self.data.projectList = [];
-    console.log(self.data.storeCode);
-    console.log(self.data.positionCode);
-    console.log(self.data.storeName);
-    if (self.data.storeCode == "" && self.data.positionCode == "" && self.data.storeName == ""){
-      // 获取指定门店信息
-      self.getSpecifiedStoreInfo();
-    } else {
-      console.log('获取门店接口开始时间'+new Date())
-      wx.request({
-        url: app.globalData.path + 'rest/transmission/getStoreAllData',
-        method: 'GET',
-        data: {
-          storeCode: self.data.storeCode,
-          cityCode: self.data.positionCode,
-          name: self.data.storeName,
-          lon: app.globalData.currentPositionLon,
-          lat: app.globalData.currentPositionLat,
-          // vipNo: app.globalData.vipNo
-        },
-        success: function (res) {
-          console.log('获取门店接口结束时间' + new Date())
-          console.log(res);
-          if (res.data.length != 0) {
-            // self.getCalculateDistanceArr(res.data);
-            for (var index in res.data.proDtos) {
-              if (res.data.proDtos[index].projectEfficacyClass == "招牌项目") {
-                if (res.data.proDtos[index].name.length >= 9) {
-                  res.data.proDtos[index].name = res.data.proDtos[index].name.substring(0, 10) + '..'
-                }
-                self.data.projectList.push(res.data.proDtos[index]);
-              }
-              if (self.data.projectList.length == 2) {
-                break;
-              }
-            }
-
-            for (var index in self.data.projectList) {
-              self.data.projectList[index].reservationAvailableTime.sort(self.compare("startTime"));
-              if (self.data.projectList[index].reservationAvailableTime.length != 0) {
-                self.data.projectList[index].reservationAvailableTime[0].startTime = self.data.projectList[index].reservationAvailableTime[0].startTime.substring(11, 16);
-                self.data.projectList[index].hiddenTimeContent = true;
-              } else {
-                self.data.projectList[index].hiddenTimeContent = false;
-              }
-
-              var category = self.data.projectList[index].category;
-              var subCategory = self.data.projectList[index].subCategory;
-              var categorySubCategory = "";
-              if (category == "" || category == null) {
-                if (subCategory == "" || subCategory == null) {
-                  categorySubCategory = "";
-                } else {
-                  categorySubCategory = subCategory;
-                }
-              } else {
-                if (subCategory == "" || subCategory == null) {
-                  categorySubCategory = category
-                } else {
-                  categorySubCategory = category + "，" + subCategory;
-                }
-              }
-              self.data.projectList[index].categorySubCategory = categorySubCategory;
-            }
-
-            self.setData({
-              technicianList: res.data.nurseDtos
-            });
-
-            for (var index in self.data.technicianList) {
-              if (self.data.technicianList[index].evaluateGood == null) {
-                self.data.technicianList[index].evaluateGood = 0
-              }
-              if (self.data.technicianList[index].name.length == 2) {
-                self.data.technicianList[index].name = self.data.technicianList[index].name.substring(0, 1) + "   " + self.data.technicianList[index].name.substring(1, 2)
-              }
-            }
-
-            console.log(self.data.tabbarflag + ',' + (self.data.tabbarflag != true))
-            if (self.data.tabbarflag != true) {
-              wx.showTabBar({
-                animation: false //是否需要过渡动画
-              })
-            }
-            app.globalData.selectStoreTohomePage = '';
-
-            self.setData({
-              // 一个门店信息的信息
-              storesInfo: res.data,
-              // 一个门店code
-              storeCode: res.data.storeCode,
-              // 一个门店名称
-              storeName: res.data.name,
-
-              allProjectHasBeenLoad: true,
-              projectList: self.data.projectList,
-              technicianList: self.data.technicianList
-            });
-            app.globalData.storeName = self.data.storeName;
-            app.globalData.storeCode = self.data.storeCode;
-            self.hideLoading();
-            // // 获取项目列表
-            // self.getProjects();
-            // // 获取养脑师
-            // self.getNurses();
-          } else {
-            // 获取指定门店信息
-            self.getSpecifiedStoreInfo();
-          }
-        },
-        fail: function (err) {
-          self.hideLoading();
-          console.log(err)
-        },//请求失败
-        complete: function () {
-
-        }//请求完成后执行的函数
-      });
-    }
-  },
-
-  /**
-     * 获取俩点之间的距离-数组
-     */
   getCalculateDistanceArr: function (info) {
     var self = this;
     var distanceArr = [];
     for (var index in info) {
       var distanceOne = {};
       distanceOne.latitude = info[index].lat,
-      distanceOne.longitude = info[index].lon
+        distanceOne.longitude = info[index].lon
       distanceArr.push(distanceOne);
     }
     // 实例化API核心类
@@ -874,123 +857,6 @@ Page({
       }
     });
   },
-
-  /**
-   * 获取指定门店信息
-   */
-  getSpecifiedStoreInfo: function () {
-    var self = this;
-    self.data.storesInfo = {};
-    self.data.projectList = [];
-    wx.request({
-      url: app.globalData.path + 'rest/transmission/getStoreAllData',
-      method: 'GET',
-      data: {
-        storeCode: 'UM0008',
-        cityCode: '',
-        name: '',
-        lon: app.globalData.currentPositionLon,
-        lat: app.globalData.currentPositionLat,
-        // vipNo: app.globalData.vipNo
-      },
-      success: function (res) {
-        if (res.data.length != 0) {
-          for (var index in res.data.proDtos) {
-            if (res.data.proDtos[index].projectEfficacyClass == "招牌项目") {
-              if (res.data.proDtos[index].name.length >= 9) {
-                res.data.proDtos[index].name = res.data.proDtos[index].name.substring(0, 10) + '..'
-              }
-              self.data.projectList.push(res.data.proDtos[index]);
-            }
-            if (self.data.projectList.length == 2) {
-              break;
-            }
-          }
-
-          for (var index in self.data.projectList) {
-            self.data.projectList[index].reservationAvailableTime.sort(self.compare("startTime"));
-            if (self.data.projectList[index].reservationAvailableTime.length != 0) {
-              self.data.projectList[index].reservationAvailableTime[0].startTime = self.data.projectList[index].reservationAvailableTime[0].startTime.substring(11, 16);
-              self.data.projectList[index].hiddenTimeContent = true;
-            } else {
-              self.data.projectList[index].hiddenTimeContent = false;
-            }
-
-            var category = self.data.projectList[index].category;
-            var subCategory = self.data.projectList[index].subCategory;
-            var categorySubCategory = "";
-            if (category == "" || category == null) {
-              if (subCategory == "" || subCategory == null) {
-                categorySubCategory = "";
-              } else {
-                categorySubCategory = subCategory;
-              }
-            } else {
-              if (subCategory == "" || subCategory == null) {
-                categorySubCategory = category
-              } else {
-                categorySubCategory = category + "，" + subCategory;
-              }
-            }
-            self.data.projectList[index].categorySubCategory = categorySubCategory;
-          }
-
-          self.setData({
-            technicianList: res.data.nurseDtos
-          });
-
-          for (var index in self.data.technicianList) {
-            if (self.data.technicianList[index].evaluateGood == null) {
-              self.data.technicianList[index].evaluateGood = 0
-            }
-            if (self.data.technicianList[index].name.length == 2) {
-              self.data.technicianList[index].name = self.data.technicianList[index].name.substring(0, 1) + "   " + self.data.technicianList[index].name.substring(1, 2)
-            }
-          }
-
-          console.log(self.data.tabbarflag + ',' + (self.data.tabbarflag != true))
-          if (self.data.tabbarflag != true) {
-            wx.showTabBar({
-              animation: false //是否需要过渡动画
-            })
-          }
-          app.globalData.selectStoreTohomePage = '';
-
-          self.setData({
-            // 一个门店信息的信息
-            storesInfo: res.data,
-            // 一个门店code
-            storeCode: res.data.storeCode,
-            // 一个门店名称
-            storeName: res.data.name,
-            // 城市名称
-            positionCity: '珠海市',
-            // 城市code
-            positionCode: '440400000000',
-            allProjectHasBeenLoad: true,
-            projectList: self.data.projectList,
-            technicianList: self.data.technicianList
-          });
-          app.globalData.storeName = self.data.storeName;
-          app.globalData.storeCode = self.data.storeCode;
-          app.globalData.cityName = self.data.positionCity;
-          app.globalData.cityCode = self.data.positionCode;
-          // // 获取项目列表
-          // self.getProjects();
-          // // 获取养脑师
-          // self.getNurses();
-        }
-      },
-      fail: function (err) {
-        self.hideLoading();
-        console.log(err)
-      },//请求失败
-      complete: function () {
-
-      }//请求完成后执行的函数
-    })
-  },
-
   /**
    * 获取项目列表
    */
@@ -1009,20 +875,20 @@ Page({
       success: function (res) {
         console.log(779)
         console.log(res);
-        console.log("获取项目结束时间"+ new Date())
+        console.log("获取项目结束时间" + new Date())
         self.setData({
-          allProjectHasBeenLoad:true
+          allProjectHasBeenLoad: true
         })
-        
+
         if (res.data.length != 0) {
-          for (var index in res.data){
-            if (res.data[index].projectEfficacyClass == "招牌项目"){
-              if (res.data[index].name.length >= 9){
-                res.data[index].name = res.data[index].name.substring(0,10) + '..'
+          for (var index in res.data) {
+            if (res.data[index].projectEfficacyClass == "招牌项目") {
+              if (res.data[index].name.length >= 9) {
+                res.data[index].name = res.data[index].name.substring(0, 10) + '..'
               }
               self.data.projectList.push(res.data[index]);
             }
-            if (self.data.projectList.length == 2){
+            if (self.data.projectList.length == 2) {
               break;
             }
           }
@@ -1061,7 +927,7 @@ Page({
         }
         self.hideLoading();
         console.log(self.data.tabbarflag + ',' + (self.data.tabbarflag != true))
-        if (self.data.tabbarflag != true){
+        if (self.data.tabbarflag != true) {
           wx.showTabBar({
             animation: false //是否需要过渡动画
           })
@@ -1103,10 +969,10 @@ Page({
         }
 
         for (var index in self.data.technicianList) {
-          if (self.data.technicianList[index].evaluateGood == null){
+          if (self.data.technicianList[index].evaluateGood == null) {
             self.data.technicianList[index].evaluateGood = 0
           }
-          if (self.data.technicianList[index].name.length==2){
+          if (self.data.technicianList[index].name.length == 2) {
             self.data.technicianList[index].name = self.data.technicianList[index].name.substring(0, 1) + "   " + self.data.technicianList[index].name.substring(1, 2)
           }
         }
@@ -1126,92 +992,11 @@ Page({
     })
   },
 
-  /**
-   * 获取当前位置
-   */
-  loadInfo: function () {
-    var self = this;
-   // self.showLoading();
-    wx.getLocation({
-      type: 'gcj02', // 默认为 wgs84 返回 gps 坐标，gcj02 返回可用于 wx.openLocation 的坐标
-      success: function (res) {
-        var longitude = res.longitude
-        var latitude = res.latitude
-        app.globalData.currentPositionLon = res.longitude,
-        app.globalData.currentPositionLat = res.latitude,
-        self.loadCity(longitude, latitude)
-      },
-      fail: function () {
-        // 获取指定门店信息
-        self.getSpecifiedStoreInfo();
-      },
-      complete: function () {
-      }
-    });
-  },
-
-  /**
-   * 获取城市信息
-   */
-  loadCity: function (longitude, latitude) {
-    var self = this
-    var key = 'OXFBZ-AGJC2-UECUS-C6M5G-UVVMK-ZXBLD'
-    wx.request({
-      url: 'https://apis.map.qq.com/ws/geocoder/v1/?location=' + latitude + ',' + longitude + '&key=' + key,
-      data: {},
-      header: {
-        'Content-Type': 'application/json'
-      },
-      success: function (res) {
-        // success
-        var city = res.data.result.address_component.city;
-        self.setData({
-          positionCity: city
-        });
-        app.globalData.cityName = self.data.positionCity;
-        app.globalData.firstCityName = self.data.positionCity;
-        var allcity = self.data.allCity;
-
-        for (var index in allcity) {
-          if (allcity[index].name.indexOf(self.data.positionCity) == 0) {
-            self.setData({
-              positionCode: allcity[index].code
-            });
-            app.globalData.cityCode = self.data.positionCode;
-            app.globalData.firstCityCode = self.data.positionCode;
-          }
-        }
-        // 获取门店信息
-        self.getStoreInfo();
-      },
-      fail: function () {
-        // fail
-      },
-      complete: function () {
-        // complete
-      }
-    });
-  },
-
-  // 显示加载图层
-  showLoading: function () {
-    this.setData({
-      hiddenLoading: false,
-    });
-  },
-
-  // 隐藏加载图层
-  hideLoading: function () {
-    this.setData({
-      hiddenLoading: true,
-    });
-  },
-
   //手机注册
   /** 合并后加的内容 */
   /**
-* 隐藏模态对话框
-*/
+   * 隐藏模态对话框
+   */
   hideModal: function () {
     this.setData({
       showModal: false
@@ -1256,7 +1041,7 @@ Page({
       self.setData({
         hiddenmodalbindphone: true
       })
-    }  else if (vipNo != '' && vipNo != null) {
+    } else if (vipNo != '' && vipNo != null) {
 
       //检查优惠券状态 是否强光  失效等..
       self.showLoading()
@@ -1267,11 +1052,11 @@ Page({
         success: function (res) {
           console.log("打印优惠券的状态")
           console.log(res)
-          for(var index in res.data){
-            if (actId == res.data[index].actId){
-                isPassed = false
-                break
-              }
+          for (var index in res.data) {
+            if (actId == res.data[index].actId) {
+              isPassed = false
+              break
+            }
           }
           console.log("遍历完毕")
           if (isPassed == true) {
@@ -1366,7 +1151,7 @@ Page({
       //以上为检测优惠券状态
       console.log("我要优惠群活动")
       console.log(e.currentTarget.dataset.item)
-     
+
     }
   },
   //获取微信昵称
@@ -1411,13 +1196,14 @@ Page({
     var sparePhone = '';
     var openId = app.globalData.openid;
     var sysId = '';
-    console.log(self.data.phoneNumber); console.log(self.data.yzmCode);
+    console.log(self.data.phoneNumber);
+    console.log(self.data.yzmCode);
     console.log(nickName)
     console.log(gender)
     console.log(1014)
     console.log(self.data.areaCode)
     if (self.data.yzmCode != '') {
-      self.showLoading() //开始一系列验证 
+      self.showLoading() //开始一系列验证
       wx.request({
         url: app.globalData.path + 'rest/xcx/xcxCheckPhoneCode?phone=%2B' + self.data.areaCode + self.data.phoneNumber + '&passWord=' + self.data.yzmCode,//?phone='+self.data.phoneNumber+'&passWord='+self.data.yzmCode,
         // header: {//请求头
@@ -1448,7 +1234,7 @@ Page({
             //   icon: 'success',
             //   duration: 1000
             // });
-            
+
             var encryptedData = self.data.encryptedData;
             var iv = self.data.iv;
             var sessionKey = app.globalData.session_key;
@@ -1506,9 +1292,9 @@ Page({
                       setTimeout(function () {
                         self.setData({
                           hiddenmodalbindphone: false
-                        });  
+                        });
                         self.hideModal()
-                      }, 1000) 
+                      }, 1000)
                       login.checkInitAgree(self, function () {
                         var couponId = e.currentTarget.dataset.item
                         //发起网络请求 获取活动及优惠券信息
@@ -1611,18 +1397,18 @@ Page({
       checked: true,
 
     },
-    {
-      id: 1,
-      name: "中国香港",
-      areaCode: "852",
-      checked: false
-    },
-    {
-      id: 2,
-      name: "中国澳门",
-      areaCode: "853",
-      checked: false
-    },
+      {
+        id: 1,
+        name: "中国香港",
+        areaCode: "852",
+        checked: false
+      },
+      {
+        id: 2,
+        name: "中国澳门",
+        areaCode: "853",
+        checked: false
+      },
     ]
     this.setData({
       hiddenmodalbindphone: false,
@@ -1846,7 +1632,7 @@ Page({
       }
     }, 1000)
   },
-  getVerificationCode() {
+  getVerificationCode () {
     this.getCode();
     var that = this
     that.setData({

@@ -1,0 +1,24 @@
+/* pages/moreStoreImgs/moreStoreImgs.wxss */
+.storeName{
+
+}
+.imagesList{
+  padding: 0 2%;
+}
+.imageItem{
+  width: 48%;
+  height: 200rpx;
+  float: left;
+  margin: 2% 1% 0 1%;
+  overflow: hidden;
+  position: relative;
+}
+.imageItem image{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  /*超出200rpx时候垂直居中，低于200rpx时纵向拉伸*/
+  min-height: 200rpx;
+  width: 100%;
+  float: left;
+}
