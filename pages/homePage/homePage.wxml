@@ -46,7 +46,7 @@
   </view>
 
   <view class="storeDetail">
-    <view class="storeDetail_Addr">
+    <view class="storeDetail_Addr" bindtap='jumpToMap'>
      <view class="SDA_icon SDA_left">
        <image mode="aspectFit" src="../../images/homePage/addr.png"></image>
      </view>
@@ -167,14 +167,14 @@
     </view>
     <view class="mid_mid">
       <!-- 正式需要循环 -->
-      <view class="mid_mid_content" wx:for="{{projectList}}" wx:for-index="index" wx:for-item="item">
+      <view class="mid_mid_content {{item.reservationMin==-1?'':'longRight'}}" wx:for="{{projectList}}" wx:for-index="index" wx:for-item="item">
         <view class="mid_mid_content_left" bindtap='projectDetail' data-item="{{item}}">
           <view class="MMCL_newIcon"><text>新</text></view>
           <image wx:if="{{allProjectHasBeenLoad}}" src="{{item.imgUrl}}" class='leftImg' mode='widthFix' style='height:160rpx; width:240rpx;'></image>
           <!-- mode='widthFix' style='height:160rpx; width:240rpx;' -->
         </view>
         <view class="mid_mid_content_mid" bindtap='projectDetail' data-item="{{item}}">
-          <view class="mid_mid_content_mid_top" style='font-size:36rpx' wx:if="{{allProjectHasBeenLoad}}">
+          <view class="mid_mid_content_mid_top" wx:if="{{allProjectHasBeenLoad}}">
             {{item.name}}
           </view>
           <view class="mid_mid_content_mid_mid">
@@ -197,7 +197,8 @@
         </view>
         <view class="mid_mid_content_right">
           <view class="mid_mid_content_right_top" wx:if="{{allProjectHasBeenLoad}}">
-            {{item.nursingTime}}分钟
+            <text wx:if="{{item.reservationMin == -1}}">{{item.nursingTime}}分钟</text>
+            <text wx:else style="color:#f56c6c">{{item.reservationMin || 1}}分钟前有人预约过</text>
           </view>
           <view class="mid_mid_content_right_bottom" bindtap='yoyakuBtn' data-item="{{item.name}}" id="{{item.uuid}}">
             <image wx:if="{{allProjectHasBeenLoad}}" src="../../images/home_yoyaku_image.png"></image>

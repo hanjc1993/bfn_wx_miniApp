@@ -1647,4 +1647,15 @@ Page({
       return value1 > value2;
     }
   },
+  //点击门店地址跳转到地图页
+  jumpToMap(e){
+    let store = this.data.storesInfo
+    wx.openLocation({
+      latitude: Number(store.lat),// 目的地经纬度
+      longitude: Number(store.lon),
+      scale: 14,// 缩放级别默认18
+      name: store.name,// 位置名
+      address: store.detailAddr// 详细地址
+    });
+  }
 })
